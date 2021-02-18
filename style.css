@@ -1,0 +1,40 @@
+body {
+  margin: 20px;
+  word-break: break-all;
+}
+.hidden {
+  display: none;
+}
+
+/*
+h2,
+p,
+h3 {
+  font-size: 16px;
+}
+
+
+.results {
+  min-height: 100px;
+} */
+
+* {
+  display: block;
+  margin-bottom: 10px;
+}
+body {
+  margin: 25px;
+}
+
+img {
+  max-width: 200px;
+}
+
+li {
+  margin-bottom: 10px;
+}
+
+li:hover {
+  border: 5x solid black;
+  background-color: yellow;
+}
