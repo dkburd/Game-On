@@ -3,13 +3,13 @@ let search=$('#js-select-option').val()
 let baseGame=[]
 let baseGameSlug=''
 let baseGameDev=[]
+let baseGameGenres=[]
 let baseSuggested=[]
 let platforms=[]
 let userPlatforms=[]
 let editList=[]
 let detailedList=[]
-let listLength=0
-
+let platformList=[]
 // ***STORE VALUES***
 function updateSearch(){
 search=$('#js-select-option').val();
@@ -21,7 +21,6 @@ $('input[name="addPlatform"]:checked').each(function() {
    userPlatforms.push(this.value)
 });
    console.log(userPlatforms)
-
 }
 
 function secondUpdatePlatforms(displayMoreOptions){
@@ -36,16 +35,38 @@ function editSuggested(){
   let temp=editList
   console.log(check)
   console.log('editSuggested Working here editlist NEED KEEP GOING',editList.length,editList)
-let filteredList=[];
-for(let game of editList){
-if(game.rating > 4){
-filteredList.push(game)
+let filteredForPlatformsList=[];
+for(let i=0; i<editList.length; i++){
+  for(let j=0; j<editList[i].platforms.length ;j++){
+    if(userPlatforms.includes(editList[i].platforms[j].platform.slug)){
+      filteredForPlatformsList.push(editList[i])
+    }
+  }
+}
+console.log(filteredForPlatformsList.length, filteredForPlatformsList)
+for(let i=0; i<filteredForPlatformsList; i++){
+if(filteredForPlatformsList[i].rating>4){
+filteredForRatingList.push(editList[i])
+console.log('filteredForRatingList',filteredForRatingList.length)
 }
 }
-listLength=filteredList.length
-console.log(filteredList, filteredList.length)
-getDetailedSuggested(filteredList)
+// getDetailedSuggested(filteredList)
+
 }
+
+
+
+
+
+
+
+
+// replace for loop going through filteredList and create a new variable that is the filtered array 
+// for(let game of editList){
+// if(game.rating > 4){
+// filteredList.push(game)
+// }
+// }
 
 
 // ***FETCH TO API***
@@ -56,7 +77,7 @@ function getPlatforms() {
     platforms=responseJson.results
     console.log(platforms)
       })
-    .catch(error => alert(error,'Something went wrong. Please try again later.'));
+    .catch(error => console.log(error,'Something went wrong. Please try again later.'));
 }
 
 function startSearch() {
@@ -66,11 +87,45 @@ function startSearch() {
     .then(responseJson => {
       displayResults(responseJson)
       })
-    .catch(error => alert(error,'Something went wrong. Please try again later.'));
+    .catch(error => console.log(error,'Something went wrong. Please try again later.'));
 }
 
-function getDevGames(baseGameDev) {
-console.log(`${baseGameDev}`, 'before call editlist length is', editList.length)
+function getPlatformGames(userPlatforms,baseGameGenres) {
+console.log(`${userPlatforms}`, 'from getPlatformGames', userPlatforms.length)
+console.log(`${baseGameGenres}`, 'from getPlatformGames')
+// for(let i=0; i<editList.length; i++){
+//   for(let j=0; j<editList[i].platforms.length ;j++){
+//     if(userPlatforms.includes(editList[i].platforms[j].platform.slug)){
+//       filteredForPlatformsList.push(editList[i])
+//     }
+//   }
+// }
+for(let i=0, j=0 ;i<userPlatforms.length, j<baseGameGenres.length;i++, j++){
+    // for(let j=0;i<baseGameGenres.length; j++){
+console.log('shit')
+    fetch(`https://api.rawg.io/api/games?platform=${userPlatforms[i]}&genres=${baseGameGenres[j]}`)
+        // fetch(`https://api.rawg.io/api/games?platform=${userPlatforms[i]}&genres=${baseGameGenres[j]}`)
+    .then(response => response.json())
+    .then(responseJson => {    
+    console.log("from getPlatformGames", responseJson)
+    results=responseJson.results
+      for (i=0;i<results.length;i++){
+        platformList.push(results[i])
+        console.log(results[i])
+      }
+  })
+  .then(responseJson => { 
+    console.log('from getplatformlist games edit list',platformList)
+    editSuggested();
+  })
+    .catch(error => console.log(error,'Something went wrong. Please try again later.'));
+
+  // }
+}
+}
+
+function getDevGames(baseGameDev, userPlatforms) {
+console.log(`${baseGameDev}`, 'before call editlist length is', editList.length,'userplatfroms',userPlatforms)
 for(i=0;i<baseGameDev.length;i++)
 {
     fetch(`https://api.rawg.io/api/games?developers=${baseGameDev[i]}`)
@@ -83,10 +138,10 @@ for(i=0;i<baseGameDev.length;i++)
       }
   })
   .then(responseJson => { 
-    console.log('from getdev games edit list',editList)
-    editSuggested();
+    console.log('from getdev games edit list',editList, 'userPlatforms',userPlatforms)
+    getPlatformGames(userPlatforms)
   })
-    .catch(error => alert(error,'Something went wrong. Please try again later.'));
+    .catch(error => console.log(error,'Something went wrong. Please try again later.'));
 
 }
 }
@@ -104,9 +159,10 @@ function getSuggested(baseGameSlug) {
        })
     .then(responseJson => {
     console.log('from getsuggested edit list',editList.length, editList)
-    getDevGames(baseGameDev);
+    console.log('hey fuck you userplatforms', userPlatforms)
+   getDevGames(baseGameDev, userPlatforms);
       })
-    .catch(error => alert(error,'Something went wrong. Please try again later.'));
+    .catch(error => console.log(error,'Something went wrong. Please try again later.'));
 
 }
 
@@ -119,15 +175,18 @@ fetch(`https://api.rawg.io/api/games/${baseGameId}`)
     .then(responseJson => {    
     console.log("2nd call", responseJson)
     baseGameSlug=responseJson.slug
-      for (i=0;i<responseJson.developers.length;i++){
+      for (let i=0;i<responseJson.developers.length;i++){
         baseGameDev.push(responseJson.developers[i].slug)
       }
-    console.log('basegameslug',baseGameSlug)
+     for (let i=0;i<responseJson.genres.length;i++){
+        baseGameGenres.push(responseJson.genres[i])
+      }
+    console.log('basegameslug',baseGameSlug, 'baseGameDev', baseGameDev, 'baseGameGenres',baseGameGenres)
     console.log(baseGameDev)
     displayBaseGameResults(responseJson)
     displayOptions()
   })
-    .catch(error => alert(error,'Something went wrong. Please try again later.'));
+    .catch(error => console.log(error,'Something went wrong. Please try again later.'));
 }
 }
 
@@ -135,7 +194,7 @@ fetch(`https://api.rawg.io/api/games/${baseGameId}`)
 
 function getDetailedSuggested(filteredList){
   console.log('getDetailedSuggested Working')
-  console.log('filteredList.length', filteredList.length)
+  console.log('filteredList.length', filteredList.length, filteredList)
     for(let i=0; i<filteredList.length;i++){
       let tempId=filteredList[i].id 
     fetch(`https://api.rawg.io/api/games/${tempId}`)
@@ -437,5 +496,5 @@ $(function() {
 //     console.log('from devs new list length', editList.length)
 //     console.log('this sb devgames',devGames)
 //   })
-//     .catch(error => alert(error,'Something went wrong. Please try again later.'));
+//     .catch(error => console.log(error,'Something went wrong. Please try again later.'));
 //   }
