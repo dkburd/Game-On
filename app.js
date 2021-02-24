@@ -64,9 +64,9 @@ if(userPlatforms.length===0){
 for(let i=0; i<filteredList.length; i++){
   if(filteredList[i].slug===baseGameSlug){
     filteredList.pop(filteredList[i])
-    // console.log('removed because match', `${baseGameSlug}`)
+    console.log('removed because match', `${baseGameSlug}`)
 }
-// console.log('filteredList',filteredList.length)
+
 
 }
 //remove from suggested for low rating
@@ -185,35 +185,7 @@ function getSuggested(baseGameSlug) {
     getDevGames(baseGameDev, editList)
       })
     .catch(error => console.log(error,'Something went wrong. Please try again later.'));
-//what goes here now? devgame used to
 }
-
-
-
-// function getPlatformGames(baseGameGenres, userIds, editList) {
-//   console.log("userIds",userIds)
-// for(let i=0;i<userIds.length;i++){
-//   for(let j=0;j<baseGameGenres.length;j++){
-//       fetch(`https://api.rawg.io/api/games?key=${apiKey}&dates=2000-01-01,${currentDate}&platforms=${userPlatforms[i]}&genres=${baseGameGenres[j].slug}`)
-//       .then(response => response.json())
-//       .then(responseJson => {   
-//       results=responseJson.results
-// console.log("userIds[i]): ",userIds[i], "baseGameGenres[j].slug: ", baseGameGenres[j].slug, "responseJson: ", responseJson)
-//   for (i=0;i<results.length;i++){
-//           if(!uniqueMap[results[i].slug]){
-//             editList.push(results[i])
-//             uniqueMap[results[i].slug] = true;          
-//           }
-//         }
-//   })
-//     .catch(error => console.log(error,'Something went wrong. Please try again later.'));
-// }
-// }
-// console.log('from getplatformgames',editList)
-// getSuggested(baseGameSlug)
-// }
-
-
 
 
 function getDevGames(baseGameDev, editList) {
@@ -234,10 +206,6 @@ for(i=0;i<baseGameDev.length;i++)
   })
   .then(responseJson => { 
     console.log('from getdev games edit list',editList)
-    
-    // trying to move this
-    // getPlatformGames(baseGameGenres, userIds, editList, platformGames)
-
   })
     .catch(error => console.log(error,'Something went wrong. Please try again later.'));
 }
@@ -260,17 +228,11 @@ function getDetailedList(filteredList){
         results=responseJson
         console.log('results: ', results)
         detailedList.push(results)
-        console.log('detailed length: ', detailedList.length)
           // for(i=0;i>responseJson.length;i++){
-            
-          // 
-        // }
-      // })
-      //   .then(responseJson => {    
-      //   console.log('detailedList:', detailedList.length, detailedList)
       })
      .catch(error => console.log(error,'Something went wrong. Please try again later.'));
     }
+    console.log('detailed length: ', detailedList.length)
 }
 
 // // ***DISPLAY RESULTS*** 
