@@ -10,10 +10,12 @@
 </head>
 <body>
  <div class='container'>
-   <section class='select'>
-    <h1>search games</h1>
-    <p>Search for a game you love for a list of reccomended games to play</p>
+  <section id='summary'>
+  <h1>Game Recs</h1>
+  <p>Search for a game you love for a list of reccomended games to play</p>
+   </section>
 
+   <section id='select'>
     <form id='js-select-option-form'>
       <label for='select-option'>enter game title</label>
       <input id='js-select-option' type='text' name='select-option' placeholder='e.g., The Last of Us'>
@@ -24,10 +26,11 @@
 
   <section id='results'>
     <p></p>
+    <p></p>
     <form id='js-results-form'>
     <ul id='results-list'>
     </ul>
-    <input type='submit' value='Submit' class='hidden'></input>
+    <input type='submit' value='Select Game' class='hidden'></input>
     </form>
   </section>
   
@@ -35,23 +38,29 @@
   <form id='js-options-form'>
     <ul id='options-list'>
     </ul>
-    <input type='submit' value='Submit'></input>
+    <input type='submit' value='Select Platforms'></input>
     <!-- <input id='js-more-options' type='button' value='More Options'></input> -->
     </form>
 </section>
+
 <section id='more-options' class='hidden'>
   <form id='js-more-options-form'>
-    <ul id='more-options-list'>
-    </ul>
     <input type='submit' value='More Options'></input>
   </form>
 </section>
 
-  <section id='suggested' >
-  <form id='js-suggested-form'>
+<section id='get-list' class='hidden'>
+  <form id='js-get-list-form'>
+    <input type='submit' value='Get Recs'></input>
+  </form>
+</section>
+
+
+  <section id='suggested'>
+  <form id='js-suggested-form' class=''>
     <ul id='suggested-list'>
     </ul>
-    <input type='submit' value='Submit'></input>
+    <input type='submit' value='LIST' class='hidden'></input>
   </form>
   </section>
 
@@ -63,3 +72,5 @@
 <script src="app.js"></script>
 </body>
 </html>
+
+<!-- https://api.rawg.io/api/games?platform=xbox&genres=action -->
