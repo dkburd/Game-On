@@ -7,71 +7,84 @@ let baseGameGenres=[]
 let baseSuggested=[]
 let platforms=[]
 let userPlatforms=[]
+let userIds=[]
 let editList=[]
 let detailedList=[]
 let platformList=[]
+let currentDate=''
+let filteredList=[]
+let uniqueMap={}
+let uniqueGameMap={}
+let platformGames=[]
+
+
 // ***STORE VALUES***
 function updateSearch(){
 search=$('#js-select-option').val();
 $( ".results-message").empty();
 }
 
-function updatePlatforms(displayOptions){
+function updateDate(){
+var today = new Date();
+var dd = String(today.getDate()).padStart(2, '0');
+var mm = String(today.getMonth() + 1).padStart(2, '0');
+var yyyy = today.getFullYear();
+
+currentDate = yyyy + '-' + mm + '-' + dd;
+console.log('currentDate',currentDate);
+}
+
+
+
+function updatePlatforms(userIds, userPlatforms){
 $('input[name="addPlatform"]:checked').each(function() {
-   userPlatforms.push(this.value)
+    userPlatforms.push(this.value)
+    userIds.push(this.id)
 });
-   console.log(userPlatforms)
+   console.log("userIds",userIds)  
+getPlatformGames(baseGameGenres, userIds, editList)
 }
 
-function secondUpdatePlatforms(displayMoreOptions){
-$('input[name="addPlatform"]:checked').each(function() {
-   userPlatforms.push(this.value)
-});
+function editSuggested(editList, baseGameSlug){
+  console.log('editSuggested Working here editlist: ',editList.length,editList)
+if(userPlatforms.length===0){
+        (console.log('no platforms selected nothing to edit out'))
+      }else{
+        for(let i=0; i<editList.length; i++){
+          for(let j=0; j<editList[i].platforms.length ;j++){
+              if(userPlatforms.includes(editList[i].platforms[j].platform.slug)){
+                if(filteredList.indexOf(editList[i]) === -1) {
+                filteredList.push(editList[i])
+                }
+              }
+          }
+        }
+      }
+//remove from suggested if it is the base game
+for(let i=0; i<filteredList.length; i++){
+  if(filteredList[i].slug===baseGameSlug){
+    filteredList.pop(filteredList[i])
+    // console.log('removed because match', `${baseGameSlug}`)
 }
-
-
-function editSuggested(){
-  let check=userPlatforms
-  let temp=editList
-  console.log(check)
-  console.log('editSuggested Working here editlist NEED KEEP GOING',editList.length,editList)
-let filteredForPlatformsList=[];
-for(let i=0; i<editList.length; i++){
-  for(let j=0; j<editList[i].platforms.length ;j++){
-    if(userPlatforms.includes(editList[i].platforms[j].platform.slug)){
-      filteredForPlatformsList.push(editList[i])
-    }
-  }
-}
-console.log(filteredForPlatformsList.length, filteredForPlatformsList)
-for(let i=0; i<filteredForPlatformsList; i++){
-if(filteredForPlatformsList[i].rating>4){
-filteredForRatingList.push(editList[i])
-console.log('filteredForRatingList',filteredForRatingList.length)
-}
-}
-// getDetailedSuggested(filteredList)
+// console.log('filteredList',filteredList.length)
 
 }
+//remove from suggested for low rating
+console.log(filteredList.length, filteredList)
+for(let i=0; i<filteredList.length; i++){
+  if(filteredList[i].rating<4.25){
+    filteredList.pop(filteredList[i])
+}
+}
+console.log('filteredList',filteredList,filteredList.length)
+getDetailedList(filteredList)
+}
 
-
-
-
-
-
-
-
-// replace for loop going through filteredList and create a new variable that is the filtered array 
-// for(let game of editList){
-// if(game.rating > 4){
-// filteredList.push(game)
-// }
-// }
 
 
 // ***FETCH TO API***
 function getPlatforms() {
-  fetch(`https://api.rawg.io/api/platforms`)
+  fetch(`https://api.rawg.io/api/platforms?key=${apiKey}`)
     .then(response => response.json())
     .then(responseJson => {
     platforms=responseJson.results
@@ -82,95 +95,22 @@ function getPlatforms() {
 
 function startSearch() {
   updateSearch();
-  fetch(`https://api.rawg.io/api/games?search=${search}`)
+// tester
+  // fetch(`https://api.rawg.io/api/games?key=96fd8fa562c547a3925bf94299e36bc0&dates=1980-01-01,2020-01-01&platforms=7&genres=action`)
+
+  fetch(`https://api.rawg.io/api/games?search=${search}&key=${apiKey}`)
     .then(response => response.json())
     .then(responseJson => {
-      displayResults(responseJson)
+      displaySearchResults(responseJson)
       })
     .catch(error => console.log(error,'Something went wrong. Please try again later.'));
 }
-
-function getPlatformGames(userPlatforms,baseGameGenres) {
-console.log(`${userPlatforms}`, 'from getPlatformGames', userPlatforms.length)
-console.log(`${baseGameGenres}`, 'from getPlatformGames')
-// for(let i=0; i<editList.length; i++){
-//   for(let j=0; j<editList[i].platforms.length ;j++){
-//     if(userPlatforms.includes(editList[i].platforms[j].platform.slug)){
-//       filteredForPlatformsList.push(editList[i])
-//     }
-//   }
-// }
-for(let i=0, j=0 ;i<userPlatforms.length, j<baseGameGenres.length;i++, j++){
-    // for(let j=0;i<baseGameGenres.length; j++){
-console.log('shit')
-    fetch(`https://api.rawg.io/api/games?platform=${userPlatforms[i]}&genres=${baseGameGenres[j]}`)
-        // fetch(`https://api.rawg.io/api/games?platform=${userPlatforms[i]}&genres=${baseGameGenres[j]}`)
-    .then(response => response.json())
-    .then(responseJson => {    
-    console.log("from getPlatformGames", responseJson)
-    results=responseJson.results
-      for (i=0;i<results.length;i++){
-        platformList.push(results[i])
-        console.log(results[i])
-      }
-  })
-  .then(responseJson => { 
-    console.log('from getplatformlist games edit list',platformList)
-    editSuggested();
-  })
-    .catch(error => console.log(error,'Something went wrong. Please try again later.'));
-
-  // }
-}
-}
-
-function getDevGames(baseGameDev, userPlatforms) {
-console.log(`${baseGameDev}`, 'before call editlist length is', editList.length,'userplatfroms',userPlatforms)
-for(i=0;i<baseGameDev.length;i++)
-{
-    fetch(`https://api.rawg.io/api/games?developers=${baseGameDev[i]}`)
-    .then(response => response.json())
-    .then(responseJson => {    
-    console.log("from getDevGames", responseJson)
-    results=responseJson.results
-      for (j=0;j<results.length;j++){
-        editList.push(results[j])
-      }
-  })
-  .then(responseJson => { 
-    console.log('from getdev games edit list',editList, 'userPlatforms',userPlatforms)
-    getPlatformGames(userPlatforms)
-  })
-    .catch(error => console.log(error,'Something went wrong. Please try again later.'));
-
-}
-}
-
-
-function getSuggested(baseGameSlug) {
-  fetch(`https://api.rawg.io/api/games/${baseGameSlug}/suggested`)
-    .then(response => response.json())
-    .then(responseJson => {    
-    console.log("getSuggested call", responseJson)
-    games=responseJson.results
-      for (i=0;i<games.length;i++){
-        editList.push(games[i])
-      }
-       })
-    .then(responseJson => {
-    console.log('from getsuggested edit list',editList.length, editList)
-    console.log('hey fuck you userplatforms', userPlatforms)
-   getDevGames(baseGameDev, userPlatforms);
-      })
-    .catch(error => console.log(error,'Something went wrong. Please try again later.'));
-
-}
-
 
 
 function getBaseGame(baseGameId) {
   if(typeof(baseGameId)==="string"){
-fetch(`https://api.rawg.io/api/games/${baseGameId}`)
+    // adding the api key to this call caused an error
+fetch(`https://api.rawg.io/api/games/${baseGameId}?key=${apiKey}`)
     .then(response => response.json())
     .then(responseJson => {    
     console.log("2nd call", responseJson)
@@ -182,36 +122,160 @@ fetch(`https://api.rawg.io/api/games/${baseGameId}`)
         baseGameGenres.push(responseJson.genres[i])
       }
     console.log('basegameslug',baseGameSlug, 'baseGameDev', baseGameDev, 'baseGameGenres',baseGameGenres)
-    console.log(baseGameDev)
     displayBaseGameResults(responseJson)
     displayOptions()
-  })
+    })
+    .then(responseJson => { 
+    getSuggested(baseGameSlug)
+    })
     .catch(error => console.log(error,'Something went wrong. Please try again later.'));
 }
 }
 
 
 
-function getDetailedSuggested(filteredList){
-  console.log('getDetailedSuggested Working')
-  console.log('filteredList.length', filteredList.length, filteredList)
-    for(let i=0; i<filteredList.length;i++){
-      let tempId=filteredList[i].id 
-    fetch(`https://api.rawg.io/api/games/${tempId}`)
-        .then(response => response.json())
-        .then(responseJson => {    
-        detailedList.push(responseJson)
-      })
-        .catch(error => console.log(error,'Something went wrong. Please try again later.'));
+
+
+function getPlatformGames(baseGameGenres, userIds) {
+  console.log("userIds",userIds,typeof(userIds))
+if(userIds.length===0){
+console.log('no platforms selected onto edit')
+editSuggested(editList, baseGameSlug)
+}else{
+for(let i=0;i<userIds.length;i++){
+  for(let j=0;j<baseGameGenres.length;j++){
+      fetch(`https://api.rawg.io/api/games?key=${apiKey}&dates=1980-01-01,${currentDate}&platforms=${userIds[i]}&genres=${baseGameGenres[j].slug}`)
+      // fetch(`https://api.rawg.io/api/games?key=${apiKey}&dates=1980-01-01,${currentDate}&platforms=1,10,106&genres=${baseGameGenres[j].slug}`) 
+      .then(response => response.json())
+      .then(responseJson => {   
+      results=responseJson.results
+      console.log("results:", results)
+          if(!uniqueMap[results[i].slug]){
+          uniqueMap[results[i].slug] = true;
+          editList.push(results[i])
+         }
+    })
+    .then(responseJson => {
+
+    })
+    .catch(error => console.log(error,'Something went wrong. Please try again later.'));
     }
-    displayDetailedList(detailedList)
+}
+}
+console.log('from platforms editList: ',editList.length, editList)
+editSuggested(editList, baseGameSlug)
+console.log('just once')
+
+}
+
+function getSuggested(baseGameSlug) {
+  // adding api key causes errors
+  fetch(`https://api.rawg.io/api/games/${baseGameSlug}/suggested`)
+    .then(response => response.json())
+    .then(responseJson => {    
+    console.log("getSuggested call", responseJson)
+    games=responseJson.results
+      for (i=0;i<games.length;i++){
+        editList.push(games[i])
+        uniqueMap[games[i].slug] = true;
+      }
+       })
+    .then(responseJson => {
+    console.log('from getsuggested edit list',editList.length, editList)
+    getDevGames(baseGameDev, editList)
+      })
+    .catch(error => console.log(error,'Something went wrong. Please try again later.'));
+//what goes here now? devgame used to
 }
 
 
 
-// ***DISPLAY RESULTS*** 
+// function getPlatformGames(baseGameGenres, userIds, editList) {
+//   console.log("userIds",userIds)
+// for(let i=0;i<userIds.length;i++){
+//   for(let j=0;j<baseGameGenres.length;j++){
+//       fetch(`https://api.rawg.io/api/games?key=${apiKey}&dates=2000-01-01,${currentDate}&platforms=${userPlatforms[i]}&genres=${baseGameGenres[j].slug}`)
+//       .then(response => response.json())
+//       .then(responseJson => {   
+//       results=responseJson.results
+// console.log("userIds[i]): ",userIds[i], "baseGameGenres[j].slug: ", baseGameGenres[j].slug, "responseJson: ", responseJson)
+//   for (i=0;i<results.length;i++){
+//           if(!uniqueMap[results[i].slug]){
+//             editList.push(results[i])
+//             uniqueMap[results[i].slug] = true;          
+//           }
+//         }
+//   })
+//     .catch(error => console.log(error,'Something went wrong. Please try again later.'));
+// }
+// }
+// console.log('from getplatformgames',editList)
+// getSuggested(baseGameSlug)
+// }
 
-function displayResults(responseJson) { 
+
+
+
+function getDevGames(baseGameDev, editList) {
+console.log(`${baseGameDev}`, 'before call editlist length is', editList.length)
+for(i=0;i<baseGameDev.length;i++)
+{
+    fetch(`https://api.rawg.io/api/games?developers=${baseGameDev[i]}&key=${apiKey}`)
+    .then(response => response.json())
+    .then(responseJson => {    
+    console.log("from getDevGames", responseJson)
+    results=responseJson.results
+      for (i=0;i<results.length;i++){
+          if(!uniqueMap[results[i].slug]){
+          uniqueMap[results[i].slug] = true;
+          editList.push(results[i])
+  }
+      }
+  })
+  .then(responseJson => { 
+    console.log('from getdev games edit list',editList)
+    
+    // trying to move this
+    // getPlatformGames(baseGameGenres, userIds, editList, platformGames)
+
+  })
+    .catch(error => console.log(error,'Something went wrong. Please try again later.'));
+}
+}
+
+  // let detailedMap={}
+  // for(let i=0; i<detailedList.length;i++){
+  //   if(!detailedMap[detailedList[i].id]){
+  //     detailedMap[detailedList[i].id]=true;
+  //   }
+  // }
+
+function getDetailedList(filteredList){
+  console.log('getDetailedList Working','filteredlist: ', filteredList.length, filteredList)
+    for(let i=0; i<filteredList.length;i++){
+      let tempId=filteredList[i].id 
+    fetch(`https://api.rawg.io/api/games/${tempId}?key=${apiKey}`)
+        .then(response => response.json())
+        .then(responseJson => {    
+        results=responseJson
+        console.log('results: ', results)
+        detailedList.push(results)
+        console.log('detailed length: ', detailedList.length)
+          // for(i=0;i>responseJson.length;i++){
+            
+          // 
+        // }
+      // })
+      //   .then(responseJson => {    
+      //   console.log('detailedList:', detailedList.length, detailedList)
+      })
+     .catch(error => console.log(error,'Something went wrong. Please try again later.'));
+    }
+}
+
+// // ***DISPLAY RESULTS*** 
+
+function displaySearchResults(responseJson) { 
   console.log(responseJson);  
   let results=responseJson.results
   if(results.length===0){
@@ -219,8 +283,9 @@ function displayResults(responseJson) {
     $('#results p')[0].innerHTML=`${option}`;
     $('#results p')[1].innerHTML=`${responseJson.message}`;
   }else{
+  $('#summary p')[0].innerHTML="Select game";
+  $('#select').addClass('hidden')
     $( '#results input').removeClass('hidden')
-    $('#results p')[0].innerHTML="";
     $('#results-list').empty();
     let genres;
     let tags;
@@ -245,25 +310,6 @@ function displayResults(responseJson) {
   };
 
 }
-
-
-// function displaySuggested(responseJson){
-//   console.log('woooooooo baseSuggested',baseSuggested)
-//   let results=responseJson.results
-//   $( '#options').addClass('hidden')
-//   $( '#more-options').addClass('hidden')
-//   $( '#suggested').removeClass('hidden')
-//     for (let i = 0; i < results.length; i++){
-//       tags = responseJson.results[i].tags.map(g => { return g.name})
-//       genres = responseJson.results[i].genres.map(g => { return g.name})
-//       $('#results-list').append(
-//       `
-//       <li id=${results[i].id}>
-//       <img src="${results[i].background_image}" class="results-img">
-//       <p>${results[i].name} (${results[i].released[0]}${results[i].released[1]}${results[i].released[2]}${results[i].released[3]})</p> 
-//       <p>Rating: ${results[i].rating}</p>    
-//       <p>Genres: ${genres.join(", ")}</p> 
-//       <p>${results[i].short_description}</p>
 //       <input type='radio' name='baseGame' value=${results[i].id} required> <label for='baseGame'/> 
 //      </li> 
 //      `
@@ -279,8 +325,7 @@ function displayResults(responseJson) {
 
 
 
-function displayBaseGameResults(responseJson) { 
-  console.log(responseJson);  
+function displayBaseGameResults(responseJson) {  
   $( '#more-options').addClass('hidden')
   $( '#results input').addClass('hidden')
    $('#results-list').empty();
@@ -297,47 +342,73 @@ function displayBaseGameResults(responseJson) {
 
 }
 
+function displaySelectedOptions(userPlatforms){
+  $('#summary p')[0].innerHTML="See Results";
+  $('#options input').addClass('hidden')
+  $('#get-list').removeClass('hidden')
+  $('#options-list').empty()
+  $('#more-options').addClass('hidden')
+  $('#options-list').append(
+`
+<h2> Selected Platforms </h2>
+`
+)
+  for(i=0;i<userPlatforms.length;i++)
+   $('#options-list').append(
+      `
+      <li>
+      <p>${userPlatforms[i]}</>
+      </li>
+      `
+   )
+}
+
+
+// todo:
+// add back in any platform with if statements
+  //  <li>
+  //     <input type="checkbox" id="999" name="addPlatform" value="any">
+  //     <label for="any">Any</label>
+  //     </li>
 
 
 function displayOptions(){
+  $('#summary p')[0].innerHTML="Select Gaming Platforms";
   $( '#options').removeClass('hidden')
   $( '#more-options').removeClass('hidden')
   $('#options-list').append(
       `<h2> platforms </h2>
+  
       <li>
-      <input type="checkbox" name="addPlatform" value="any">
-      <label for="any">Any</label>
-      </li>
-      <li>
-      <input type="checkbox" name="addPlatform" value="playstation5">
+      <input type="checkbox" id="187" name="addPlatform" value="playstation5">
       <label for="playstation5">PS5</label>
       </li>
       <li>
-      <input type="checkbox" name="addPlatform" value="playstation4">
+      <input type="checkbox" id="18" name="addPlatform" value="playstation4">
       <label for="playstation4">PS4</label>
       </li>
       <li>
-      <input type="checkbox" name="addPlatform" value="xbox-one">
+      <input type="checkbox" id="1" name="addPlatform" value="xbox-one">
       <label for="xbox-one">Xbox One</label>
       </li>
       <li>
-      <input type="checkbox" name="addPlatform" value="xbox360">
+      <input type="checkbox"  id="14" name="addPlatform" value="xbox360">
       <label for="xbox360">Xbox 360</label>
       </li>
       <li>
-      <input type="checkbox"  name="addPlatform" value="nintendo-switch">
+      <input type="checkbox" id="7" name="addPlatform" value="nintendo-switch">
       <label for="nintendo-switch">Switch</label>
       </li>
       <li>
-      <input type="checkbox" name="addPlatform" value="pc">
+      <input type="checkbox" id="4" name="addPlatform" value="pc">
       <label for="pc">PC</label>
       </li>
       <li>
-      <input type="checkbox" name="addPlatform" value="ios">
+      <input type="checkbox" id="3" name="addPlatform" value="ios">
       <label for="ios">iOS</label>
       </li>
       <li>
-      <input type="checkbox"  name="addPlatform" value="android">
+      <input type="checkbox" id="21" name="addPlatform" value="android">
       <label for="android">Android</label>
       </li>
 `
@@ -356,78 +427,70 @@ for(i=0;i<platforms.length;i++){
 $('#options-list').append(
   `
   <li>
-<input type='checkbox' name='addPlatform' value='${platforms[i].slug}'>
+<input type='checkbox' id=${platforms[i].id}' name='addPlatform' value='${platforms[i].slug}'>
 <label for='${platforms[i].slug}'>${platforms[i].name}</label>
 </li>
 `)
 }
 }
 
-  function displayDetailedList(detailedList){
-  console.log('detailedList',detailedList, detailedList.length)
-  console.log('filteredList',filteredList, filteredList.length)
+ function displayDetailedList(filteredList){
   $( '#options').addClass('hidden')
+  $('#get-list').addClass('hidden')
   $( '#more-options').addClass('hidden')
-  // $( '#suggested').removeClass('hidden')
-   console.log('before appened')
-   for (let i = 0; i < listLength; i++){
-     let results=detailedList
-      $('#suggested-list').append(
-      `
-      <li>
-    <p>results[0].name</p>
-     </li> 
+  $('#results-list').addClass('hidden')
+  $('#js-suggested-form').removeClass('hidden')
+  $('#summary p')[0].innerHTML="";
+  // console.log('before appened filteredList',filteredList, filteredList.length)
+console.log('before appened')
+console.log('filteredList',filteredList, filteredList.length)
+for (let i = 0; i < filteredList.length; i++){
+  $('#suggested-list').append(
+`
+<li> 
+<p>${filteredList[i].name} </p> 
+<img src="${filteredList[i].background_image}" class="results-img">
+</li>
      `
-      )
-    }
+     )
   }
-
-//  for (let i = 0; i < results.length; i++){
-//    }
-// from above
-//   <img src="${results[i].background_image}" class="results-img">
-//       <p>${results[i].short_description}</p>
+ }
 
 
 
-// function displayDetailedList(detailedList){
-//   console.log('woooooooo')
-//   let results=detailedList
-//   console.log('results',results)
-//   $( '#options').addClass('hidden')
-//   $( '#more-options').addClass('hidden')
-//   $( '#suggested').removeClass('hidden')
-// for (let i = 0; i <results.length; i++){
-//   console.log('results[i]',results[i])
-      // tags = responseJson.results[i].tags.map(g => { return g.name})
-      // genres = responseJson.results[i].genres.map(g => { return g.name})
-      
-    //   $('#suggested-list').append(
-    //   `
-    //   <li id=${results[i].id}>
-    //   <img src="${results[i].background_image}" class="results-img">
-    //   <p>${results[i].name} (${results[i].released[0]}${results[i].released[1]}${results[i].released[2]}${results[i].released[3]})</p> 
-    //   <p>Rating: ${results[i].rating}</p>    
-    //   <p>${results[i].description}</p>
-    //   <input type='radio' name='game' value=${list[i].id} required> <label for='game'/> 
-    //  </li> 
-    //  `
-    //  )
-    // }
-    //   }
-    
-
-
-// genre tags removed <p>Genres: ${genres.join(", ")}</p>*/
-
+  function displayDetailedList(detailedList){  
+  $( '#options').addClass('hidden')
+  $('#get-list').addClass('hidden')
+  $( '#more-options').addClass('hidden')
+  $('#results-list').addClass('hidden')
+  $('#js-suggested-form').removeClass('hidden')
+  $('#summary p')[0].innerHTML="";
+  // console.log('before appened detailedList',detailedList, detailedList.length)
+console.log('before appened')
+console.log('detailedList',detailedList, detailedList.length)
+for (let i = 0; i < detailedList.length; i++){
+  $('#suggested-list').append(
+`
+<li> 
+<p>${detailedList[i].name} </p> 
+<img src="${detailedList[i].background_image}" class="results-img">
+<p>${detailedList[i].description}</p>
+</li>
+     `
+     )
+  }
+ }
+//add date but change format (${detailedList[i].released})
 
 //***EVENT LISTENERS*** */
+
 
 function watchSearchForm() {
   $('#js-select-option-form').submit(event => {
     event.preventDefault();
     startSearch();
     $( ".results-message").empty();
+    console.log('this works watchSearchForm')
   });
 }
 
@@ -437,7 +500,8 @@ function watchResultsForm() {
     baseGameId=$('input[name="baseGame"]:checked').val();
     console.log(`basegameId: ${baseGameId}`)
     getBaseGame(baseGameId)
-    // $( ".results-message").empty();
+    $( ".results-message").empty();
+    console.log('this works watchResultsForm')
   });
 }
 
@@ -445,15 +509,16 @@ function watchResultsForm() {
 function watchOptionsForm(displayOptions) {
   $('#js-options-form').submit(event => {
     event.preventDefault();
-    getSuggested(baseGameSlug);
-    updatePlatforms(displayOptions);
-    secondUpdatePlatforms(displayMoreOptions);
+    updatePlatforms(userIds, userPlatforms);
+    displaySelectedOptions(userPlatforms)
+    // console.log('from watchOptionsForm(displayOptions)')
   });
 }
 
 function watchMoreOptionsForm() {
   $('#js-more-options-form').submit(event => {
     event.preventDefault();
+    // console.log('this works idk watchMoreOptionsForm')
     displayMoreOptions(platforms)
   });
 }
@@ -463,9 +528,20 @@ function watchMoreOptionsForm() {
 function watchSuggestedForm() {
   $('#js-suggested-form').submit(event => {
     event.preventDefault();
-    console.log('PROGRESS')
-    // add parametres for console and other options to search
-    // getOptions()
+    // console.log('PROGRESS watchSuggestedForm')
+    
+  });
+}
+
+
+function watchGetListForm() {
+  $('#js-get-list-form').submit(event => {
+    event.preventDefault();
+    console.log('get recs watchList')
+    // setTimeout(delay(),10000)
+    // console.log('detailedList: ',detailedList,detailedList.length)
+    displayDetailedList(detailedList)
+    // displayDetailedList(filteredList)
   });
 }
 
@@ -477,24 +553,9 @@ $(function() {
   watchOptionsForm();
   watchMoreOptionsForm();
   watchSuggestedForm();
+  watchGetListForm();
   getPlatforms();
+  updateDate();
 });
 
 
-
-//     .then(response => response.json())
-//     .then(responseJson => {
-//     let games=responseJson.results
-//     console.log('from devGames', games.length)
-//     for(i=0;i<games.length;i++){
-//     devGames.push(games[i])
-//     editList.push(games[i])
-
-    
-//     }
-//     editSuggested(editList)
-//     console.log('from devs new list length', editList.length)
-//     console.log('this sb devgames',devGames)
-//   })
-//     .catch(error => console.log(error,'Something went wrong. Please try again later.'));
-//   }
