@@ -14,8 +14,9 @@ let platformList=[]
 let currentDate=''
 let filteredList=[]
 let uniqueMap={}
-let uniqueGameMap={}
-let platformGames=[]
+
+//todo priority, remove filteredList variable, fix errors for older platofrms and add more options back in 
+
 
 
 // ***STORE VALUES***
@@ -45,41 +46,46 @@ $('input[name="addPlatform"]:checked').each(function() {
 getPlatformGames(baseGameGenres, userIds, editList)
 }
 
-function editSuggested(editList, baseGameSlug){
+function editGameList(editList, baseGameSlug){
   console.log('editSuggested Working here editlist: ',editList.length,editList)
-if(userPlatforms.length===0){
-        (console.log('no platforms selected nothing to edit out'))
-      }else{
-        for(let i=0; i<editList.length; i++){
-          for(let j=0; j<editList[i].platforms.length ;j++){
-              if(userPlatforms.includes(editList[i].platforms[j].platform.slug)){
-                if(filteredList.indexOf(editList[i]) === -1) {
+  if(userPlatforms.length===0){
+  filteredList=editList
+  console.log('no platforms selected nothing to edit out')
+    }else{
+    console.log('else')      
+      for(let i=0; i<editList.length; i++){
+        for(let j=0; j<editList[i].platforms.length ;j++){
+            if(userPlatforms.includes(editList[i].platforms[j].platform.slug)){
+              if(filteredList.indexOf(editList[i]) === -1) {
                 filteredList.push(editList[i])
-                }
+                console.log('added to filtered list bc platform match') 
               }
-          }
+            }
         }
       }
+    }
+console.log('filteredList:', filteredList, 'editList: ',editList)    
 //remove from suggested if it is the base game
-for(let i=0; i<filteredList.length; i++){
-  if(filteredList[i].slug===baseGameSlug){
-    filteredList.pop(filteredList[i])
-    console.log('removed because match', `${baseGameSlug}`)
+  for(let i=0; i<filteredList.length; i++){
+    if(filteredList[i].slug===baseGameSlug){
+      filteredList.splice([i],1)
+      console.log('removed because match', `${baseGameSlug}`)
+    }
+     if(parseFloat(filteredList[i].rating)<4.25){
+
+    console.log(filteredList[i].slug,filteredList[i].rating,'REMOVED FOR LOW RATING', typeof(filteredList[i].rating),'filteredList length:', filteredList.length)
+   filteredList.splice([i],1)
+  }
+  }
+return filteredList
+wait()
 }
 
-
+async function wait(){
+  console.log('wait function working?')
+    let list = await editSugged()
+    getDetailedList(list)
 }
-//remove from suggested for low rating
-console.log(filteredList.length, filteredList)
-for(let i=0; i<filteredList.length; i++){
-  if(filteredList[i].rating<4.25){
-    filteredList.pop(filteredList[i])
-}
-}
-console.log('filteredList',filteredList,filteredList.length)
-getDetailedList(filteredList)
-}
-
 
 
 // ***FETCH TO API***
@@ -133,39 +139,41 @@ fetch(`https://api.rawg.io/api/games/${baseGameId}?key=${apiKey}`)
 }
 
 
-
-
-
+//trouble
 function getPlatformGames(baseGameGenres, userIds) {
+  let promises=[]
   console.log("userIds",userIds,typeof(userIds))
 if(userIds.length===0){
 console.log('no platforms selected onto edit')
-editSuggested(editList, baseGameSlug)
+editGameList(editList, baseGameSlug)
 }else{
 for(let i=0;i<userIds.length;i++){
   for(let j=0;j<baseGameGenres.length;j++){
+    promises.push(
       fetch(`https://api.rawg.io/api/games?key=${apiKey}&dates=1980-01-01,${currentDate}&platforms=${userIds[i]}&genres=${baseGameGenres[j].slug}`)
-      // fetch(`https://api.rawg.io/api/games?key=${apiKey}&dates=1980-01-01,${currentDate}&platforms=1,10,106&genres=${baseGameGenres[j].slug}`) 
       .then(response => response.json())
       .then(responseJson => {   
       results=responseJson.results
-      console.log("results:", results)
+      for(i=0;i<results.length;i++){
           if(!uniqueMap[results[i].slug]){
           uniqueMap[results[i].slug] = true;
           editList.push(results[i])
+          console.log(results[i])
          }
+        }
     })
     .then(responseJson => {
-
+    console.log('from loop')
     })
-    .catch(error => console.log(error,'Something went wrong. Please try again later.'));
-    }
+    .catch(error => console.log(error,'Something went wrong. Please try again later.'))
+    )}
 }
 }
 console.log('from platforms editList: ',editList.length, editList)
-editSuggested(editList, baseGameSlug)
-console.log('just once')
-
+    Promise.all(promises).then(function(){
+      console.log('something here ')
+      editGameList(editList, baseGameSlug)
+})
 }
 
 function getSuggested(baseGameSlug) {
@@ -211,17 +219,11 @@ for(i=0;i<baseGameDev.length;i++)
 }
 }
 
-  // let detailedMap={}
-  // for(let i=0; i<detailedList.length;i++){
-  //   if(!detailedMap[detailedList[i].id]){
-  //     detailedMap[detailedList[i].id]=true;
-  //   }
-  // }
 
-function getDetailedList(filteredList){
-  console.log('getDetailedList Working','filteredlist: ', filteredList.length, filteredList)
-    for(let i=0; i<filteredList.length;i++){
-      let tempId=filteredList[i].id 
+function getDetailedList(list){
+  console.log('getDetailedList Working','list: ', list.length, list)
+    for(let i=0; i<list.length;i++){
+      let tempId=list[i].id 
     fetch(`https://api.rawg.io/api/games/${tempId}?key=${apiKey}`)
         .then(response => response.json())
         .then(responseJson => {    
@@ -232,7 +234,6 @@ function getDetailedList(filteredList){
       })
      .catch(error => console.log(error,'Something went wrong. Please try again later.'));
     }
-    console.log('detailed length: ', detailedList.length)
 }
 
 // // ***DISPLAY RESULTS*** 
@@ -272,9 +273,7 @@ function displaySearchResults(responseJson) {
   };
 
 }
-//       <input type='radio' name='baseGame' value=${results[i].id} required> <label for='baseGame'/> 
-//      </li> 
-//      `
+
 
 // video not working error Cross-Origin Read Blocking (CORB) blocked cross-origin response 
 
@@ -337,7 +336,8 @@ function displaySelectedOptions(userPlatforms){
 function displayOptions(){
   $('#summary p')[0].innerHTML="Select Gaming Platforms";
   $( '#options').removeClass('hidden')
-  $( '#more-options').removeClass('hidden')
+  // hide more options for now older platforms cause errors
+  // $( '#more-options').removeClass('hidden')
   $('#options-list').append(
       `<h2> platforms </h2>
   
@@ -378,45 +378,45 @@ function displayOptions(){
 
 }
 
+// hide more options for now older platforms cause errors
+// function displayMoreOptions(platforms){
+// console.log('hello from displayMore')
+// $( '#more-options').addClass('hidden')
+// $('#options-list').empty();
+// $('#options-list').append(
+// `<h2> platforms </h2>`);
+// for(i=0;i<platforms.length;i++){
+// $('#options-list').append(
+//   `
+//   <li>
+// <input type='checkbox' id=${platforms[i].id}' name='addPlatform' value='${platforms[i].slug}'>
+// <label for='${platforms[i].slug}'>${platforms[i].name}</label>
+// </li>
+// `)
+// }
+// }
 
-function displayMoreOptions(platforms){
-console.log('hello from displayMore')
-$( '#more-options').addClass('hidden')
-$('#options-list').empty();
-$('#options-list').append(
-`<h2> platforms </h2>`);
-for(i=0;i<platforms.length;i++){
-$('#options-list').append(
-  `
-  <li>
-<input type='checkbox' id=${platforms[i].id}' name='addPlatform' value='${platforms[i].slug}'>
-<label for='${platforms[i].slug}'>${platforms[i].name}</label>
-</li>
-`)
-}
-}
-
- function displayDetailedList(filteredList){
-  $( '#options').addClass('hidden')
-  $('#get-list').addClass('hidden')
-  $( '#more-options').addClass('hidden')
-  $('#results-list').addClass('hidden')
-  $('#js-suggested-form').removeClass('hidden')
-  $('#summary p')[0].innerHTML="";
-  // console.log('before appened filteredList',filteredList, filteredList.length)
-console.log('before appened')
-console.log('filteredList',filteredList, filteredList.length)
-for (let i = 0; i < filteredList.length; i++){
-  $('#suggested-list').append(
-`
-<li> 
-<p>${filteredList[i].name} </p> 
-<img src="${filteredList[i].background_image}" class="results-img">
-</li>
-     `
-     )
-  }
- }
+//  function displayDetailedList(filteredList){
+//   $( '#options').addClass('hidden')
+//   $('#get-list').addClass('hidden')
+//   $( '#more-options').addClass('hidden')
+//   $('#results-list').addClass('hidden')
+//   $('#js-suggested-form').removeClass('hidden')
+//   $('#summary p')[0].innerHTML="";
+//   // console.log('before appened filteredList',filteredList, filteredList.length)
+// console.log('before appened')
+// console.log('filteredList',filteredList, filteredList.length)
+// for (let i = 0; i < filteredList.length; i++){
+//   $('#suggested-list').append(
+// `
+// <li> 
+// <p>${filteredList[i].name} </p> 
+// <img src="${filteredList[i].background_image}" class="results-img">
+// </li>
+//      `
+//      )
+//   }
+//  }
 
 
 
@@ -428,8 +428,8 @@ for (let i = 0; i < filteredList.length; i++){
   $('#js-suggested-form').removeClass('hidden')
   $('#summary p')[0].innerHTML="";
   // console.log('before appened detailedList',detailedList, detailedList.length)
-console.log('before appened')
 console.log('detailedList',detailedList, detailedList.length)
+console.log('before appened')
 for (let i = 0; i < detailedList.length; i++){
   $('#suggested-list').append(
 `
