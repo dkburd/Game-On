@@ -12,17 +12,26 @@
  <div class='container'>
   <section id='summary'>
   <h1>Game Recs</h1>
-  <p>Search for a game you love for a list of reccomended games to play</p>
+  <p>Search for a game you love. Get reccomendations on what to play next.</p>
    </section>
 
-   <section id='select'>
-    <form id='js-select-option-form'>
-      <label for='select-option'>enter game title</label>
-      <input id='js-select-option' type='text' name='select-option' placeholder='e.g., The Last of Us'>
+   <section id='search'>
+    <form id='js-search-form'>
+      <!-- <label for='search-option'>enter game title</label> -->
+      <input id='js-search-option' type='text' name='search-option' placeholder='e.g., The Last of Us'>
       <input type='submit' value='Search'>
-      </form>
     </form>
   </section>
+
+    <section id='restart'>
+      <!-- <form id='js-restart-form'>
+        <label for='restart'>enter game title</label>
+        <input type='submit' value='New Search'>
+      </form> -->
+      <div id='js-restart' class='hidden'>
+        <input type='submit' value='New Search'>
+      </div>
+    </section>
 
   <section id='results'>
     <p></p>
