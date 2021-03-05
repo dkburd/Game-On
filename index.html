@@ -12,10 +12,20 @@
  <div class='container'>
   <section id='summary'>
   <h1>Game Recs</h1>
-  <p>Search for a game you love. Get reccomendations on what to play next.</p>
+  <p></p>
    </section>
+  <section id='game-search'>
+    <p>Search for a game you love. Get reccomendations on what to play next.</p>
+    <input type="button" value='Start'>
+  </section>
 
-   <section id='search'>
+<section id='custom-search'>
+<p>Or customize the search</p>
+<input type="submit" value='Custom Search'>
+</section>
+
+
+   <section id='search'class='hidden'>
     <form id='js-search-form'>
       <!-- <label for='search-option'>enter game title</label> -->
       <input id='js-search-option' type='text' name='search-option' placeholder='e.g., The Last of Us'>
@@ -57,6 +67,17 @@
     <input type='submit' value='More Options'></input>
   </form>
 </section>
+
+<section id='genre' class='hidden'>
+  <form id='genre-options-form'>
+    <ul id='genre-list'>
+
+    </ul>
+    <input type='submit' value='Select Genres'></input>
+  </form>
+</section>
+
+
 
 <section id='get-list' class='hidden'>
   <form id='js-get-list-form'>
