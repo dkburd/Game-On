@@ -15,12 +15,14 @@ let currentDate=''
 let filteredList=[]
 let uniqueMap={}
 
-//todo priority, remove filteredList variable, fix errors for older platofrms and add more options back in 
+
+
 
 // ***STORE VALUES***
 function updateSearch(){
 search=$('#js-search-option').val();
 $( ".results-message").empty();
+// $('#js-search-option input:text').empty()
 }
 
 function updateDate(){
@@ -43,14 +45,13 @@ $('input[name="addPlatform"]:checked').each(function() {
 getGenreGames(userGenres, userIds, editList)
 }
 
-//here
+
 function updateGenres(userGenres){
 $('input[name="addGenre"]:checked').each(function() {
     userGenres.push(this.value)
 });
    console.log("userGenres",userGenres)  
 }
-
 
 
 
@@ -73,34 +74,45 @@ console.log('editGameList - editlist: ',editList.length,editList)
       }
     }
 let tempList = filteredList.filter(game => {return game.slug !== baseGameSlug})
-tempList = tempList.filter(game => {return game.rating > 4.05})
+tempList = tempList.filter(game => {return game.rating > 4})
 console.log({'tempList':tempList.length, 'filteredList':filteredList.length})
 return tempList
 wait()
 }
 
 async function wait(){
-  // console.log('wait function working?')
-    let list = await editGameList(editList, baseGameSlug)
-    console.log({list})
-    getDetailedList(list)
+let list = await editGameList(editList, baseGameSlug)
+// console.log({list})
+if (list.length===0){
+failList()
+}else{
+ getDetailedList(list)   
+}
 }
 
 
-// console.log('filteredList:', filteredList, 'editList: ',editList)    
-// //remove from suggested if it is the base game
-//   for(let i=0; i<filteredList.length; i++){
-//     if(filteredList[i].slug===baseGameSlug){
-//       filteredList.splice([i],1)
-//       console.log('removed because match', `${baseGameSlug}`)
-//     }
-//      if(parseFloat(filteredList[i].rating)<4.25){
+function failList(){
+  console.log('hello line 98')
+  $('#options-list').addClass('hidden')
+  $('#get-list').addClass('hidden')
+  if(detailedList.length===0){
+    $('#summary p')[0].innerHTML="Unfortunately this search did not yield any recommendations. Please add at least one genre and gaming platform to try again.";
+    displayGenreOptions(genres)
+        }
+      }
 
-//     console.log(filteredList[i].slug,filteredList[i].rating,'REMOVED FOR LOW RATING', typeof(filteredList[i].rating),'filteredList length:', filteredList.length)
-//    filteredList.splice([i],1)
-//   }
-//   }
-// replace loops with funciton method
+
+
+function reccomendRestart(responseJson){
+  displayBaseGameResults(responseJson)
+  // console.log('hello line 111')
+  $('#options-list').addClass('hidden')
+  $('#get-list').addClass('hidden')
+  $('#js-add-genre').removeClass('hidden')
+  $('#summary p')[0].innerHTML="Unfortunately this search is not likely to yield many recommendations."; 
+  }
+
+
 
 
 
@@ -111,8 +123,9 @@ function getPlatforms() {
     .then(responseJson => {
     platforms=responseJson.results
   console.log(platforms)
+  enabeStartButtons()
       })
-    .catch(error => console.log(error,'Something went wrong. Please try again later.'));
+    .catch(error => console.log(error,'Something went wrong. Please try again later.'))
 }
 
 function getGenres() {
@@ -127,11 +140,8 @@ function getGenres() {
 
 
 
-
 function startSearch() {
   updateSearch();
-// tester
-  // fetch(`https://api.rawg.io/api/games?key=96fd8fa562c547a3925bf94299e36bc0&dates=1980-01-01,2020-01-01&platforms=7&genres=action`)
 
   fetch(`https://api.rawg.io/api/games?search=${search}&key=${apiKey}`)
     .then(response => response.json())
@@ -158,8 +168,13 @@ fetch(`https://api.rawg.io/api/games/${baseGameId}?key=${apiKey}`)
         userGenres.push(responseJson.genres[i].slug)
       }
     console.log('basegameslug',baseGameSlug, 'baseGameDev', baseGameDev, 'userGenres',userGenres)
+
+if(responseJson.genres.length===0){
+   reccomendRestart(responseJson)
+    }else{
     displayBaseGameResults(responseJson)
     displayPlatformOptions()
+}
     })
     .then(responseJson => { 
     // getSuggested(baseGameSlug,baseGameId)
@@ -261,13 +276,14 @@ function getDetailedList(list){
         results=responseJson
         // console.log('results: ', results)
         detailedList.push(results)
+        enabeRecsButtons()
       })
      .catch(error => console.log(error,'Something went wrong. Please try again later.'));
     }
 }
 
 // // ***DISPLAY RESULTS*** 
-function   displayGameSearch(){
+function displayGameSearch(){
    $('#search').removeClass('hidden')
    $('#game-search').addClass('hidden')
    $('#custom-search').addClass('hidden')
@@ -285,20 +301,21 @@ function displaySearchResults(responseJson) {
     $('#summary p')[0].innerHTML="Select game";
     $('#search').addClass('hidden')
     $( '#js-restart').removeClass('hidden')
-    $( '#results input').removeClass('hidden')
-    $('#results-list').empty();
+    $('#results').removeClass('hidden')
+    $('#results input').removeClass('hidden')
     let genres;
     let tags;
+
     // for (let i = 0; i < results.length; i++){
-    //  only show  5 
-    for (let i = 0; i < 5; i++){
+    //  only show  10 
+    for (let i = 0; i < 10; i++){
       tags = results[i].tags.map(g => { return g.name})
       genres = results[i].genres.map(g => { return g.name})
       $('#results-list').append(
       `
       <li id=${results[i].id}>
       <img src="${results[i].background_image}" class="results-img">
-      <p>${results[i].name} (${results[i].released[0]}${results[i].released[1]}${results[i].released[2]}${results[i].released[3]})</p> 
+      <h3>${results[i].name} (${results[i].released[0]}${results[i].released[1]}${results[i].released[2]}${results[i].released[3]})</h3> 
       <p>Rating: ${results[i].rating}</p>    
       <p>Genres: ${genres.join(", ")}</p> 
       <input type='radio' name='baseGame' value=${responseJson.results[i].id} required> <label for='baseGame'/> 
@@ -309,33 +326,20 @@ function displaySearchResults(responseJson) {
     }
   };
 }
-// removed tags some are gibberish
-// <p>Tags: ${tags.join(", ")}</p>
-
-// video not working error Cross-Origin Read Blocking (CORB) blocked cross-origin response 
-
-// <video width="320" height="240" controls>
-//   <source src="https://www.youtube.com/watch?v=${responseJson.results[i].clip.video}" type="video/mp4">
-// </video>
-//       )
-//     }
-// }
-
 
 
 function displayBaseGameResults(responseJson) {  
-  $( '#more-options').addClass('hidden')
+  $( '#js-more-options').addClass('hidden')
   $( '#results input').addClass('hidden')
   $('#results-list').empty();
   $('#results-list').append(
       `
-      <p>${responseJson.name} (${responseJson.released[0]}${responseJson.released[1]}${responseJson.released[2]}${responseJson.released[3]})</p> 
+      <h3>${responseJson.name} (${responseJson.released[0]}${responseJson.released[1]}${responseJson.released[2]}${responseJson.released[3]})</h3> 
       <li id=${responseJson.id}>
       <img src="${responseJson.background_image}" class="results-img">
       </li>
 `
   )
-
 }
 
 // removed because games without genres sometimes cause error? zero tolerance can you put a for loop in an apend
@@ -347,7 +351,7 @@ function displaySelectedOptions(userPlatforms, userGenres){
   $('#options input').addClass('hidden')
   $('#get-list').removeClass('hidden')
   $('#options-list').empty()
-  $('#more-options').addClass('hidden')
+  $('#js-more-options').addClass('hidden')
   $('#options-list').append(
 `
 <h2> Selected Platforms </h2>
@@ -378,14 +382,12 @@ function displaySelectedOptions(userPlatforms, userGenres){
 }
 
 
-// todo:
-// add back in any platform with if statements
-  //  <li>
-  //     <input type="checkbox" id="999" name="addPlatform" value="any">
-  //     <label for="any">Any</label>
-  //     </li>
+
 
 function displayGenreOptions(genres){
+  console.log('sup')
+$('#js-restart').removeClass('hidden')
+$('#js-add-genre').addClass('hidden')
 $('#genre').removeClass('hidden')
 $('#genre-list').append(
 `<h2> Genres </h2>`);
@@ -403,11 +405,12 @@ $('#genre-list').append(
 
 function displayPlatformOptions(){
   $('#genre').addClass('hidden')
+    $('#options-list').removeClass('hidden')
   $('#summary p')[0].innerHTML="Select Gaming Platforms";
+  $('#js-restart').removeClass('hidden')
   $( '#options').removeClass('hidden')
   $('#options input').removeClass('hidden')
-  // more options for now older platforms cause errors
- $( '#more-options').removeClass('hidden')
+ $( '#js-more-options').removeClass('hidden')
   $('#options-list').append(
       `<h2> platforms </h2>
   
@@ -451,7 +454,7 @@ function displayPlatformOptions(){
 
 
 function displayMoreOptions(platforms){
-$( '#more-options').addClass('hidden')
+$( '#js-more-options').addClass('hidden')
 $('#options-list').empty();
 $('#options-list').append(
 `<h2> platforms </h2>`);
@@ -470,24 +473,24 @@ $('#options-list').append(
   function displayDetailedList(detailedList){  
   $( '#options').addClass('hidden')
   $('#get-list').addClass('hidden')
-  $( '#more-options').addClass('hidden')
-  $('#results-list').addClass('hidden')
+  $( '#js-more-options').addClass('hidden')
+  $('#results').addClass('hidden')
   $('#js-suggested-form').removeClass('hidden')
   $('#summary p')[0].innerHTML="";
   // console.log('before appened detailedList',detailedList, detailedList.length)
-console.log('detailedList',detailedList, detailedList.length)
-console.log('before appened')
-for (let i = 0; i < detailedList.length; i++){
-if(detailedList[i].website.length>1){
-  $('#suggested-list').append(
-`
-<li> 
+  console.log('detailedList',detailedList, detailedList.length)
+  console.log('before appened')
+  for (let i = 0; i < detailedList.length; i++){
+    if(detailedList[i].website.length>1){
+    $('#suggested-list').append(
+  `
+  <li> 
 
-<a href="${detailedList[i].website}" target='blank'>
-${detailedList[i].name}</a> 
-<img src="${detailedList[i].background_image}" class="results-img">
-<p>${detailedList[i].description}</p>
-</li>
+  <a href="${detailedList[i].website}" target='blank'>
+  <h3>${detailedList[i].name}</h3></a> 
+  <img src="${detailedList[i].background_image}" class="results-img">
+  <p>${detailedList[i].description_raw}</p>
+  </li>
      `
      )
 
@@ -495,9 +498,9 @@ ${detailedList[i].name}</a>
     $('#suggested-list').append(
 `
 <li> 
-<p>${detailedList[i].name}</p> 
+<h3>${detailedList[i].name}</h3> 
 <img src="${detailedList[i].background_image}" class="results-img">
-<p>${detailedList[i].description}</p>
+<p>${detailedList[i].description_raw}</p>
 </li>
      `
      )
@@ -528,7 +531,7 @@ ${detailedList[i].name}</a>
     detailedList=[]
     filteredList=[]
     uniqueMap={}
-    $( '#js-restart').addClass('hidden')
+    $('#js-restart').addClass('hidden')
     $('#results-list').empty();
     $('#options-list').empty();
     $('#genre-list').empty();
@@ -537,11 +540,12 @@ ${detailedList[i].name}</a>
     $('#get-list').addClass('hidden')
     $( '#options').addClass('hidden')
     $( '#genre').addClass('hidden')
-    $( '#more-options').addClass('hidden')
+    $( '#js-more-options').addClass('hidden')
     $('#search').addClass('hidden')
     $('#game-search').removeClass('hidden')
     $('#custom-search').removeClass('hidden')
-  
+    $('#js-add-genre').addClass('hidden')
+  disableRecsButtons()
 
   }
 
@@ -553,8 +557,6 @@ function liSelect(){
   console.log('li click')
   });
 }
-
-
 
 function watchSearchForm() {
   $('#js-search-form').submit(event => {
@@ -587,21 +589,20 @@ function watchOptionsForm(displayPlatformOptions) {
 function watchGenreForm(displayGenreOptions) {
   $('#genre-options-form').submit(event => {
     event.preventDefault();
-//what goes into update genres
     updateGenres(userGenres);
     displayPlatformOptions()
   });
 }
 
 
-function watchMoreOptionsForm() {
-  $('#js-more-options-form').submit(event => {
+function watchMoreOptions() {
+    $('#js-more-options').on("click", "button", function (event){
     event.preventDefault();
     displayMoreOptions(platforms)
   });
 }
 
-
+//to add list options
 function watchSuggestedForm() {
   $('#js-suggested-form').submit(event => {
     event.preventDefault();
@@ -621,22 +622,32 @@ function watchGetListForm() {
 }
 
 function watchRestart() {
-    $('#js-restart').on("click", "input", function (event){
+    $('#js-restart').on("click", "button", function (event){
     event.preventDefault();
     restartSearch();
   });
 }
 
 
-function watchGameSearch() 
-{ $('#game-search').on("click", "input", function (event){ 
+function watchAddGenre() {
+  $('#js-add-genre').on("click", "button", function (event){
+    event.preventDefault();
+    // console.log('why')
+    displayGenreOptions(genres)
+  });
+}
+
+
+
+function watchGameSearch() { 
+  $('#game-search').on("click", "button", function (event){ 
   event.preventDefault(); 
   console.log('gameSearch') 
   displayGameSearch()
 })
 }
-function watchCustomSearch() 
-{ $('#custom-search').on("click", "input", function (event){
+function watchCustomSearch() { 
+  $('#custom-search').on("click", "button", function (event){
    event.preventDefault(); 
    $('#game-search').addClass('hidden')
    $('#custom-search').addClass('hidden')
@@ -644,12 +655,34 @@ function watchCustomSearch()
    })
   }
 
+
+function disableStartButtons(){
+  $('#start').prop('disabled',true)
+  $('#custom').prop('disabled',true)
+}
+
+function enabeStartButtons(){
+  $('#start').prop('disabled',false)
+  $('#custom').prop('disabled',false)
+}
+
+
+function disableRecsButtons(){
+  $('#get-recs').prop('disabled',true)
+}
+
+function enabeRecsButtons(){
+  $('#get-recs').prop('disabled',false)
+}
+
 $(function() {
   console.log('App loaded! Waiting for submit!');
+  disableStartButtons()
+  disableRecsButtons()
   watchSearchForm();
   watchResultsForm(); 
   watchOptionsForm();
-  watchMoreOptionsForm();
+  watchMoreOptions();
   watchSuggestedForm();
   watchGetListForm();
   getPlatforms();
@@ -659,6 +692,22 @@ $(function() {
   watchGameSearch() 
   watchCustomSearch()
   watchGenreForm(displayGenreOptions)
+  watchAddGenre()
 });
 
 
+// todo 
+
+//fighting games have low ratings for some reason, need to make it so fighting game genre gets passed through without checking rating -- already lowered rating to accomidate
+
+//select game anywhere on li not the checkbox
+
+// clear search input after the value is captured so when returning after restart / new search it says the placeholder
+
+// add back in any platform with if statements
+  //  <li>
+  //     <input type="checkbox" id="999" name="addPlatform" value="any">
+  //     <label for="any">Any</label>
+  //     </li>
+
+  //is there any possible way to prevent putting release year if it is already in title? Resident Evil (2002) (2002)
