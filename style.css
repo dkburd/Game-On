@@ -18,23 +18,23 @@ h3 {
   min-height: 100px;
 } */
 
-* {
+body {
   display: block;
   margin-bottom: 10px;
 }
-body {
-  margin: 25px;
-}
 
 img {
+  display: block;
   max-width: 200px;
 }
 
 li {
+  display: block;
   margin-bottom: 10px;
+  list-style-type: none;
 }
 
 li:hover {
   border: 5x solid black;
-  background-color: yellow;
+/*   background-color: yellow; */
 }
