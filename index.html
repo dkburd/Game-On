@@ -3,10 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- <title>game recs</title> -->
-      <link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" rel="stylesheet"
-        type="text/css" />
-      <link href="style.css" rel="stylesheet" type="text/css"/>
+    <title>GAME RECS</title>
+    <link rel="stylesheet" type="text/css" href="normalize.css" />
+      <link href="style.css" rel="stylesheet" type="text/css"/> 
 </head>
 <body>
  <div class='container'>
@@ -16,40 +15,37 @@
    </section>
   <section id='game-search'>
     <p>Search for a game you love. Get reccomendations on what to play next.</p>
-    <input type="button" value='Start'>
+    <button id="start">Start</button> 
   </section>
 
 <section id='custom-search'>
 <p>Or customize the search</p>
-<input type="submit" value='Custom Search'>
+<button id="custom">Custom Search</button>
 </section>
 
 
    <section id='search'class='hidden'>
     <form id='js-search-form'>
-      <!-- <label for='search-option'>enter game title</label> -->
       <input id='js-search-option' type='text' name='search-option' placeholder='e.g., The Last of Us'>
       <input type='submit' value='Search'>
     </form>
   </section>
 
-    <section id='restart'>
-      <!-- <form id='js-restart-form'>
-        <label for='restart'>enter game title</label>
-        <input type='submit' value='New Search'>
-      </form> -->
-      <div id='js-restart' class='hidden'>
-        <input type='submit' value='New Search'>
-      </div>
+    <section id='js-restart' class='hidden'>
+        <button id=>New Search</button>
     </section>
 
-  <section id='results'>
+    <section id='js-add-genre' class='hidden'>
+        <button>Add Genre</button>
+    </section>
+
+  <section id='results' class='hidden'>
     <p></p>
     <p></p>
     <form id='js-results-form'>
     <ul id='results-list'>
     </ul>
-    <input type='submit' value='Select Game' class='hidden'></input>
+    <input type='submit' value='Select Game'></input>
     </form>
   </section>
   
@@ -58,14 +54,11 @@
     <ul id='options-list'>
     </ul>
     <input type='submit' value='Select Platforms'></input>
-    <!-- <input id='js-more-options' type='button' value='More Options'></input> -->
     </form>
 </section>
 
-<section id='more-options' class='hidden'>
-  <form id='js-more-options-form'>
-    <input type='submit' value='More Options'></input>
-  </form>
+<section id='js-more-options' class='hidden'>
+<button>More Options</button>
 </section>
 
 <section id='genre' class='hidden'>
@@ -81,7 +74,7 @@
 
 <section id='get-list' class='hidden'>
   <form id='js-get-list-form'>
-    <input type='submit' value='Get Recs'></input>
+    <input id='get-recs' type='submit' value='Get Recs'></input>
   </form>
 </section>
 
@@ -103,4 +96,3 @@
 </body>
 </html>
 
-<!-- https://api.rawg.io/api/games?platform=xbox&genres=action -->
