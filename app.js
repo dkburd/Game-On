@@ -6,6 +6,7 @@ let baseGameDev=[]
 let userGenres=[]
 let platforms=[]
 let genres=[]
+let tags=[]
 let userPlatforms=[]
 let userIds=[]
 let editList=[]
@@ -15,10 +16,13 @@ let currentDate=''
 let filteredList=[]
 let uniqueMap={}
 
+// carousel
+  let counter = 0;
+  let direction = 0
 
 
 
-// ***STORE VALUES***
+// ***STORE/UPDATE VALUES***
 function updateSearch(){
 search=$('#js-search-option').val();
 $( ".results-message").empty();
@@ -37,27 +41,39 @@ console.log('currentDate',currentDate);
 
 
 function updatePlatforms(userIds, userPlatforms){
-$('input[name="addPlatform"]:checked').each(function() {
-    userPlatforms.push(this.value)
-    userIds.push(this.id)
+  $('input[name="addPlatform"]:checked').each(function() {
+  userPlatforms.push(this.value)
+  userIds.push(this.id)
 });
-   console.log("userIds",userIds)  
-getGenreGames(userGenres, userIds, editList)
+    if(userIds.length===0){
+      // add ps4, ps5, xbox-one and pc
+      userIds.push('18','187','1','4')
+    }
+   console.log("userIds",userIds)
+   if(userGenres.includes(999)){
+    getPGames(userIds, editList) 
+   }else{
+    getGenreGames(userGenres, userIds, editList)
+
+  }
 }
 
 
 function updateGenres(userGenres){
 $('input[name="addGenre"]:checked').each(function() {
-    userGenres.push(this.value)
+  userGenres.push(this.value)
 });
-   console.log("userGenres",userGenres)  
+if(userGenres.length===0){
+  userGenres.push(999)
 }
+console.log("userGenres",userGenres)      
+    }
 
 
 
-function editGameList(editList, baseGameSlug){
+function editGameList(editList, baseGameSlug, userGenres){
 console.log('editGameList - editlist: ',editList.length,editList)
-  if(userPlatforms.length===0){
+  if(userPlatforms.length===0 ||userGenres.includes(999)){
   filteredList=editList
   // console.log('no platforms selected nothing to edit out')
     }else{
@@ -74,14 +90,19 @@ console.log('editGameList - editlist: ',editList.length,editList)
       }
     }
 let tempList = filteredList.filter(game => {return game.slug !== baseGameSlug})
-tempList = tempList.filter(game => {return game.rating > 4})
+if (userGenres.includes('fighting')){
+  console.log('fighting game handicap')
+tempList = tempList.filter(game => {return game.rating > 3.85})
+}else{
+tempList = tempList.filter(game => {return game.rating > 4.15})
+}
 console.log({'tempList':tempList.length, 'filteredList':filteredList.length})
 return tempList
 wait()
 }
 
 async function wait(){
-let list = await editGameList(editList, baseGameSlug)
+let list = await editGameList(editList, baseGameSlug, userGenres)
 // console.log({list})
 if (list.length===0){
 failList()
@@ -138,6 +159,16 @@ function getGenres() {
     .catch(error => console.log(error,'Something went wrong. Please try again later.'));
 }
 
+function getTags() {
+  fetch(`https://api.rawg.io/api/tags?page_size=25&key=${apiKey}`)
+    .then(response => response.json())
+    .then(responseJson => {
+   tags=responseJson.results
+    console.log(tags)
+      })
+    .catch(error => console.log(error,'Something went wrong. Please try again later.'));
+}
+
 
 
 function startSearch() {
@@ -177,7 +208,7 @@ if(responseJson.genres.length===0){
 }
     })
     .then(responseJson => { 
-    // getSuggested(baseGameSlug,baseGameId)
+
     getDevGames(baseGameDev, editList)
     })
     .catch(error => console.log(error,'Something went wrong. Please try again later.'));
@@ -189,7 +220,7 @@ if(responseJson.genres.length===0){
 function getGenreGames(userGenres, userIds, editList) {
   let promises=[]
 if(userIds.length===0){
-  console.log('userIds: ', userIds)
+console.log('userIds: ', userIds)
 console.log('no platforms selected onto edit')
 wait()
 }else{
@@ -210,6 +241,38 @@ for(let i=0;i<userIds.length;i++){
     })
     .catch(error => console.log(error,'Something went wrong. Please try again later.'))
     )}
+}
+}
+    Promise.all(promises).then(function(){
+      console.log('after promise all editList: ',editList.length, editList)
+
+      wait()
+})
+}
+
+
+function getPGames(userIds, editList) {
+  let promises=[]
+if(userIds.length===0){
+console.log('userIds: ', userIds)
+console.log('no platforms selected onto edit')
+wait()
+}else{
+for(let i=0;i<userIds.length;i++){
+    promises.push(
+      fetch(`https://api.rawg.io/api/games?key=${apiKey}&dates=1980-01-01,${currentDate}&platforms=${userIds[i]}`)
+      .then(response => response.json())
+      .then(responseJson => {   
+      results=responseJson.results
+      for(i=0;i<results.length;i++){
+          if(!uniqueMap[results[i].slug]){
+          uniqueMap[results[i].slug] = true;
+          editList.push(results[i])
+         }
+        }
+    })
+    .catch(error => console.log(error,'Something went wrong. Please try again later.'))
+    )
 }
 }
     Promise.all(promises).then(function(){
@@ -283,17 +346,18 @@ function getDetailedList(list){
 }
 
 // // ***DISPLAY RESULTS*** 
-function displayGameSearch(){
-   $('#search').removeClass('hidden')
-   $('#game-search').addClass('hidden')
-   $('#custom-search').addClass('hidden')
-}
 
 
 function displaySearchResults(responseJson) { 
+  $('#custom-search').addClass('hidden')
+  $('#search').addClass('hidden')
   console.log(responseJson);  
   let results=responseJson.results
   if(results.length===0){
+    //reccomend restart here too
+    $('#search').addClass('hidden')
+    $('#js-restart').removeClass('hidden')
+    $('#results').removeClass('hidden')
     $('#results-list').empty();
     $('#results p')[0].innerHTML=`${option}`;
     $('#results p')[1].innerHTML=`${responseJson.message}`;
@@ -313,18 +377,19 @@ function displaySearchResults(responseJson) {
       genres = results[i].genres.map(g => { return g.name})
       $('#results-list').append(
       `
-      <li id=${results[i].id}>
+      <li class='results-list-item'>
       <img src="${results[i].background_image}" class="results-img">
       <h3>${results[i].name} (${results[i].released[0]}${results[i].released[1]}${results[i].released[2]}${results[i].released[3]})</h3> 
       <p>Rating: ${results[i].rating}</p>    
       <p>Genres: ${genres.join(", ")}</p> 
-      <input type='radio' name='baseGame' value=${responseJson.results[i].id} required> <label for='baseGame'/> 
+      <input type='radio' class='radio' name='baseGame' value=${responseJson.results[i].id} required> <label for='baseGame'/> 
      </li> 
      `
       )
 
     }
   };
+  gameSelect()
 }
 
 
@@ -357,35 +422,37 @@ function displaySelectedOptions(userPlatforms, userGenres){
 <h2> Selected Platforms </h2>
 `
 )
-  for(i=0;i<userPlatforms.length;i++)
-   $('#options-list').append(
+  for(i=0;i<userPlatforms.length;i++){
+    $('#options-list').append(
       `
       <li>
       <p>${userPlatforms[i]}</>
       </li>
       `
-)
-     $('#options-list').append(
-`
-<h2> Selected Genres </h2>
-`
-)
-  for(i=0;i<userGenres.length;i++)
-   $('#options-list').append(
+    )
+    $('#options-list').append(
+      `
+      <h2> Selected Genres </h2>
+      `
+    )
+  }
+    
+  for(i=0;i<userGenres.length;i++){
+    $('#options-list').append(
       `
       <li>
       <p>${userGenres[i]}</>
       </li>
       `
-)
-
+    )
+  }
+  
 }
-
-
 
 
 function displayGenreOptions(genres){
   console.log('sup')
+$('#search').addClass('hidden')
 $('#js-restart').removeClass('hidden')
 $('#js-add-genre').addClass('hidden')
 $('#genre').removeClass('hidden')
@@ -469,54 +536,50 @@ $('#options-list').append(
 }
 }
 
-
+//HERE BACK TO HERE BEFORE SWIPER
   function displayDetailedList(detailedList){  
-  $( '#options').addClass('hidden')
+  $('#search').addClass('hidden')
+  $('#options').addClass('hidden')
   $('#get-list').addClass('hidden')
   $( '#js-more-options').addClass('hidden')
   $('#results').addClass('hidden')
-  $('#js-suggested-form').removeClass('hidden')
+  $('.carousel-container').removeClass('hidden')
+  $('.carousel-nav').removeClass('hidden')
   $('#summary p')[0].innerHTML="";
   // console.log('before appened detailedList',detailedList, detailedList.length)
   console.log('detailedList',detailedList, detailedList.length)
   console.log('before appened')
   for (let i = 0; i < detailedList.length; i++){
     if(detailedList[i].website.length>1){
-    $('#suggested-list').append(
-  `
-  <li> 
+    $('.display-detailed-list').append(
 
+
+  `
+  <li class='hidden'>
   <a href="${detailedList[i].website}" target='blank'>
   <h3>${detailedList[i].name}</h3></a> 
   <img src="${detailedList[i].background_image}" class="results-img">
-  <p>${detailedList[i].description_raw}</p>
+  
   </li>
      `
      )
 
 }else{
-    $('#suggested-list').append(
+    $('.display-detailed-list').append(
 `
-<li> 
+<li class='hidden'>
 <h3>${detailedList[i].name}</h3> 
 <img src="${detailedList[i].background_image}" class="results-img">
-<p>${detailedList[i].description_raw}</p>
 </li>
-     `
+`
      )
 }
 
   }
+  $('.display-detailed-list > li:nth-of-type(1)').removeClass('hidden') 
  }
- 
-//add date but change format (${detailedList[i].released})
-//add a list view for exporting list
-//add delete button to remove game from list or just in list view? 
-  // <div class="list-item-controls">
-  //   <button class="game-remove js-game-remove">
-  //       <span class="button-label">remove</span>
-  //   </button>
-  // </div>
+//  <p>${detailedList[i].description_raw}</p>
+
 
 
   function restartSearch(){
@@ -535,28 +598,44 @@ $('#options-list').append(
     $('#results-list').empty();
     $('#options-list').empty();
     $('#genre-list').empty();
-    $('#suggested-list').empty();
+    $('.display-detailed-list').empty()
     $('#summary p')[0].innerHTML="";
     $('#get-list').addClass('hidden')
-    $( '#options').addClass('hidden')
-    $( '#genre').addClass('hidden')
-    $( '#js-more-options').addClass('hidden')
-    $('#search').addClass('hidden')
-    $('#game-search').removeClass('hidden')
+    $('#options').addClass('hidden')
+    $('#genre').addClass('hidden')
+    $('#js-more-options').addClass('hidden')
+    $('#search').removeClass('hidden')
     $('#custom-search').removeClass('hidden')
     $('#js-add-genre').addClass('hidden')
+    $('.carousel-container').addClass('hidden')
+    $('#js-search-option').val('')
   disableRecsButtons()
 
   }
 
+//MISC
+
+function disableStartButtons(){
+  $('#search').prop('disabled',true)
+  $('#custom').prop('disabled',true)
+}
+
+function enabeStartButtons(){
+  $('#search').prop('disabled',false)
+  $('#custom').prop('disabled',false)
+}
+
+function disableRecsButtons(){
+  $('#get-recs').prop('disabled',true)
+}
+
+function enabeRecsButtons(){
+  $('#get-recs').prop('disabled',false)
+}
+
 
 //***EVENT LISTENERS*** */
-function liSelect(){
- $("li").click(event => {
-  // $(this).next().prop("checked", true);
-  console.log('li click')
-  });
-}
+
 
 function watchSearchForm() {
   $('#js-search-form').submit(event => {
@@ -597,17 +676,7 @@ function watchGenreForm(displayGenreOptions) {
 
 function watchMoreOptions() {
     $('#js-more-options').on("click", "button", function (event){
-    event.preventDefault();
     displayMoreOptions(platforms)
-  });
-}
-
-//to add list options
-function watchSuggestedForm() {
-  $('#js-suggested-form').submit(event => {
-    event.preventDefault();
-    // console.log('PROGRESS watchSuggestedForm')
-    
   });
 }
 
@@ -615,15 +684,12 @@ function watchSuggestedForm() {
 function watchGetListForm() {
   $('#js-get-list-form').submit(event => {
     event.preventDefault();
-    // console.log('get recs watchList')
-    // setTimeout(delay(),10000)
     displayDetailedList(detailedList)
   });
 }
 
 function watchRestart() {
     $('#js-restart').on("click", "button", function (event){
-    event.preventDefault();
     restartSearch();
   });
 }
@@ -631,49 +697,104 @@ function watchRestart() {
 
 function watchAddGenre() {
   $('#js-add-genre').on("click", "button", function (event){
-    event.preventDefault();
     // console.log('why')
     displayGenreOptions(genres)
   });
 }
 
 
-
 function watchGameSearch() { 
-  $('#game-search').on("click", "button", function (event){ 
-  event.preventDefault(); 
+  $('#search').on("click", "button", function (event){ 
   console.log('gameSearch') 
   displayGameSearch()
 })
 }
 function watchCustomSearch() { 
   $('#custom-search').on("click", "button", function (event){
-   event.preventDefault(); 
-   $('#game-search').addClass('hidden')
+  //  remove game search
+   $('#search').addClass('hidden')
    $('#custom-search').addClass('hidden')
    displayGenreOptions(genres)
    })
   }
 
 
-function disableStartButtons(){
-  $('#start').prop('disabled',true)
-  $('#custom').prop('disabled',true)
+// let finalListItems= $('.display-detailed-list > li')
+//   $('.display-detailed-list > li:nth-of-type(1)').addClass('hidden') 
+//   console.log('direction', direction)
+//   console.log('counter', counter)    
+
+    // }
+    // current = items[counter];
+//   for(let i=counter; i<=finalListItems.length; i++){
+//   if(finalList.indexOf(finalListItems[i])===counter){
+//   finalListItems[i].removeClass('hidden') 
+// }
+//     // current = items[counter];
+//   }
+
+
+//0 problem 
+    // if (direction === -1 && 
+    //     counter < 0) { 
+    //   counter = amount - 1; 
+    // }
+    // if (direction === 1 && 
+    //     !items[counter]) { 
+    //   counter = 0;
+
+
+//NAVIGATE CAROUSEL
+
+function navigate(counter) {
+console.log('from navigate', 'counter', typeof(counter), counter)
+// let finalList= $('.display-detailed-list')
+// let finalListItems= $('.display-detailed-list > li')
+
+//replace hard code 2 for counter value
+$('.display-detailed-list > li:nth-of-type(2)').removeClass('hidden') 
 }
 
-function enabeStartButtons(){
-  $('#start').prop('disabled',false)
-  $('#custom').prop('disabled',false)
-}
+function watchCarouselNext(direction, counter) { 
+    $('.next').on("click", function (event){
+      //replace hard code 1 for counter value
+    $('.display-detailed-list > li:nth-of-type(1)').addClass('hidden')    
+    direction=1;
+    counter = counter + direction
+    console.log('from next')
+    navigate(counter) 
+   })
+  }
+
+  function watchCarouselPrevious(direction, counter) { 
+    $('.previous').on("click", function (event){
+    direction=-1;
+    counter = counter + direction
+    navigate(counter) 
+   })
+  }
 
 
-function disableRecsButtons(){
-  $('#get-recs').prop('disabled',true)
-}
 
-function enabeRecsButtons(){
-  $('#get-recs').prop('disabled',false)
-}
+// $('#results-list').children().click(event => {
+// $('.results-list-item li').click(event => {
+
+
+//CHECK RADIO BUTTON BY CLICKING LI
+function gameSelect(){
+$('.results-list-item').click(event => {
+console.log('li click')
+// $(this).closest($('input')).prop("checked", true)
+// $(this).children($('input')).attr('checked','true')
+// $(this).children().prop("checked", 'true')
+$('.results-list-item').find($('input.radio')).attr('checked','')
+// $(this).next().prop("checked", true);
+  // console.log('li click')
+ }) 
+ 
+};
+
+
 
 $(function() {
   console.log('App loaded! Waiting for submit!');
@@ -683,31 +804,18 @@ $(function() {
   watchResultsForm(); 
   watchOptionsForm();
   watchMoreOptions();
-  watchSuggestedForm();
   watchGetListForm();
   getPlatforms();
   getGenres();
+  getTags();
   updateDate();
   watchRestart()
   watchGameSearch() 
   watchCustomSearch()
   watchGenreForm(displayGenreOptions)
   watchAddGenre()
+  watchCarouselNext(direction, counter)
+  watchCarouselPrevious(direction, counter) 
+  // gameSelect()
 });
 
-
-// todo 
-
-//fighting games have low ratings for some reason, need to make it so fighting game genre gets passed through without checking rating -- already lowered rating to accomidate
-
-//select game anywhere on li not the checkbox
-
-// clear search input after the value is captured so when returning after restart / new search it says the placeholder
-
-// add back in any platform with if statements
-  //  <li>
-  //     <input type="checkbox" id="999" name="addPlatform" value="any">
-  //     <label for="any">Any</label>
-  //     </li>
-
-  //is there any possible way to prevent putting release year if it is already in title? Resident Evil (2002) (2002)
