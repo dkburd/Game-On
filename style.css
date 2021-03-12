@@ -1,7 +1,22 @@
+html {
+  min-height: 100%;
+  /* 
+  background: url(images/ps-controller.jpeg) center center no-repeat fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover; */
+}
+
 body {
   margin: 20px;
   word-break: break-all;
 }
+
+.selected {
+  background-color: red;
+}
+
 .hidden {
   display: none;
 }
@@ -13,7 +28,6 @@ h3 {
   font-size: 16px;
 }
 
-
 .results {
   min-height: 100px;
 } */
@@ -24,8 +38,8 @@ body {
 }
 
 img {
-  display: block;
-  max-width: 200px;
+  /* display: block; */
+  max-width: 300px;
 }
 
 li {
@@ -35,6 +49,54 @@ li {
 }
 
 li:hover {
-  border: 5x solid black;
- background-color: yellow; 
+  background-color: yellow;
+}
+
+/* new */
+.carousel-container {
+  width: 80%;
+  position: relative;
+  margin: 20px;
+  border: 1px solid #ccc;
+  box-shadow: 2px 2px 10px #ccc;
+  overflow: hidden;
+}
+.display-detailed-list {
+  margin: 0;
+  padding: 0;
+}
+.display-detailed-list li {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  list-style: none;
+  text-align: center;
+  z-index: 2;
+}
+
+.carousel-nav {
+  display: block;
+  padding: 5px 0;
+  background: #eee;
+  text-align: center;
+  z-index: 10;
+  position: relative;
+}
+.carousel-container button {
+  border: none;
+}
+
+button > span {
+  position: absolute;
+  left: -2000px;
+}
+
+/* target */
+.results-list-item {
+  background-color: red;
+}
+
+/* NOT WORKING */
+.results-list-item :checked {
+  background-color: blue;
 }
