@@ -91,12 +91,11 @@ button > span {
   left: -2000px;
 }
 
-/* target */
-.results-list-item {
+/* .results-list-item {
   background-color: red;
-}
+} */
 
 /* NOT WORKING */
-.results-list-item :checked {
+.selected {
   background-color: blue;
 }

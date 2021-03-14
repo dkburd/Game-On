@@ -1,7 +1,10 @@
+// 'use strict'; added 3/12, caused problems? 
+// 'use strict';
 let apiKey='96fd8fa562c547a3925bf94299e36bc0'
 let search=$('#js-search-option').val()
 let baseGame=[]
 let baseGameSlug=''
+let baseGameId=''
 let baseGameDev=[]
 let userGenres=[]
 let platforms=[]
@@ -15,6 +18,7 @@ let platformList=[]
 let currentDate=''
 let filteredList=[]
 let uniqueMap={}
+
 
 // carousel
   let counter = 0;
@@ -113,8 +117,7 @@ failList()
 
 
 function failList(){
-  console.log('hello line 98')
-  $('#options-list').addClass('hidden')
+  $('#platforms-list').addClass('hidden')
   $('#get-list').addClass('hidden')
   if(detailedList.length===0){
     $('#summary p')[0].innerHTML="Unfortunately this search did not yield any recommendations. Please add at least one genre and gaming platform to try again.";
@@ -127,7 +130,7 @@ function failList(){
 function reccomendRestart(responseJson){
   displayBaseGameResults(responseJson)
   // console.log('hello line 111')
-  $('#options-list').addClass('hidden')
+  $('#platforms-list').addClass('hidden')
   $('#get-list').addClass('hidden')
   $('#js-add-genre').removeClass('hidden')
   $('#summary p')[0].innerHTML="Unfortunately this search is not likely to yield many recommendations."; 
@@ -354,14 +357,11 @@ function displaySearchResults(responseJson) {
   console.log(responseJson);  
   let results=responseJson.results
   if(results.length===0){
-    //reccomend restart here too
-    $('#search').addClass('hidden')
-    $('#js-restart').removeClass('hidden')
-    $('#results').removeClass('hidden')
-    $('#results-list').empty();
-    $('#results p')[0].innerHTML=`${option}`;
-    $('#results p')[1].innerHTML=`${responseJson.message}`;
+  failList()
   }else{
+    // for (let i = 0; i < results.length; i++){
+    // idList.push(results[i].id)
+    // }
     $('#summary p')[0].innerHTML="Select game";
     $('#search').addClass('hidden')
     $( '#js-restart').removeClass('hidden')
@@ -382,19 +382,21 @@ function displaySearchResults(responseJson) {
       <h3>${results[i].name} (${results[i].released[0]}${results[i].released[1]}${results[i].released[2]}${results[i].released[3]})</h3> 
       <p>Rating: ${results[i].rating}</p>    
       <p>Genres: ${genres.join(", ")}</p> 
-      <input type='radio' class='radio' name='baseGame' value=${responseJson.results[i].id} required> <label for='baseGame'/> 
+      <input type='radio' class='hidden radio' name='baseGame' value='${responseJson.results[i].id}' required>
      </li> 
      `
       )
 
     }
   };
-  gameSelect()
+gameSelect()
 }
 
 
+
+
 function displayBaseGameResults(responseJson) {  
-  $( '#js-more-options').addClass('hidden')
+  $( '#js-more-platforms').addClass('hidden')
   $( '#results input').addClass('hidden')
   $('#results-list').empty();
   $('#results-list').append(
@@ -413,24 +415,24 @@ function displayBaseGameResults(responseJson) {
 
 function displaySelectedOptions(userPlatforms, userGenres){
   $('#summary p')[0].innerHTML="See Results";
-  $('#options input').addClass('hidden')
+  $('#platforms input').addClass('hidden')
   $('#get-list').removeClass('hidden')
-  $('#options-list').empty()
-  $('#js-more-options').addClass('hidden')
-  $('#options-list').append(
+  $('#platforms-list').empty()
+  $('#js-more-platforms').addClass('hidden')
+  $('#platforms-list').append(
 `
 <h2> Selected Platforms </h2>
 `
 )
   for(i=0;i<userPlatforms.length;i++){
-    $('#options-list').append(
+    $('#platforms-list').append(
       `
       <li>
       <p>${userPlatforms[i]}</>
       </li>
       `
     )
-    $('#options-list').append(
+    $('#platforms-list').append(
       `
       <h2> Selected Genres </h2>
       `
@@ -438,7 +440,7 @@ function displaySelectedOptions(userPlatforms, userGenres){
   }
     
   for(i=0;i<userGenres.length;i++){
-    $('#options-list').append(
+    $('#platforms-list').append(
       `
       <li>
       <p>${userGenres[i]}</>
@@ -472,13 +474,13 @@ $('#genre-list').append(
 
 function displayPlatformOptions(){
   $('#genre').addClass('hidden')
-    $('#options-list').removeClass('hidden')
+    $('#platforms-list').removeClass('hidden')
   $('#summary p')[0].innerHTML="Select Gaming Platforms";
   $('#js-restart').removeClass('hidden')
-  $( '#options').removeClass('hidden')
-  $('#options input').removeClass('hidden')
- $( '#js-more-options').removeClass('hidden')
-  $('#options-list').append(
+  $( '#platforms').removeClass('hidden')
+  $('#platforms input').removeClass('hidden')
+ $( '#js-more-platforms').removeClass('hidden')
+  $('#platforms-list').append(
       `<h2> platforms </h2>
   
       <li>
@@ -521,12 +523,12 @@ function displayPlatformOptions(){
 
 
 function displayMoreOptions(platforms){
-$( '#js-more-options').addClass('hidden')
-$('#options-list').empty();
-$('#options-list').append(
-`<h2> platforms </h2>`);
+$('#js-more-platforms').addClass('hidden')
+$('#platforms-list').empty();
+$('#platforms-list').append(
+`<h2>platforms</h2>`);
 for(i=0;i<platforms.length;i++){
-$('#options-list').append(
+$('#platforms-list').append(
   `
   <li>
 <input type='checkbox' id='${platforms[i].id}' name='addPlatform' value='${platforms[i].slug}'>
@@ -539,9 +541,9 @@ $('#options-list').append(
 //HERE BACK TO HERE BEFORE SWIPER
   function displayDetailedList(detailedList){  
   $('#search').addClass('hidden')
-  $('#options').addClass('hidden')
+  $('#platforms').addClass('hidden')
   $('#get-list').addClass('hidden')
-  $( '#js-more-options').addClass('hidden')
+  $( '#js-more-platforms').addClass('hidden')
   $('#results').addClass('hidden')
   $('.carousel-container').removeClass('hidden')
   $('.carousel-nav').removeClass('hidden')
@@ -596,14 +598,14 @@ $('#options-list').append(
     uniqueMap={}
     $('#js-restart').addClass('hidden')
     $('#results-list').empty();
-    $('#options-list').empty();
+    $('#platforms-list').empty();
     $('#genre-list').empty();
     $('.display-detailed-list').empty()
     $('#summary p')[0].innerHTML="";
     $('#get-list').addClass('hidden')
-    $('#options').addClass('hidden')
+    $('#platforms').addClass('hidden')
     $('#genre').addClass('hidden')
-    $('#js-more-options').addClass('hidden')
+    $('#js-more-platforms').addClass('hidden')
     $('#search').removeClass('hidden')
     $('#custom-search').removeClass('hidden')
     $('#js-add-genre').addClass('hidden')
@@ -645,9 +647,19 @@ function watchSearchForm() {
   });
 }
 
+function watchCustomSearch() { 
+  $('#custom-search').on("click", "button", function (event){
+  //  remove game search
+   $('#search').addClass('hidden')
+   $('#custom-search').addClass('hidden')
+   displayGenreOptions(genres)
+   })
+  }
+
 function watchResultsForm() {
   $('#js-results-form').submit(event => {
     event.preventDefault();
+    console.log('here?')
     baseGameId=$('input[name="baseGame"]:checked').val();
     console.log(`basegameId: ${baseGameId}`)
     getBaseGame(baseGameId)
@@ -657,7 +669,7 @@ function watchResultsForm() {
 
 
 function watchOptionsForm(displayPlatformOptions) {
-  $('#js-options-form').submit(event => {
+  $('#js-platforms-form').submit(event => {
     event.preventDefault();
     updatePlatforms(userIds, userPlatforms);
     displaySelectedOptions(userPlatforms, userGenres)
@@ -666,7 +678,7 @@ function watchOptionsForm(displayPlatformOptions) {
 }
 
 function watchGenreForm(displayGenreOptions) {
-  $('#genre-options-form').submit(event => {
+  $('#js-genre-form').submit(event => {
     event.preventDefault();
     updateGenres(userGenres);
     displayPlatformOptions()
@@ -675,7 +687,7 @@ function watchGenreForm(displayGenreOptions) {
 
 
 function watchMoreOptions() {
-    $('#js-more-options').on("click", "button", function (event){
+    $('#js-more-platforms').on("click", "button", function (event){
     displayMoreOptions(platforms)
   });
 }
@@ -702,21 +714,6 @@ function watchAddGenre() {
   });
 }
 
-
-function watchGameSearch() { 
-  $('#search').on("click", "button", function (event){ 
-  console.log('gameSearch') 
-  displayGameSearch()
-})
-}
-function watchCustomSearch() { 
-  $('#custom-search').on("click", "button", function (event){
-  //  remove game search
-   $('#search').addClass('hidden')
-   $('#custom-search').addClass('hidden')
-   displayGenreOptions(genres)
-   })
-  }
 
 
 // let finalListItems= $('.display-detailed-list > li')
@@ -775,23 +772,13 @@ function watchCarouselNext(direction, counter) {
   }
 
 
-
-// $('#results-list').children().click(event => {
-// $('.results-list-item li').click(event => {
-
-
-//CHECK RADIO BUTTON BY CLICKING LI
 function gameSelect(){
-$('.results-list-item').click(event => {
-console.log('li click')
-// $(this).closest($('input')).prop("checked", true)
-// $(this).children($('input')).attr('checked','true')
-// $(this).children().prop("checked", 'true')
-$('.results-list-item').find($('input.radio')).attr('checked','')
-// $(this).next().prop("checked", true);
-  // console.log('li click')
+$('.results-list-item').on('click', function(){  
+console.log('this', typeof(this), this)
+$(this).children().prop("checked", 'true')
+$('input:radio').parent().removeClass('selected');
+$(this).addClass('selected');
  }) 
- 
 };
 
 
@@ -810,12 +797,37 @@ $(function() {
   getTags();
   updateDate();
   watchRestart()
-  watchGameSearch() 
   watchCustomSearch()
   watchGenreForm(displayGenreOptions)
   watchAddGenre()
   watchCarouselNext(direction, counter)
   watchCarouselPrevious(direction, counter) 
+    // watchGameSearch() 
   // gameSelect()
 });
 
+
+
+
+
+
+// todo 
+
+
+// add back in any platform with if statements
+  //  <li>
+  //     <input type="checkbox" id="999" name="addPlatform" value="any">
+  //     <label for="any">Any</label>
+  //     </li>
+
+  //is there any possible way to prevent putting release year if it is already in title? Resident Evil (2002) (2002)
+
+
+
+// old
+// function watchGameSearch() { 
+//   $('#search').on("click", "button", function (event){ 
+//   console.log('gameSearch') 
+//   displayGameSearch()
+// })
+// }
