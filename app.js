@@ -354,6 +354,10 @@ function getDetailedList(list){
 function displaySearchResults(responseJson) { 
   $('#custom-search').addClass('hidden')
   $('#search').addClass('hidden')
+  $('.home').addClass('hidden')
+  $('h1').addClass('hidden')
+  $(".results-message").empty();
+  $(".container").addClass('transparent')
   console.log(responseJson);  
   let results=responseJson.results
   if(results.length===0){
@@ -362,7 +366,9 @@ function displaySearchResults(responseJson) {
     // for (let i = 0; i < results.length; i++){
     // idList.push(results[i].id)
     // }
-    $('#summary p')[0].innerHTML="Select game";
+  
+    $('#summary p').removeClass('tag')
+    $('#summary p')[0].innerHTML="Select game"
     $('#search').addClass('hidden')
     $( '#js-restart').removeClass('hidden')
     $('#results').removeClass('hidden')
@@ -377,7 +383,17 @@ function displaySearchResults(responseJson) {
       genres = results[i].genres.map(g => { return g.name})
       $('#results-list').append(
       `
-      <li class='results-list-item'>
+      <li class='results-list-item screen-reader'>
+      <h3 class='screen-reader'>${results[i].name} (${results[i].released[0]}${results[i].released[1]}${results[i].released[2]}${results[i].released[3]})</h3> 
+      <p class='screen-reader'>Rating: ${results[i].rating}</p>    
+      <p class='screen-reader'>Genres: ${genres.join(", ")}</p> 
+      <input type='radio' class='radio' name='baseGame' value='${responseJson.results[i].id}' required>
+     </li> 
+     `
+      )
+      $('#results-list').append(
+      `
+      <li class='results-list-item' aria-hidden='true'>
       <img src="${results[i].background_image}" class="results-img">
       <h3>${results[i].name} (${results[i].released[0]}${results[i].released[1]}${results[i].released[2]}${results[i].released[3]})</h3> 
       <p>Rating: ${results[i].rating}</p>    
@@ -391,8 +407,8 @@ function displaySearchResults(responseJson) {
   };
 gameSelect()
 }
-
-
+// alt image tag for these/ screen rader? 
+  // <img src="${results[i].background_image}" class="results-img">
 
 
 function displayBaseGameResults(responseJson) {  
@@ -455,17 +471,25 @@ function displaySelectedOptions(userPlatforms, userGenres){
 function displayGenreOptions(genres){
   console.log('sup')
 $('#search').addClass('hidden')
+$('#summary p')[0].innerHTML="Select Gaming Platforms";
 $('#js-restart').removeClass('hidden')
 $('#js-add-genre').addClass('hidden')
 $('#genre').removeClass('hidden')
+$('.home').addClass('hidden')
+$('#summary p').removeClass('tag')
+$('h1').addClass('hidden')
+$('#search').addClass('hidden')
+$('#custom-search').addClass('hidden')
+$(".container").addClass('transparent')
 $('#genre-list').append(
 `<h2> Genres </h2>`);
 for(i=0;i<genres.length;i++){
 $('#genre-list').append(
   `
   <li>
-<input type='checkbox' id=${genres[i].id}' name='addGenre' value='${genres[i].slug}'>
-<label for='${genres[i].slug}'>${genres[i].name}</label>
+  <label for='${genres[i].slug}'>${genres[i].name}</label>
+  <input type='checkbox' id=${genres[i].id}' name='addGenre' value='${genres[i].slug}'>
+
 </li>
 `)
 }
@@ -484,36 +508,36 @@ function displayPlatformOptions(){
       `<h2> platforms </h2>
   
       <li>
-      <input type="checkbox" id="187" name="addPlatform" value="playstation5">
       <label for="playstation5">PS5</label>
+      <input type="checkbox" id="187" name="addPlatform" value="playstation5">
       </li>
       <li>
-      <input type="checkbox" id="18" name="addPlatform" value="playstation4">
       <label for="playstation4">PS4</label>
+      <input type="checkbox" id="18" name="addPlatform" value="playstation4">
       </li>
       <li>
+      <label for="xbox-one">Xbox One</label>      
       <input type="checkbox" id="1" name="addPlatform" value="xbox-one">
-      <label for="xbox-one">Xbox One</label>
       </li>
       <li>
-      <input type="checkbox"  id="14" name="addPlatform" value="xbox360">
       <label for="xbox360">Xbox 360</label>
+      <input type="checkbox"  id="14" name="addPlatform" value="xbox360">
       </li>
       <li>
-      <input type="checkbox" id="7" name="addPlatform" value="nintendo-switch">
       <label for="nintendo-switch">Switch</label>
+      <input type="checkbox" id="7" name="addPlatform" value="nintendo-switch">
       </li>
       <li>
-      <input type="checkbox" id="4" name="addPlatform" value="pc">
       <label for="pc">PC</label>
+      <input type="checkbox" id="4" name="addPlatform" value="pc">
       </li>
       <li>
-      <input type="checkbox" id="3" name="addPlatform" value="ios">
       <label for="ios">iOS</label>
+      <input type="checkbox" id="3" name="addPlatform" value="ios">
       </li>
       <li>
-      <input type="checkbox" id="21" name="addPlatform" value="android">
       <label for="android">Android</label>
+      <input type="checkbox" id="21" name="addPlatform" value="android">
       </li>
 `
  )
@@ -530,13 +554,25 @@ $('#platforms-list').append(
 for(i=0;i<platforms.length;i++){
 $('#platforms-list').append(
   `
-  <li>
+<li class='group'>
+<p class='label'>${platforms[i].name}</p>
+<label class="switch">
 <input type='checkbox' id='${platforms[i].id}' name='addPlatform' value='${platforms[i].slug}'>
-<label for='${platforms[i].slug}'>${platforms[i].name}</label>
+<span class="slider round"></span>
+</label>
 </li>
 `)
 }
 }
+
+/* {<li class='group'>
+<p class='label left' aria-hidden="true">${platforms[i].name}</p>
+<label class="switch right" aria-hidden="true">
+<label class="switch right"> ${platforms[i].name}</label>
+<input type='checkbox right' id='${platforms[i].id}' name='addPlatform' value='${platforms[i].slug}'>
+<span class="slider round right"></span>
+
+</label>} */
 
 //HERE BACK TO HERE BEFORE SWIPER
   function displayDetailedList(detailedList){  
@@ -596,12 +632,16 @@ $('#platforms-list').append(
     detailedList=[]
     filteredList=[]
     uniqueMap={}
+    $('#summary p').addClass('tag')
     $('#js-restart').addClass('hidden')
+    $('.home').removeClass('hidden')
+    $('h1').removeClass('hidden')
+    $('#results').addClass('hidden')
     $('#results-list').empty();
     $('#platforms-list').empty();
     $('#genre-list').empty();
     $('.display-detailed-list').empty()
-    $('#summary p')[0].innerHTML="";
+    $('#summary p')[0].innerHTML="Find your next favorite game";
     $('#get-list').addClass('hidden')
     $('#platforms').addClass('hidden')
     $('#genre').addClass('hidden')
@@ -611,20 +651,21 @@ $('#platforms-list').append(
     $('#js-add-genre').addClass('hidden')
     $('.carousel-container').addClass('hidden')
     $('#js-search-option').val('')
-  disableRecsButtons()
+    $(".container").removeClass('transparent')
+    disableRecsButtons()
 
   }
 
 //MISC
 
 function disableStartButtons(){
-  $('#search').prop('disabled',true)
-  $('#custom').prop('disabled',true)
+  $('#search input[type="submit"]').prop('disabled',true)
+  $('.custom').prop('disabled',true)
 }
 
 function enabeStartButtons(){
-  $('#search').prop('disabled',false)
-  $('#custom').prop('disabled',false)
+  $('#search input[type="submit"]').prop('disabled',false)
+  $('.custom').prop('disabled',false)
 }
 
 function disableRecsButtons(){
@@ -643,15 +684,11 @@ function watchSearchForm() {
   $('#js-search-form').submit(event => {
     event.preventDefault();
     startSearch();
-    $( ".results-message").empty();
   });
 }
 
 function watchCustomSearch() { 
   $('#custom-search').on("click", "button", function (event){
-  //  remove game search
-   $('#search').addClass('hidden')
-   $('#custom-search').addClass('hidden')
    displayGenreOptions(genres)
    })
   }
@@ -709,7 +746,6 @@ function watchRestart() {
 
 function watchAddGenre() {
   $('#js-add-genre').on("click", "button", function (event){
-    // console.log('why')
     displayGenreOptions(genres)
   });
 }

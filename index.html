@@ -4,31 +4,39 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>GAME RECS</title>
+  <title>VIDEO GAME RECS</title>
+  <!-- fonts -->
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Play:wght@400;700&display=swap" rel="stylesheet">
+  <!-- style sheets -->
   <link rel="stylesheet" type="text/css" href="normalize.css"/>
   <link href="style.css" rel="stylesheet" type="text/css"/>
 </head>
 
 <body>
-  <main class='container'>
+  <section class="container">
+    <!-- #4d92ff; different blue -->
+  <main>
     <section id='summary'>
-      <h1>Game Recs</h1>
-      <p></p>
+      <h1 class="glow">GAME ON</h1>
+      <p class='tag'>Find your next favorite game</p>
     </section>
 
+    <section class='home'>
     <section id='search'>
       <form id='js-search-form'>
+        <label for="search-option">Start with a game you love</label>
         <input id='js-search-option' type='text' name='search-option' placeholder='e.g., The Last of Us'>
         <input type='submit' value='Search'>
       </form>
     </section>
 
-
     <section id='custom-search'>
-      <p>Or customize the search</p>
-      <button id="custom">Custom Search</button>
+      <br>
+      <label for="custom">Or create a custom search</label>
+      <button class="custom" name='custom'>Custom Search</button>
     </section>
-
+</section>
 
     <section id='js-restart' class='hidden'>
       <button id=>New Search</button>
@@ -92,7 +100,7 @@
 
   </main>
   <footer></footer>
-
+</section>
 
   <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
     crossorigin="anonymous">
