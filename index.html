@@ -19,7 +19,7 @@
   <main>
     <section id='summary'>
       <h1 class="glow">GAME ON</h1>
-      <p class='tag'>Find your next favorite game</p>
+      <p class='tagline'>Find your next favorite game</p>
     </section>
 
     <section class='home'>
@@ -37,44 +37,51 @@
       <button class="custom" name='custom'>Custom Search</button>
     </section>
 </section>
-
-    <section id='js-restart' class='hidden'>
-      <button id=>New Search</button>
-    </section>
-
+<!-- issues here? distinguish between buttons at event listener -->
     <section id='js-add-genre' class='hidden'>
       <button>Add Genre</button>
+      <div id='js-restart-one' class='js-restart hidden'>
+      <button>New Search</button>
+      </div>
     </section>
 
     <section id='results' class='hidden'>
       <p></p>
       <p></p>
       <form id='js-results-form'>
-        <ul id='results-list'>
-        </ul>
-        <input type='submit' value='Select Game'></input>
+      <ul id='results-list'>
+      </ul>
+      <input type='submit' value='Submit'></input>
       </form>
+      <div id='js-restart-two' class='js-restart hidden'>
+        <button>New Search</button>
+      </div>
     </section>
 
-    <section id='platforms' class='hidden'>
+    <section id='platforms' class='hidden card'>
       <form id='js-platforms-form'>
         <ul id='platforms-list'>
         </ul>
-        <input type='submit' value='Select Platforms'></input>
+        <input type='submit' value='Submit'></input>
       </form>
+      <div id='js-more-platforms' class='hidden'>
+        <button>More platforms</button>
+      </div>
+      <div id='js-restart-three' class='js-restart hidden'>
+        <button>New Search</button>
+      </div>
     </section>
 
-    <section id='js-more-platforms' class='hidden'>
-      <button>More platforms</button>
-    </section>
 
-    <section id='genre' class='hidden'>
+    <section id='genre' class='hidden card'>
       <form id='js-genre-form'>
         <ul id='genre-list'>
-
         </ul>
-        <input type='submit' value='Select Genres'></input>
+        <input type='submit' value='Submit'></input>
       </form>
+        <div id='js-restart-four' class='js-restart hidden'>
+          <button>New Search</button>
+        </div>
     </section>
 
 
@@ -82,6 +89,9 @@
       <form id='js-get-list-form'>
         <input id='get-recs' type='submit' value='Get Recs'></input>
       </form>
+        <div id='js-restart-five' class='js-restart hidden'>
+        <button>New Search</button>
+      </div>
     </section>
 
 
@@ -96,6 +106,10 @@
         </div>
         <ul class="display-detailed-list">
         </ul>
+<!-- 
+      <div id='js-restart-six' class='js-restart hidden'>
+        <button>New Search</button>
+        </div> -->
     </section>
 
   </main>

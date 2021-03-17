@@ -18,12 +18,8 @@ let platformList=[]
 let currentDate=''
 let filteredList=[]
 let uniqueMap={}
-
-
-// carousel
-  let counter = 0;
-  let direction = 0
-
+let count = 0;
+let carLoop=0;
 
 
 // ***STORE/UPDATE VALUES***
@@ -51,7 +47,7 @@ function updatePlatforms(userIds, userPlatforms){
 });
     if(userIds.length===0){
       // add ps4, ps5, xbox-one and pc
-      userIds.push('18','187','1','4')
+      userIds.push('18','187','1','4','186')
     }
    console.log("userIds",userIds)
    if(userGenres.includes(999)){
@@ -133,6 +129,8 @@ function reccomendRestart(responseJson){
   $('#platforms-list').addClass('hidden')
   $('#get-list').addClass('hidden')
   $('#js-add-genre').removeClass('hidden')
+  $('#js-restart-two').addClass('hidden')
+  $('#js-restart-six').addClass('hidden')
   $('#summary p')[0].innerHTML="Unfortunately this search is not likely to yield many recommendations."; 
   }
 
@@ -358,6 +356,7 @@ function displaySearchResults(responseJson) {
   $('h1').addClass('hidden')
   $(".results-message").empty();
   $(".container").addClass('transparent')
+  $('#js-restart-six').addClass('hidden')
   console.log(responseJson);  
   let results=responseJson.results
   if(results.length===0){
@@ -367,10 +366,10 @@ function displaySearchResults(responseJson) {
     // idList.push(results[i].id)
     // }
   
-    $('#summary p').removeClass('tag')
+    $('#summary p').removeClass('tagline')
     $('#summary p')[0].innerHTML="Select game"
     $('#search').addClass('hidden')
-    $( '#js-restart').removeClass('hidden')
+    $( '.js-restart').removeClass('hidden')
     $('#results').removeClass('hidden')
     $('#results input').removeClass('hidden')
     let genres;
@@ -387,7 +386,7 @@ function displaySearchResults(responseJson) {
       <h3 class='screen-reader'>${results[i].name} (${results[i].released[0]}${results[i].released[1]}${results[i].released[2]}${results[i].released[3]})</h3> 
       <p class='screen-reader'>Rating: ${results[i].rating}</p>    
       <p class='screen-reader'>Genres: ${genres.join(", ")}</p> 
-      <input type='radio' class='radio' name='baseGame' value='${responseJson.results[i].id}' required>
+      <input type='radio' class='radio screen-reader' name='baseGame' value='${responseJson.results[i].id}' required>
      </li> 
      `
       )
@@ -432,9 +431,46 @@ function displayBaseGameResults(responseJson) {
 function displaySelectedOptions(userPlatforms, userGenres){
   $('#summary p')[0].innerHTML="See Results";
   $('#platforms input').addClass('hidden')
+  $('#genre input').addClass('hidden')
   $('#get-list').removeClass('hidden')
   $('#platforms-list').empty()
+  $('#genre-list').empty()
   $('#js-more-platforms').addClass('hidden')
+  $('#genre-list').removeClass('hidden')
+  $('#genre').removeClass('hidden')
+  $('#js-restart-three').addClass('hidden')
+  $('#js-restart-four').addClass('hidden')
+  if(userGenres.includes(999)){
+  $('#genre-list').append(
+`
+<h2> No Genres Selected</h2>
+<p> This may limit the number of results provided by the search</p>
+`
+)
+  }else{
+$('#genre-list').append(
+`
+<h2>Selected Genres</h2>
+`
+)
+   for(i=0;i<userGenres.length;i++){
+    $('#genre-list').append(
+      `
+      <li>
+      <p>${userGenres[i]}</>
+      </li>
+      `
+    )
+  }
+}
+  if(userPlatforms.length===0){
+   $('#platforms-list').append(
+`
+<h2> No Gaming Platforms Selected</h2>
+<p>PlayStation 5, PlayStation 4, Xbox Series S|X, Xbox One and PC games will be included in this search</p>
+`
+)
+   }else{
   $('#platforms-list').append(
 `
 <h2> Selected Platforms </h2>
@@ -448,35 +484,25 @@ function displaySelectedOptions(userPlatforms, userGenres){
       </li>
       `
     )
-    $('#platforms-list').append(
-      `
-      <h2> Selected Genres </h2>
-      `
-    )
+   
   }
-    
-  for(i=0;i<userGenres.length;i++){
-    $('#platforms-list').append(
-      `
-      <li>
-      <p>${userGenres[i]}</>
-      </li>
-      `
-    )
-  }
-  
 }
+ 
+  }
+
 
 
 function displayGenreOptions(genres){
   console.log('sup')
 $('#search').addClass('hidden')
-$('#summary p')[0].innerHTML="Select Gaming Platforms";
-$('#js-restart').removeClass('hidden')
+$('#summary p')[0].innerHTML="Select Game Genres";
+$('.js-restart').removeClass('hidden')
 $('#js-add-genre').addClass('hidden')
+$('#js-restart-one').addClass('hidden')
+$('#js-restart-four').removeClass('hidden')
 $('#genre').removeClass('hidden')
 $('.home').addClass('hidden')
-$('#summary p').removeClass('tag')
+$('#summary p').removeClass('tagline')
 $('h1').addClass('hidden')
 $('#search').addClass('hidden')
 $('#custom-search').addClass('hidden')
@@ -484,65 +510,152 @@ $(".container").addClass('transparent')
 $('#genre-list').append(
 `<h2> Genres </h2>`);
 for(i=0;i<genres.length;i++){
+  // for screen readers
+// $('#genre-list').append(
+//   `
+//   <li>
+//   <label for='${genres[i].slug}'>${genres[i].name}</label>
+//   <input type='checkbox' id=${genres[i].id}' name='addGenre' value='${genres[i].slug}'>
+
+// </li>
+// `)
 $('#genre-list').append(
   `
-  <li>
-  <label for='${genres[i].slug}'>${genres[i].name}</label>
+  <li class='group'>
+  <p class='label left'>${genres[i].slug}</p>
+  <label class="switch right">
   <input type='checkbox' id=${genres[i].id}' name='addGenre' value='${genres[i].slug}'>
-
+      <span class="slider round"></span>
+      </label>
 </li>
 `)
+
+
 }
 }
 
+      
 
 function displayPlatformOptions(){
   $('#genre').addClass('hidden')
-    $('#platforms-list').removeClass('hidden')
+  $('#platforms-list').removeClass('hidden')
   $('#summary p')[0].innerHTML="Select Gaming Platforms";
-  $('#js-restart').removeClass('hidden')
+  $('.js-restart').removeClass('hidden')
   $( '#platforms').removeClass('hidden')
   $('#platforms input').removeClass('hidden')
+  $('#js-restart-two').addClass('hidden')
  $( '#js-more-platforms').removeClass('hidden')
+//   $('#platforms-list').append(
+//       `<h2> platforms </h2>
+  
+//       <li class='screen-reader'>
+//       <label for="playstation5">PS5</label>
+//       <input type="checkbox" id="187" name="addPlatform" value="playstation5">
+//       </li>
+//       <li>
+//       <label for="playstation4">PS4</label>
+//       <input type="checkbox" id="18" name="addPlatform" value="playstation4">
+//       </li>
+//       <li>
+//       <label for="xbox-one">Xbox One</label>      
+//       <input type="checkbox" id="1" name="addPlatform" value="xbox-one">
+//       </li>
+//       <li>
+//       <label for="xbox360">Xbox 360</label>
+//       <input type="checkbox"  id="14" name="addPlatform" value="xbox360">
+//       </li>
+//       <li>
+//       <label for="nintendo-switch">Switch</label>
+//       <input type="checkbox" id="7" name="addPlatform" value="nintendo-switch">
+//       </li>
+//       <li>
+//       <label for="pc">PC</label>
+//       <input type="checkbox" id="4" name="addPlatform" value="pc">
+//       </li>
+//       <li>
+//       <label for="ios">iOS</label>
+//       <input type="checkbox" id="3" name="addPlatform" value="ios">
+//       </li>
+//       <li>
+//       <label for="android">Android</label>
+//       <input type="checkbox" id="21" name="addPlatform" value="android">
+//       </li>
+// `
+//  )
   $('#platforms-list').append(
       `<h2> platforms </h2>
-  
-      <li>
-      <label for="playstation5">PS5</label>
+      <li class='group'>
+      <p class='label left'>PS5</p>
+      <label class="switch right">
       <input type="checkbox" id="187" name="addPlatform" value="playstation5">
+      <span class="slider round"></span>
+      </label>
       </li>
-      <li>
-      <label for="playstation4">PS4</label>
-      <input type="checkbox" id="18" name="addPlatform" value="playstation4">
-      </li>
-      <li>
-      <label for="xbox-one">Xbox One</label>      
-      <input type="checkbox" id="1" name="addPlatform" value="xbox-one">
-      </li>
-      <li>
-      <label for="xbox360">Xbox 360</label>
-      <input type="checkbox"  id="14" name="addPlatform" value="xbox360">
-      </li>
-      <li>
-      <label for="nintendo-switch">Switch</label>
+
+    <li class='group'>
+    <p class='label left'>PS4</p>
+    <label class="switch right">
+    <input type="checkbox" id="18" name="addPlatform" value="playstation4">    
+    <span class="slider round"></span>
+    </label>
+    </li>
+
+    <li class='group'>
+    <p class='label left'>Xbox One</p>
+    <label class="switch right">
+    <input type="checkbox" id="1" name="addPlatform" value="xbox-one">
+    <span class="slider round"></span>
+    </label>
+    </li>
+
+  
+  <li class='group'>
+    <p class='label left'>Xbox Series S/X</p>
+    <label class="switch right">
+    <input type="checkbox"  id="186" name="addPlatform" value="xbox-series-x">
+    <span class="slider round"></span>
+    </label>
+    </li>
+
+     <li class='group'>
+      <p class='label left'>Switch</p>
+      <label class="switch right">
       <input type="checkbox" id="7" name="addPlatform" value="nintendo-switch">
+      <span class="slider round"></span>
+      </label>
       </li>
-      <li>
-      <label for="pc">PC</label>
+
+      <li class='group'>
+      <p class='label left'>PC</p>
+      <label class="switch right">
       <input type="checkbox" id="4" name="addPlatform" value="pc">
+      <span class="slider round"></span>
+      </label>
       </li>
-      <li>
-      <label for="ios">iOS</label>
+
+      <li class='group'>
+      <p class='label left'>ios</p>
+      <label class="switch right">
       <input type="checkbox" id="3" name="addPlatform" value="ios">
+      <span class="slider round"></span>
+      </label>
       </li>
-      <li>
-      <label for="android">Android</label>
+
+      <li class='group'>
+      <p class='label left'>Android</p>
+      <label class="switch right">
       <input type="checkbox" id="21" name="addPlatform" value="android">
+      <span class="slider round"></span>
+      </label>
       </li>
+
+
 `
  )
 
+
 }
+
 
 
 
@@ -554,13 +667,14 @@ $('#platforms-list').append(
 for(i=0;i<platforms.length;i++){
 $('#platforms-list').append(
   `
-<li class='group'>
-<p class='label'>${platforms[i].name}</p>
-<label class="switch">
-<input type='checkbox' id='${platforms[i].id}' name='addPlatform' value='${platforms[i].slug}'>
-<span class="slider round"></span>
-</label>
-</li>
+  <li class='group'>
+  <p class='label left'>${platforms[i].name}</p>
+  <label class="switch right">
+  <input type='checkbox' id='${platforms[i].id}' name='addPlatform' value='${platforms[i].slug}'>
+  <span class="slider round"></span>
+  </label>
+  </li>
+  
 `)
 }
 }
@@ -581,12 +695,14 @@ $('#platforms-list').append(
   $('#get-list').addClass('hidden')
   $( '#js-more-platforms').addClass('hidden')
   $('#results').addClass('hidden')
+  $('#genre').addClass('hidden')
   $('.carousel-container').removeClass('hidden')
   $('.carousel-nav').removeClass('hidden')
   $('#summary p')[0].innerHTML="";
   // console.log('before appened detailedList',detailedList, detailedList.length)
   console.log('detailedList',detailedList, detailedList.length)
   console.log('before appened')
+  carLoop=detailedList.length
   for (let i = 0; i < detailedList.length; i++){
     if(detailedList[i].website.length>1){
     $('.display-detailed-list').append(
@@ -632,8 +748,9 @@ $('#platforms-list').append(
     detailedList=[]
     filteredList=[]
     uniqueMap={}
-    $('#summary p').addClass('tag')
-    $('#js-restart').addClass('hidden')
+    $('#genre input').removeClass('hidden')
+    $('#summary p').addClass('tagline')
+    $('.js-restart').addClass('hidden')
     $('.home').removeClass('hidden')
     $('h1').removeClass('hidden')
     $('#results').addClass('hidden')
@@ -652,6 +769,12 @@ $('#platforms-list').append(
     $('.carousel-container').addClass('hidden')
     $('#js-search-option').val('')
     $(".container").removeClass('transparent')
+    $('#js-restart-one').addClass('hidden')
+    $('#js-restart-two').addClass('hidden')
+    $('#js-restart-three').addClass('hidden')
+    $('#js-restart-four').addClass('hidden')
+    $('#js-restart-five').addClass('hidden')
+    $('#js-restart-six').addClass('hidden')
     disableRecsButtons()
 
   }
@@ -738,7 +861,7 @@ function watchGetListForm() {
 }
 
 function watchRestart() {
-    $('#js-restart').on("click", "button", function (event){
+    $('.js-restart').on("click", "button", function (event){
     restartSearch();
   });
 }
@@ -752,61 +875,41 @@ function watchAddGenre() {
 
 
 
-// let finalListItems= $('.display-detailed-list > li')
-//   $('.display-detailed-list > li:nth-of-type(1)').addClass('hidden') 
-//   console.log('direction', direction)
-//   console.log('counter', counter)    
-
-    // }
-    // current = items[counter];
-//   for(let i=counter; i<=finalListItems.length; i++){
-//   if(finalList.indexOf(finalListItems[i])===counter){
-//   finalListItems[i].removeClass('hidden') 
-// }
-//     // current = items[counter];
-//   }
-
-
-//0 problem 
-    // if (direction === -1 && 
-    //     counter < 0) { 
-    //   counter = amount - 1; 
-    // }
-    // if (direction === 1 && 
-    //     !items[counter]) { 
-    //   counter = 0;
-
 
 //NAVIGATE CAROUSEL
 
-function navigate(counter) {
-console.log('from navigate', 'counter', typeof(counter), counter)
-// let finalList= $('.display-detailed-list')
-// let finalListItems= $('.display-detailed-list > li')
+function navigate(count) {
+console.log('from navigate', 'count', typeof(count), count)
 
-//replace hard code 2 for counter value
+let finalListItems= $('.display-detailed-list > li')
 $('.display-detailed-list > li:nth-of-type(2)').removeClass('hidden') 
+// $('.display-detailed-list > li').get($('count')).removeClass('hidden') 
+
+
 }
 
-function watchCarouselNext(direction, counter) { 
+function watchCarousel(count)   { 
     $('.next').on("click", function (event){
-      //replace hard code 1 for counter value
-    $('.display-detailed-list > li:nth-of-type(1)').addClass('hidden')    
-    direction=1;
-    counter = counter + direction
-    console.log('from next')
-    navigate(counter) 
+      //replace hard code 1 for count value
+    // $('.display-detailed-list > li[count]').removeClass('hidden') 
+    $('.display-detailed-list > li:nth-of-type(1)').addClass('hidden')   
+    count+=1
+    if (count>carLoop) {
+   count=1
+    } 
+    navigate(count) 
    })
+ $('.previous').on("click", function (event){
+count+=-1
+    if (count<1) {
+   count=carLoop
+    }
+    navigate(count) 
+   })
+
   }
 
-  function watchCarouselPrevious(direction, counter) { 
-    $('.previous').on("click", function (event){
-    direction=-1;
-    counter = counter + direction
-    navigate(counter) 
-   })
-  }
-
+ 
 
 function gameSelect(){
 $('.results-list-item').on('click', function(){  
@@ -836,8 +939,7 @@ $(function() {
   watchCustomSearch()
   watchGenreForm(displayGenreOptions)
   watchAddGenre()
-  watchCarouselNext(direction, counter)
-  watchCarouselPrevious(direction, counter) 
+  watchCarousel(count)  
     // watchGameSearch() 
   // gameSelect()
 });

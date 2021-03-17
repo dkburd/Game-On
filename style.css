@@ -23,7 +23,6 @@ img {
 
 li {
   display: block;
-  margin-bottom: 10px;
   list-style-type: none;
 }
 
@@ -50,7 +49,7 @@ label {
   margin: 10px;
 }
 
-.tag {
+.tagline {
   color: #7aa6ef;
   font-family: "Play", sans-serif;
   letter-spacing: 2px;
@@ -108,10 +107,10 @@ body {
   background-color: red;
 }
 
-/* .card {
+.card {
   margin: 50px 50px 25px;
-  /* border: 5px solid blanchedalmond; 
-} */
+  border: 5px solid blanchedalmond;
+}
 
 h1.glow {
   /* color white or background color better? */
@@ -161,121 +160,21 @@ button {
   }
 }
 
-/* @media */
+/* toggle checkboxes*/
 
-/* large only  */
-/* @media screen and (min-width: 1160px) { */
-/* .home {
-    display: inline-block;
-  } */
-
-/* label {
-    display: inline-block;
-  }
-} */
-/* @media */
-/* ipads and larger */
-@media screen and (min-width: 768px) {
-  .container {
-    min-width: 100%;
-    min-height: 100%;
-    margin: 0px;
-    position: fixed;
-    background: linear-gradient(
-      to right bottom,
-      #171f24 55%,
-      rgba(225, 225, 225, 0) 55%
-    );
-  }
-  .transparent {
-    background: rgba(225, 225, 225, 0) 55%;
-    position: static;
-  }
-
-  .home {
-    /* max-width: 30%; */
-    background-color: #171f24;
-    text-align: center;
-    width: 40%;
-    margin: 80px auto auto auto;
-    padding: 10px;
-    border: 3px inset #89a1b7;
-    color: #7aa6ef;
-  }
-  .group {
-    height: 50px;
-    max-width: 30%;
-  }
-
-  .label {
-    margin: 0;
-    /* position: absolute; */
-    top: 50%;
-    position: relative;
-    -ms-transform: translateY(-50%);
-    transform: translateY(-50%);
-    display: inline-block;
-  }
-}
-
-/* ^end large */
-
-/* toggle checkbox  container and inline block*/
 .group {
   height: 50px;
-  width: 30%;
+  width: 60%;
 }
 
-.label {
-  margin: 0;
-  /* position: absolute; */
-  top: 50%;
-  position: relative;
-  -ms-transform: translateY(-50%);
-  transform: translateY(-50%);
-  display: block;
+.right {
+  float: right;
+}
+.left {
+  float: left;
 }
 
 .switch {
-  /* position: absolute; */
-  top: 50%;
-  -ms-transform: translateY(-50%);
-  transform: translateY(-50%);
-  position: relative;
-  display: block;
-  width: 60px;
-  height: 34px;
-  margin: 0;
-  top: 50%;
-}
-
-/* tiny only  */
-@media screen and (max-width: 260px) {
-  body {
-    word-break: break-all;
-  }
-}
-/* ^end tiny */
-
-/* inputs slider check boxes */
-
-/* li {
-  height: 50px;
-  position: relative;
-} */
-
-.label {
-  margin: 0;
-  /* position: absolute; */
-  top: 50%;
-  position: relative;
-  -ms-transform: translateY(-50%);
-  transform: translateY(-50%);
-  display: inline-block;
-}
-
-.switch {
-  /* position: absolute; */
   top: 50%;
   -ms-transform: translateY(-50%);
   transform: translateY(-50%);
@@ -285,7 +184,17 @@ button {
   width: 60px;
   height: 34px;
   margin: 0;
+}
+
+.label {
+  margin: 0;
+  font-size: 120%;
+  text-transform: capitalize;
   top: 50%;
+  position: relative;
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+  display: inline-block;
 }
 
 .switch input {
@@ -319,11 +228,11 @@ button {
 }
 
 input:checked + .slider {
-  background-color: #2196f3;
+  background-color: #007cfd;
 }
 
 input:focus + .slider {
-  box-shadow: 0 0 1px #2196f3;
+  box-shadow: 0 0 1px #007cfd;
 }
 
 input:checked + .slider:before {
@@ -340,14 +249,111 @@ input:checked + .slider:before {
   border-radius: 50%;
 }
 
-.group {
-  height: 50px;
-  width: 60%;
+/* this stuff is not working / not changing the size of the carousel
+
+.carousel-container {
+  height: 70%;
 }
 
-.right {
-  float: right;
+.display-detailed-list {
+  height: 70%;
 }
-.left {
-  float: left;
+
+.display-detailed-list li {
+  height: 90%;
+} */
+
+/* @media */
+
+/* x-large only  */
+@media screen and (min-width: 1160px) {
+  /* .home {
+    display: inline-block;
+  } */
+
+  label {
+    display: inline-block;
+  }
 }
+/* ^end x-large */
+
+/* @media */
+/* ipads and larger */
+@media screen and (min-width: 768px) {
+  .container {
+    min-width: 100%;
+    min-height: 100%;
+    margin: 0px;
+    position: fixed;
+    background: linear-gradient(
+      to right bottom,
+      #171f24 55%,
+      rgba(225, 225, 225, 0) 55%
+    );
+  }
+  .transparent {
+    background: rgba(225, 225, 225, 0) 55%;
+    position: static;
+  }
+
+  .home {
+    /* max-width: 30%; */
+    background-color: #171f24;
+    text-align: center;
+    width: 40%;
+    margin: 80px auto auto auto;
+    padding: 10px;
+    border: 3px inset #89a1b7;
+    color: #7aa6ef;
+  }
+  .group {
+    height: 50px;
+    max-width: 50%;
+  }
+
+  .label {
+    margin: 0;
+    top: 50%;
+    position: relative;
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+    display: inline-block;
+  }
+}
+
+/* ^end large (ipads and larger)*/
+
+/* @media */
+/* medium */
+@media screen and (min-width: 261px) and (max-width: 767px) {
+  .label {
+    word-break: break-all;
+    display: block;
+    top: 25%;
+  }
+
+  .switch {
+    top: 70%;
+    width: 60px;
+    height: 34px;
+    display: block;
+    margin-top: 15px;
+  }
+  .right {
+    float: none;
+  }
+
+  .group {
+    height: 90px;
+  }
+}
+
+/* ^end medium (mobile)*/
+
+/* extra small only  */
+@media screen and (max-width: 260px) {
+  body {
+    word-break: break-all;
+  }
+}
+/* ^end extra small*/
