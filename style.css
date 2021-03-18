@@ -1,3 +1,6 @@
+/* to do add This js
+aria-hidden="true" */
+
 .hidden {
   display: none;
 }
@@ -17,7 +20,7 @@
 }
 
 img {
-  /* display: block;  */
+  display: block;
   max-width: 300px;
 }
 
@@ -107,6 +110,53 @@ body {
   background-color: red;
 }
 
+ul {
+  margin-bottom: 70px;
+}
+
+/* line up size and space out the buttons */
+/* second attempt */
+.button-bar {
+  display: flex;
+  margin: auto;
+  text-align: center;
+  justify-content: center;
+}
+.button-bar-two {
+  display: flex;
+  margin: auto;
+  text-align: center;
+  justify-content: center;
+}
+.button {
+  display: flex;
+  font-size: 95%;
+  width: 70px;
+  height: 45px;
+  background-color: rebeccapurple;
+  margin: 10%;
+  text-align: center;
+}
+
+/* QUESTION element.class selector not working? */
+
+/* .sp-left {
+  margin-left: 10px;
+}
+.sp-right {
+  margin-right: 10px;
+}  */
+
+.right {
+  float: right;
+}
+.left {
+  float: left;
+}
+.center {
+  margin: auto;
+}
+
 .card {
   margin: 50px 50px 25px;
   border: 5px solid blanchedalmond;
@@ -138,7 +188,7 @@ label {
 }
 
 .home input,
-button {
+.home button {
   background-color: #89a1b7;
   font-weight: bold;
   color: #171f24;
@@ -165,13 +215,6 @@ button {
 .group {
   height: 50px;
   width: 60%;
-}
-
-.right {
-  float: right;
-}
-.left {
-  float: left;
 }
 
 .switch {
@@ -249,12 +292,22 @@ input:checked + .slider:before {
   border-radius: 50%;
 }
 
-/* this stuff is not working / not changing the size of the carousel
+/* question carousel nightmare */
 
 .carousel-container {
-  height: 70%;
+  /* max-height: 80%; */
+  width: auto;
+  height: auto;
 }
 
+.carousel-container img {
+  max-width: 90%;
+  /* max-height: 50%; */
+  width: auto;
+  height: auto;
+}
+
+/* 
 .display-detailed-list {
   height: 70%;
 }
@@ -339,13 +392,23 @@ input:checked + .slider:before {
     display: block;
     margin-top: 15px;
   }
-  .right {
+  .group > .right {
     float: none;
   }
 
   .group {
     height: 90px;
   }
+}
+
+.next,
+.previous {
+  margin: 20px;
+  top: 50%;
+  position: relative;
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+  display: inline-block;
 }
 
 /* ^end medium (mobile)*/

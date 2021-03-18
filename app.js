@@ -20,7 +20,7 @@ let filteredList=[]
 let uniqueMap={}
 let count = 0;
 let carLoop=0;
-
+let prev=0
 
 // ***STORE/UPDATE VALUES***
 function updateSearch(){
@@ -161,7 +161,7 @@ function getGenres() {
 }
 
 function getTags() {
-  fetch(`https://api.rawg.io/api/tags?page_size=25&key=${apiKey}`)
+  fetch(`https://api.rawg.io/api/tags?page_size=100&key=${apiKey}`)
     .then(response => response.json())
     .then(responseJson => {
    tags=responseJson.results
@@ -428,69 +428,6 @@ function displayBaseGameResults(responseJson) {
       // <p>Rating: ${responseJson.rating}</p>    
       // <p>Genres: ${responseJson.genres[0].name}</p> 
 
-function displaySelectedOptions(userPlatforms, userGenres){
-  $('#summary p')[0].innerHTML="See Results";
-  $('#platforms input').addClass('hidden')
-  $('#genre input').addClass('hidden')
-  $('#get-list').removeClass('hidden')
-  $('#platforms-list').empty()
-  $('#genre-list').empty()
-  $('#js-more-platforms').addClass('hidden')
-  $('#genre-list').removeClass('hidden')
-  $('#genre').removeClass('hidden')
-  $('#js-restart-three').addClass('hidden')
-  $('#js-restart-four').addClass('hidden')
-  if(userGenres.includes(999)){
-  $('#genre-list').append(
-`
-<h2> No Genres Selected</h2>
-<p> This may limit the number of results provided by the search</p>
-`
-)
-  }else{
-$('#genre-list').append(
-`
-<h2>Selected Genres</h2>
-`
-)
-   for(i=0;i<userGenres.length;i++){
-    $('#genre-list').append(
-      `
-      <li>
-      <p>${userGenres[i]}</>
-      </li>
-      `
-    )
-  }
-}
-  if(userPlatforms.length===0){
-   $('#platforms-list').append(
-`
-<h2> No Gaming Platforms Selected</h2>
-<p>PlayStation 5, PlayStation 4, Xbox Series S|X, Xbox One and PC games will be included in this search</p>
-`
-)
-   }else{
-  $('#platforms-list').append(
-`
-<h2> Selected Platforms </h2>
-`
-)
-  for(i=0;i<userPlatforms.length;i++){
-    $('#platforms-list').append(
-      `
-      <li>
-      <p>${userPlatforms[i]}</>
-      </li>
-      `
-    )
-   
-  }
-}
- 
-  }
-
-
 
 function displayGenreOptions(genres){
   console.log('sup')
@@ -529,12 +466,26 @@ $('#genre-list').append(
       </label>
 </li>
 `)
-
-
 }
+genresSelect()
 }
 
-      
+
+// QUESTION
+function genresSelect(){
+$('#genre-list li').on('click', function(){  
+console.log('li click')   
+// console.log('this', typeof(this), this)
+// $(this).find('input').toggleAttribute('checked', 'force')
+ }) 
+};
+
+// console.log($(this).find("input"))
+// $(this).find('$(input)').toggleAttribute('checked', 'force')
+
+// $(this).children().prop("checked", 'true')
+// $(this).toggelClass('selected');
+
 
 function displayPlatformOptions(){
   $('#genre').addClass('hidden')
@@ -656,9 +607,6 @@ function displayPlatformOptions(){
 
 }
 
-
-
-
 function displayMoreOptions(platforms){
 $('#js-more-platforms').addClass('hidden')
 $('#platforms-list').empty();
@@ -688,7 +636,73 @@ $('#platforms-list').append(
 
 </label>} */
 
-//HERE BACK TO HERE BEFORE SWIPER
+
+
+function displaySelectedOptions(userPlatforms, userGenres){
+  $('#summary p')[0].innerHTML="See Results";
+  $('#genre input').addClass('hidden')
+  $('#get-list').removeClass('hidden')
+  $('#platforms-list').empty()
+  $('#genre-list').empty()
+  $('#js-more-platforms').addClass('hidden')
+  $('#genre-list').removeClass('hidden')
+  $('#genre').removeClass('hidden')
+  $('#js-restart-three').addClass('hidden')
+  $('#js-restart-four').addClass('hidden')
+  $('#genre-list input').addClass('hidden')
+  $('.button-bar').addClass('hidden')
+  if(userGenres.includes(999)){
+  $('#genre-list').append(
+`
+<h2> No Genres Selected</h2>
+<p> This may limit the number of results provided by the search</p>
+`
+)
+  }else{
+$('#genre-list').append(
+`
+<h2>Selected Genres</h2>
+`
+)
+   for(i=0;i<userGenres.length;i++){
+    $('#genre-list').append(
+      `
+      <li>
+      <p>${userGenres[i]}</>
+      </li>
+      `
+    )
+  }
+}
+  if(userPlatforms.length===0){
+   $('#platforms-list').append(
+`
+<h2> No Gaming Platforms Selected</h2>
+<p>PlayStation 5, PlayStation 4, Xbox Series S|X, Xbox One and PC games will be included in this search</p>
+`
+)
+   }else{
+  $('#platforms-list').append(
+`
+<h2> Selected Platforms </h2>
+`
+)
+  for(i=0;i<userPlatforms.length;i++){
+    $('#platforms-list').append(
+      `
+      <li>
+      <p>${userPlatforms[i]}</>
+      </li>
+      `
+    )
+   
+  }
+}
+ 
+  }
+
+
+
   function displayDetailedList(detailedList){  
   $('#search').addClass('hidden')
   $('#platforms').addClass('hidden')
@@ -697,7 +711,6 @@ $('#platforms-list').append(
   $('#results').addClass('hidden')
   $('#genre').addClass('hidden')
   $('.carousel-container').removeClass('hidden')
-  $('.carousel-nav').removeClass('hidden')
   $('#summary p')[0].innerHTML="";
   // console.log('before appened detailedList',detailedList, detailedList.length)
   console.log('detailedList',detailedList, detailedList.length)
@@ -707,13 +720,12 @@ $('#platforms-list').append(
     if(detailedList[i].website.length>1){
     $('.display-detailed-list').append(
 
-
   `
   <li class='hidden'>
   <a href="${detailedList[i].website}" target='blank'>
   <h3>${detailedList[i].name}</h3></a> 
   <img src="${detailedList[i].background_image}" class="results-img">
-  
+  <p>${detailedList[i].description}</p>
   </li>
      `
      )
@@ -732,7 +744,7 @@ $('#platforms-list').append(
   }
   $('.display-detailed-list > li:nth-of-type(1)').removeClass('hidden') 
  }
-//  <p>${detailedList[i].description_raw}</p>
+//  
 
 
 
@@ -775,6 +787,8 @@ $('#platforms-list').append(
     $('#js-restart-four').addClass('hidden')
     $('#js-restart-five').addClass('hidden')
     $('#js-restart-six').addClass('hidden')
+    // empty not working as planned Headers, second tiem through games stack under one 
+    $('.display-detailed-list').empty()
     disableRecsButtons()
 
   }
@@ -847,7 +861,7 @@ function watchGenreForm(displayGenreOptions) {
 
 
 function watchMoreOptions() {
-    $('#js-more-platforms').on("click", "button", function (event){
+    $('#js-more-platforms').on("click", function (event){
     displayMoreOptions(platforms)
   });
 }
@@ -860,9 +874,12 @@ function watchGetListForm() {
   });
 }
 
+
+//here
 function watchRestart() {
-    $('.js-restart').on("click", "button", function (event){
-    restartSearch();
+    $('.js-restart').on("click", function (event){
+    event.preventDefault();
+      restartSearch();
   });
 }
 
@@ -878,35 +895,47 @@ function watchAddGenre() {
 
 //NAVIGATE CAROUSEL
 
-function navigate(count) {
+function navigate(count,prev) {
 console.log('from navigate', 'count', typeof(count), count)
 
-let finalListItems= $('.display-detailed-list > li')
-$('.display-detailed-list > li:nth-of-type(2)').removeClass('hidden') 
+let finalListItems=$('.display-detailed-list > li')
+console.log('finalListItems', finalListItems)
+console.log('finalListItems at count', finalListItems[count])
+// $('.display-detailed-list > li:nth-of-type(2)').removeClass('hidden') 
+console.log('finalListItems[count]', finalListItems[count])
+$(finalListItems[count]).removeClass('hidden') 
+$(finalListItems[prev]).addClass('hidden') 
 // $('.display-detailed-list > li').get($('count')).removeClass('hidden') 
-
 
 }
 
-function watchCarousel(count)   { 
+function watchCarousel(count,prev)   { 
+    let finalListItems=$('.display-detailed-list > li')
     $('.next').on("click", function (event){
-      //replace hard code 1 for count value
-    // $('.display-detailed-list > li[count]').removeClass('hidden') 
-    $('.display-detailed-list > li:nth-of-type(1)').addClass('hidden')   
+    prev=count
     count+=1
     if (count>carLoop) {
    count=1
     } 
-    navigate(count) 
+    if (prev>carLoop) {
+    prev=1
+    } 
+
+    navigate(count,prev) 
    })
- $('.previous').on("click", function (event){
-count+=-1
+  $('.previous').on("click", function (event){
+    $(finalListItems[count]).addClass('hidden') 
+    prev=count
+  count+=-1
     if (count<1) {
    count=carLoop
     }
-    navigate(count) 
-   })
+    if (prev<1) {
+   count=carLoop
+    }
 
+    navigate(count,prev) 
+   })
   }
 
  
@@ -939,7 +968,7 @@ $(function() {
   watchCustomSearch()
   watchGenreForm(displayGenreOptions)
   watchAddGenre()
-  watchCarousel(count)  
+  watchCarousel(count,prev)  
     // watchGameSearch() 
   // gameSelect()
 });

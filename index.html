@@ -51,65 +51,79 @@
       <form id='js-results-form'>
       <ul id='results-list'>
       </ul>
-      <input type='submit' value='Submit'></input>
-      </form>
-      <div id='js-restart-two' class='js-restart hidden'>
-        <button>New Search</button>
+      <!-- this one seems to still work -->
+      <div class='button-bar'>
+      <input type='submit' class='button' value='Submit'></input>
+  
+        <button id='js-restart-two' class='js-restart hidden button'>New Search</button>
+
       </div>
+      </form>
+
+    </section>
+
+    <section id='genre' class='hidden card'>
+      <form id='js-genre-form'>
+        <ul id='genre-list'>
+        </ul>
+        <div class='button-bar'>
+         <input type='submit' class='button' value='Submit'></input>
+         <button id='js-restart-four' class='button js-restart hidden'>New Search</button>
+        </div>
+      </form>
+    </section>
+
+     <section id='tags' class='hidden card'>
+       <form id='js-tag-form'>
+        <ul id='tag-list'>
+         </ul>
+         <div class='button-bar'>
+          <input type='submit' class='button' value='Submit'></input>
+          <button id='js-restart-four' class='button js-restart hidden'>New Search</button>
+        </div>
+      </form>
     </section>
 
     <section id='platforms' class='hidden card'>
       <form id='js-platforms-form'>
         <ul id='platforms-list'>
         </ul>
-        <input type='submit' value='Submit'></input>
+        <div class='button-bar'>
+         <input type='submit' class='button' value='Submit'></input>
+         <button id='js-more-platforms' class='button'>More options</button>  
+        <button id='js-restart-three' class='button js-restart hidden'>New Search</button>
+       </div>
       </form>
-      <div id='js-more-platforms' class='hidden'>
-        <button>More platforms</button>
-      </div>
-      <div id='js-restart-three' class='js-restart hidden'>
-        <button>New Search</button>
-      </div>
+
     </section>
-
-
-    <section id='genre' class='hidden card'>
-      <form id='js-genre-form'>
-        <ul id='genre-list'>
-        </ul>
-        <input type='submit' value='Submit'></input>
-      </form>
-        <div id='js-restart-four' class='js-restart hidden'>
-          <button>New Search</button>
-        </div>
-    </section>
-
 
     <section id='get-list' class='hidden'>
       <form id='js-get-list-form'>
-        <input id='get-recs' type='submit' value='Get Recs'></input>
+          <div class='button-bar-two'>
+              <input id='get-recs' class='button' type='submit' value='Get Games'></input>
+              <button id='js-restart-five' class='button js-restart hidden'>New Search</button>
+          </div>
       </form>
-        <div id='js-restart-five' class='js-restart hidden'>
-        <button>New Search</button>
-      </div>
+
     </section>
 
 
-    <section class="carousel-container hidden">
-        <div class="carousel-nav hidden">
-          <button class="previous">
-            ◀ <span>Previous</span>
+    <section class="carousel-container hidden card">
+          <button class="previous left">
+            ◀ 
+            <!-- <span class='.screen-reader'>Previous</span> -->
           </button>
-          <button class="next">
-            <span>Next</span> ▶
+          <button class="next right">
+            <!-- <span class='.screen-reader'>Next</span>  -->
+            ▶
           </button>
-        </div>
+
         <ul class="display-detailed-list">
         </ul>
-<!-- 
-      <div id='js-restart-six' class='js-restart hidden'>
-        <button>New Search</button>
-        </div> -->
+
+      <div  class='button-bar'>
+        <button id='js-restart-six' class='button js-restart hidden'>New Search</button>
+        </div>
     </section>
 
   </main>
