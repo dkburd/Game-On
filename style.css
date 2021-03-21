@@ -1,5 +1,17 @@
 /* to do add This js
 aria-hidden="true" */
+.grow {
+  transition: all 0.3s ease-in-out;
+}
+.grow:hover {
+  transform: scale(1.1);
+  color: #fff;
+  background-color: #171f24;
+}
+
+/* .grow div:hover {
+  background-color: #171f24;
+} */
 
 .hidden {
   display: none;
@@ -22,15 +34,26 @@ aria-hidden="true" */
 img {
   display: block;
   max-width: 300px;
+  margin: auto;
+}
+
+.results-img {
+  height: 300px;
+  width: 300px;
+  object-fit: cover;
+}
+
+.v-center {
+  margin-left: auto;
+  margin-right: auto;
 }
 
 li {
   display: block;
   list-style-type: none;
-}
-
-li:hover {
-  background-color: yellow;
+  max-width: 90%;
+  /* padding-top: 15px;
+  padding-bottom: 15px; */
 }
 
 h1 {
@@ -50,6 +73,17 @@ label {
   font-family: "Raleway", sans-serif;
   font-size: 100%;
   margin: 10px;
+  text-align: center;
+}
+
+p,
+label {
+  margin: 10px;
+}
+
+li {
+  margin-top: 30px;
+  margin-bottom: 30px;
 }
 
 .tagline {
@@ -57,10 +91,6 @@ label {
   font-family: "Play", sans-serif;
   letter-spacing: 2px;
   font-size: 135%;
-}
-
-p {
-  text-align: center;
 }
 
 html {
@@ -79,7 +109,7 @@ html {
 .container {
   min-width: 100%;
   min-height: 100%;
-  margin: 0px;
+  margin: auto;
   position: fixed;
   background: linear-gradient(#171f24 50%, rgba(225, 225, 225, 0) 50%);
 
@@ -107,13 +137,15 @@ body {
 }
 
 .selected {
-  background-color: red;
+  background-color: #007cfd;
 }
 
 ul {
-  margin-bottom: 70px;
+  margin-bottom: 50px;
+  padding: 5px;
 }
 
+/* question a  */
 /* line up size and space out the buttons */
 /* second attempt */
 .button-bar {
@@ -128,14 +160,16 @@ ul {
   text-align: center;
   justify-content: center;
 }
-.button {
-  display: flex;
-  font-size: 95%;
-  width: 70px;
-  height: 45px;
-  background-color: rebeccapurple;
-  margin: 10%;
-  text-align: center;
+
+.button:hover,
+.home input:hover,
+.home button:hover {
+  background: #1d49aa;
+}
+
+.button:focus {
+  outline: none;
+  box-shadow: 0 0 0 4px #cbd6ee;
 }
 
 /* QUESTION element.class selector not working? */
@@ -158,29 +192,10 @@ ul {
 }
 
 .card {
-  margin: 50px 50px 25px;
   border: 5px solid blanchedalmond;
-}
-
-h1.glow {
-  /* color white or background color better? */
-  /* color: #fff; */
-  color: #171f24;
-  text-align: center;
-  animation: glow 1.25s ease-in-out infinite alternate;
-}
-
-.home {
-  max-width: 80%;
-  background-color: #171f24;
-  /* background-color: white; */
-  text-align: center;
-  width: 40%;
-  margin: 40px auto auto auto;
-  padding: 10px;
-  border: 3px inset #89a1b7;
-  color: #7aa6ef;
-  /* display: block; */
+  max-width: 75%;
+  max-height: 75%;
+  padding: 15px;
 }
 
 label {
@@ -192,29 +207,42 @@ label {
   background-color: #89a1b7;
   font-weight: bold;
   color: #171f24;
+  border-radius: 10px;
+  padding: 5px;
+  min-width: 40px;
+  min-height: 25px;
+}
+
+.button {
+  min-width: 80px;
+  min-height: 50px;
+  background-color: #89a1b7;
+  font-weight: bold;
+  color: #171f24;
+  margin: 10%;
+  text-align: center;
+  border-radius: 10px;
+  padding: 10px;
+}
+
+/* input,
+button {
+  background-color: #89a1b7;
+  font-weight: bold;
+  color: #171f24;
   max-width: 90%;
-  /* box-shadow: 5px 10px 8px #888888; */
+
   box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
-}
+  border-radius: 10px;
+  padding: 5px;
+} */
 
-@keyframes glow {
-  /* @-webkit-keyframes glow { */
-  from {
-    text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #0061e6,
-      0 0 40px #0061e6, 0 0 50px #0061e6, 0 0 60px #0061e6, 0 0 70px #0061e6;
-  }
-
-  to {
-    text-shadow: 0 0 20px #fff, 0 0 30px#7aa6ef, 0 0 40px#7aa6ef,
-      0 0 50px#7aa6ef, 0 0 60px#7aa6ef, 0 0 70px#7aa6ef, 0 0 80px#7aa6ef;
-  }
-}
-
+/* question c access with the p tags vs lbales for labeling the checkboxes */
 /* toggle checkboxes*/
 
 .group {
   height: 50px;
-  width: 60%;
+  /* width: 60%; */
 }
 
 .switch {
@@ -292,7 +320,7 @@ input:checked + .slider:before {
   border-radius: 50%;
 }
 
-/* question carousel nightmare */
+/* question b carousel*/
 
 .carousel-container {
   /* max-height: 80%; */
@@ -315,6 +343,40 @@ input:checked + .slider:before {
 .display-detailed-list li {
   height: 90%;
 } */
+
+@keyframes glow {
+  /* @-webkit-keyframes glow { */
+  from {
+    text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #0061e6,
+      0 0 40px #0061e6, 0 0 50px #0061e6, 0 0 60px #0061e6, 0 0 70px #0061e6;
+  }
+
+  to {
+    text-shadow: 0 0 20px #fff, 0 0 30px#7aa6ef, 0 0 40px#7aa6ef,
+      0 0 50px#7aa6ef, 0 0 60px#7aa6ef, 0 0 70px#7aa6ef, 0 0 80px#7aa6ef;
+  }
+}
+
+h1.glow {
+  /* color white or background color better? */
+  /* color: #fff; */
+  color: #171f24;
+  text-align: center;
+  animation: glow 1.25s ease-in-out infinite alternate;
+}
+
+.home {
+  max-width: 80%;
+  background-color: #171f24;
+  /* background-color: white; */
+  text-align: center;
+  width: 40%;
+  margin: 40px auto auto auto;
+  padding: 10px;
+  border: 3px inset #89a1b7;
+  color: #7aa6ef;
+  /* display: block; */
+}
 
 /* @media */
 
