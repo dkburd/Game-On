@@ -84,22 +84,29 @@ function watchAddGenre() {
 
 function gameSelect(){
 $('.results-list-item').on('click', function(){  
-console.log('this', typeof(this), this)
+// console.log('this', typeof(this), this)
 $(this).children().prop("checked", 'true')
+$('input:radio').parent().addClass('card');
 $('input:radio').parent().removeClass('selected');
 $(this).addClass('selected');
+$(this).removeClass('card');
  }) 
 };
 
-// with div checking not working 
-// function gameSelect(){
-// $('.results-list-item').on('click', function(){  
-// console.log('this', typeof(this), this)
-// $(this).children().prop("checked", 'true')
-// $('input:radio').parent().removeClass('selected');
-// $(this).children().addClass('selected');
-//  }) 
-// };
+// readMore not working not sure why
+
+
+// recognizing click but no hiding the parent 
+// function readMore(){
+// $('.read-more').on('click', function(){
+//   console.log('read more')
+  // console.log('this', this)
+  // question not working how to hide the sub string?
+// $('.full').removeClass('hidden');
+// $(this).parent().addClass('hidden');
+// });
+// }
+
 
 
 
@@ -107,6 +114,7 @@ $(this).addClass('selected');
 function watchCarousel(count,prev)   { 
     let finalListItems=$('.display-detailed-list > li')
     $('.next').on("click", function (event){
+      console.log('click next')
     prev=count
     count+=1
     if (count>carLoop) {

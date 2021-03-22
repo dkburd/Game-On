@@ -1,20 +1,36 @@
 /* to do add This js
 aria-hidden="true" */
+
+/* more text */
+.hidden {
+  display: none;
+}
+
 .grow {
   transition: all 0.3s ease-in-out;
 }
 .grow:hover {
   transform: scale(1.1);
-  color: #fff;
-  background-color: #171f24;
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.4);
 }
 
-/* .grow div:hover {
-  background-color: #171f24;
-} */
+.selected {
+  background-color: #007cfd;
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.4);
+  transform: scale(1.1);
+  border: 5px solid blanchedalmond;
+  max-width: 60%;
+  max-height: 60%;
+  padding: 15px;
+}
 
-.hidden {
-  display: none;
+.card {
+  border: 5px solid blanchedalmond;
+  max-width: 60%;
+  max-height: 60%;
+  padding: 15px;
+  color: #fff;
+  background-color: #171f24;
 }
 
 .screen-reader:not(:focus):not(:active) {
@@ -33,13 +49,13 @@ aria-hidden="true" */
 
 img {
   display: block;
-  max-width: 300px;
+  width: 400px;
+  max-width: 95%;
   margin: auto;
 }
 
 .results-img {
-  height: 300px;
-  width: 300px;
+  height: 250px;
   object-fit: cover;
 }
 
@@ -51,9 +67,7 @@ img {
 li {
   display: block;
   list-style-type: none;
-  max-width: 90%;
-  /* padding-top: 15px;
-  padding-bottom: 15px; */
+  margin-top: 40px;
 }
 
 h1 {
@@ -61,14 +75,19 @@ h1 {
   letter-spacing: 2px;
 }
 
+h3 {
+  margin-top: 0px;
+  font-size: 200%;
+}
+
 h1,
 h2,
 h3 {
   font-family: "Play", sans-serif;
+  text-align: center;
 }
 
 p,
-li,
 label {
   font-family: "Raleway", sans-serif;
   font-size: 100%;
@@ -81,9 +100,10 @@ label {
   margin: 10px;
 }
 
-li {
-  margin-top: 30px;
-  margin-bottom: 30px;
+#js-search-option {
+  margin-bottom: 10px;
+  overflow: hidden;
+  max-width: 95%;
 }
 
 .tagline {
@@ -109,8 +129,11 @@ html {
 .container {
   min-width: 100%;
   min-height: 100%;
-  margin: auto;
-  position: fixed;
+  top: 0;
+  left: 0;
+  position: absolute;
+
+  /* position: fixed; */
   background: linear-gradient(#171f24 50%, rgba(225, 225, 225, 0) 50%);
 
   /* for three sections looks horrible full screen */
@@ -136,13 +159,16 @@ body {
   /* display: block; */
 }
 
-.selected {
-  background-color: #007cfd;
+ul {
+  /* margin-bottom: 50px; */
+  margin-left: 0%;
+  margin-right: 0%;
+  padding: 20px;
 }
 
-ul {
-  margin-bottom: 50px;
-  padding: 5px;
+.display-detailed-list {
+  margin: 0px;
+  padding: 0px;
 }
 
 /* question a  */
@@ -150,9 +176,13 @@ ul {
 /* second attempt */
 .button-bar {
   display: flex;
-  margin: auto;
-  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 0px;
+  /* text-align: center; */
   justify-content: center;
+  max-height: 5%;
+  height: 100px;
 }
 .button-bar-two {
   display: flex;
@@ -164,7 +194,8 @@ ul {
 .button:hover,
 .home input:hover,
 .home button:hover {
-  background: #1d49aa;
+  background: #007cfd;
+  color: white;
 }
 
 .button:focus {
@@ -189,13 +220,6 @@ ul {
 }
 .center {
   margin: auto;
-}
-
-.card {
-  border: 5px solid blanchedalmond;
-  max-width: 75%;
-  max-height: 75%;
-  padding: 15px;
 }
 
 label {
@@ -223,6 +247,9 @@ label {
   text-align: center;
   border-radius: 10px;
   padding: 10px;
+  /* box-shadow: [horizontal offset] [vertical offset] [blur radius] [optional spread radius] [color]; */
+  box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.4);
+  /* box-shadow: 3px 3px 6px purple; */
 }
 
 /* input,
@@ -300,6 +327,8 @@ button {
 
 input:checked + .slider {
   background-color: #007cfd;
+  /* question: box shadow doesnt show up until another click */
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.4);
 }
 
 input:focus + .slider {
@@ -378,6 +407,30 @@ h1.glow {
   /* display: block; */
 }
 
+.previous {
+  /* left: -40%; */
+
+  left: 10%;
+}
+
+.next {
+  right: 10%;
+}
+
+.previous,
+.next {
+  position: absolute;
+  min-width: 72px;
+  min-height: 45px;
+  background-color: #89a1b7;
+  font-weight: bold;
+  color: #171f24;
+  text-align: center;
+  border-radius: 10px;
+  box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.4);
+  top: 200px;
+}
+
 /* @media */
 
 /* x-large only  */
@@ -395,11 +448,18 @@ h1.glow {
 /* @media */
 /* ipads and larger */
 @media screen and (min-width: 768px) {
+  .previous {
+    left: 15%;
+  }
+
+  .next {
+    right: 15%;
+  }
   .container {
     min-width: 100%;
     min-height: 100%;
     margin: 0px;
-    position: fixed;
+    /* position: fixed; */
     background: linear-gradient(
       to right bottom,
       #171f24 55%,
@@ -423,7 +483,7 @@ h1.glow {
   }
   .group {
     height: 50px;
-    max-width: 50%;
+    /* max-width: 50%; */
   }
 
   .label {
@@ -463,16 +523,14 @@ h1.glow {
   }
 }
 
-.next,
+/* 
 .previous {
-  margin: 20px;
-  top: 50%;
-  position: relative;
-  -ms-transform: translateY(-50%);
-  transform: translateY(-50%);
-  display: inline-block;
-}
-
+  position: absolute;
+  top: 50;
+  left: 10; */
+/* margin-top: 50%; */
+/* display: inline-block; */
+/* } */
 /* ^end medium (mobile)*/
 
 /* extra small only  */
@@ -480,5 +538,19 @@ h1.glow {
   body {
     word-break: break-all;
   }
+  /* .container {
+    position: relative;
+  } */
+}
+/* ^end extra small*/
+
+/* extra short only  */
+@media screen and (max-height: 440px) {
+  body {
+    word-break: break-all;
+  }
+  /* .container {
+    position: relative;
+  } */
 }
 /* ^end extra small*/

@@ -43,6 +43,7 @@ let uniqueMap={}
 let count = 0;
 let carLoop=0;
 let prev=0
+let subString=''
 
 // ***STORE/UPDATE VALUES***
 function updateSearch(){

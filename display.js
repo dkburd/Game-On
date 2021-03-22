@@ -17,7 +17,7 @@ function displaySearchResults(responseJson) {
   $('h1').addClass('hidden')
   $(".results-message").empty();
   $(".container").addClass('transparent')
-  $('#js-restart-six').addClass('hidden')
+  // $('#js-restart-six').addClass('hidden')
   $('#js-restart-two').addClass('button')
   $('#jrf-input').addClass('button')
   console.log(responseJson);  
@@ -372,6 +372,9 @@ $('.selectedResults').append(
   console.log('before appened')
   carLoop=detailedList.length-1
   for (let i = 0; i < detailedList.length; i++){
+description=detailedList[i].description
+sub=description.substring(0, 400)
+    // subString=string(0,200)
     if(detailedList[i].website.length>1){
     $('.display-detailed-list').append(
 
@@ -380,7 +383,13 @@ $('.selectedResults').append(
   <a href="${detailedList[i].website}" target='blank'>
   <h3>${detailedList[i].name}</h3></a> 
   <img src="${detailedList[i].background_image}" class="results-img">
-  <p>${detailedList[i].description}</p>
+  <button class="previous"> ◀ </button>
+  <button class="next"> ▶ </button>
+<div class='sub'>
+ <p>${sub} ...</p>
+<button class="read-more"> Read On</button>
+</div>
+  <span class='full hidden'>${description}</p>
   </li>
      `
      )
@@ -391,16 +400,25 @@ $('.selectedResults').append(
 <li class='hidden'>
 <h3>${detailedList[i].name}</h3> 
 <img src="${detailedList[i].background_image}" class="results-img">
- <p>${detailedList[i].description}</p>
+<div class='sub'>
+ <p>${sub} ...</p>
+<button class="read-more"> Read On</button>
+</div>
+ <span class='full hidden'>${description}</span>
 </li>
 `
      )
 }
 
   }
+  // readMore()
   $('.display-detailed-list > li:nth-of-type(1)').removeClass('hidden') 
  }
 
+
+//question how add labels for screen reader
+/* <span class='.screen-reader'>Previous</span> 
+<span class='.screen-reader'>Next</span>*/
 
 
 
@@ -409,6 +427,7 @@ console.log('count: ', count, 'prev: ',prev)
 let finalListItems=$('.display-detailed-list > li')
 $(finalListItems[count]).removeClass('hidden') 
 $(finalListItems[prev]).addClass('hidden') 
+
 }
 
 function failList(){
