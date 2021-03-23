@@ -13,26 +13,21 @@
 function displaySearchResults(responseJson) { 
   $('#custom-search').addClass('hidden')
   $('#search').addClass('hidden')
-  $('.home').addClass('hidden')
-  $('h1').addClass('hidden')
-  $(".results-message").empty();
+  $('#summary').addClass('hidden')
   $(".container").addClass('transparent')
   // $('#js-restart-six').addClass('hidden')
-  $('#js-restart-two').addClass('button')
-  $('#jrf-input').addClass('button')
   console.log(responseJson);  
   let results=responseJson.results
-  if(results.length===0){
+  if(results.length===0){  
   failList()
+  // console.log('fail list')
   }else{
     // for (let i = 0; i < results.length; i++){
     // idList.push(results[i].id)
     // }
-    $('#summary p').removeClass('tagline')
-    $('#summary p')[0].innerHTML="Select game"
     $('#search').addClass('hidden')
     $('#results').removeClass('hidden')
-    $('#results input').removeClass('hidden')
+    // $('#results input').removeClass('hidden')
     let genres;
     let tags;
 
@@ -65,6 +60,7 @@ function displaySearchResults(responseJson) {
 
     }
   };
+$(window).scrollTop(0)
 gameSelect()
 }
 // alt image tag for these/ screen rader? 
@@ -72,17 +68,18 @@ gameSelect()
 
 
 function displayBaseGameResults(responseJson) {  
-  $( '#js-more-platforms').addClass('hidden')
-  $( '#results input').addClass('hidden')
-  $('#results-list').empty();
-  $('#results-list').append(
+  
+  $('.selected-list').append(
       `
-      <h3>${responseJson.name} (${responseJson.released[0]}${responseJson.released[1]}${responseJson.released[2]}${responseJson.released[3]})</h3> 
+      <li>
+      <h2>Selected Game</h2>
+      <p>${responseJson.name} (${responseJson.released[0]}${responseJson.released[1]}${responseJson.released[2]}${responseJson.released[3]})</p> 
       <li id=${responseJson.id}>
       <img src="${responseJson.background_image}" class="results-img">
       </li>
 `
   )
+  $(window).scrollTop(0)
 }
 
 // removed because games without genres sometimes cause error? zero tolerance can you put a for loop in an apend
@@ -95,24 +92,18 @@ function displayBaseGameResults(responseJson) {
 function displayGenreOptions(genres){
 console.log('sup')
 $('#search').addClass('hidden')
-$('#summary p')[0].innerHTML="Select Game Genres";
+$('.alert').addClass('hidden')
+$('.fail').addClass('hidden')
+$('.warn').addClass('hidden')
+$('#summary').addClass('hidden')
 $('#js-add-genre').addClass('hidden')
-$('#js-restart-one').addClass('hidden')
-$('#js-restart-four').removeClass('hidden')
 $('#genre').removeClass('hidden')
-$('#genre-list').removeClass('hidden')
-$('.home').addClass('hidden')
-$('#summary p').removeClass('tagline')
-$('h1').addClass('hidden')
-$('#search').addClass('hidden')
-$('#custom-search').addClass('hidden')
 $(".container").addClass('transparent')
 $('#genre-list').append(
-`<h2> Genres </h2>`);
+`<h2> Select Game Genres </h2>`);
 for(i=0;i<genres.length;i++){
 
-  // question c screen readers and access using p instead of label
-
+// question c screen readers and access using p instead of label
 // for screen readers
 // $('#genre-list').append(
 //   `
@@ -133,23 +124,21 @@ $('#genre-list').append(
 </li>
 `)
 }
+$(window).scrollTop(0)
 }
 
 
 
 function displayPlatformOptions(){
+  $('.alert').addClass('hidden')
   $('#genre').addClass('hidden')
-  // question second loop it is not adding back
+  $('#results').addClass('hidden')
+  $('#platforms').removeClass('hidden')
   $('#platforms-list').removeClass('hidden')
-  $('#js-platforms-form').removeClass('hidden')
-  $('#platforms').removeClass('hidden')
-  $('#platforms').removeClass('hidden')
-  $('#platforms input').removeClass('hidden')
-  $('#summary p')[0].innerHTML="Select Gaming Platforms";
-  $('#js-restart-two').addClass('hidden')
+  // $('#js-restart-two').addClass('hidden')
  $( '#js-more-platforms').removeClass('hidden')
 //   $('#platforms-list').append(
-//       `<h2> platforms </h2>
+//       `<h2>Select Gaming Platforms</h2>
   
 //       <li class='screen-reader'>
 //       <label for="playstation5">PS5</label>
@@ -186,7 +175,7 @@ function displayPlatformOptions(){
 // `
 //  )
   $('#platforms-list').append(
-      `<h2> platforms </h2>
+      `<h2>Select Gaming Platforms</h2>
       <li class='group'>
       <p class='label left'>PS5</p>
       <label class="switch right">
@@ -252,11 +241,9 @@ function displayPlatformOptions(){
       </label>
       </li>
 
-
 `
  )
-
-
+$(window).scrollTop(0)
 }
 
 function displayMoreOptions(platforms){
@@ -277,6 +264,7 @@ $('#platforms-list').append(
   
 `)
 }
+$(window).scrollTop(0)
 }
 
 /* {<li class='group'>
@@ -291,39 +279,33 @@ $('#platforms-list').append(
 
 // question first why won't these buttons hide
 function displaySelectedOptions(userPlatforms, userGenres){
-  $('#summary p')[0].innerHTML="See Results";
   $('#genre').addClass('hidden')
-  $('#genre-list').empty()
-  // not working?
   $('#platforms').addClass('hidden')
-  $('#platforms-list').addClass('hidden')
-  $('#js-platforms-form').addClass('hidden')
-  $('#platforms-list').empty()
   $('#js-more-platforms').addClass('hidden')
-  $('#results').removeClass('hidden')
-  $('#js-results-list').removeClass('hidden')
   $('#get-list').removeClass('hidden')
-  $('#js-restart-two').removeClass('button')
-  $('#jrf-input').removeClass('button')
-  $('#jrf-input').addClass('hidden')
-// the button class was preventing these 2 buttons from hiding with hidden class, remove and add the button class instead
-
-
+$('#platforms').addClass('hidden')
+// $('#results').addClass('hidden')
+// if(baseGameSlug.length>0){
+// $('#results-list').removeClass('hidden')
+// $('#results').removeClass('hidden')
+// }
   if(userGenres.includes(999)){
-  $('.selectedResults').append(
+  $('.selected-list').append(
 `
+<li>
 <h2> No Genres Selected</h2>
 <p> This may limit the number of results provided by the search</p>
+</li>
 `
 )
   }else{
-$('.selectedResults').append(
+$('.selected-list').append(
 `
 <h2>Selected Genres</h2>
 `
 )
    for(i=0;i<userGenres.length;i++){
-    $('.selectedResults').append(
+    $('.selected-list').append(
       `
       <p>${userGenres[i]}</>
       `
@@ -331,28 +313,34 @@ $('.selectedResults').append(
   }
 }
   if(userPlatforms.length===0){
-   $('.selectedResults').append(
+   $('.selected-list').append(
 `
+
 <h2> No Gaming Platforms Selected</h2>
 <p>PlayStation 5, PlayStation 4, Xbox Series S|X, Xbox One and PC games will be included in this search</p>
+
 `
 )
    }else{
-  $('.selectedResults').append(
+  $('.selected-list').append(
 `
+
 <h2> Selected Platforms </h2>
+
 `
 )
   for(i=0;i<userPlatforms.length;i++){
-    $('.selectedResults').append(
+    $('.selected-list').append(
       `
+
       <p>${userPlatforms[i]}</>
+
       `
     )
    
   }
 }
- 
+ $(window).scrollTop(0)
   }
 
 
@@ -366,7 +354,6 @@ $('.selectedResults').append(
   $('#genre').addClass('hidden')
   $('.carousel-container').removeClass('hidden')
   // $('.js-restart-six').removeClass('hidden')
-  $('#summary p')[0].innerHTML="";
   // console.log('before appened detailedList',detailedList, detailedList.length)
   console.log('detailedList',detailedList, detailedList.length)
   console.log('before appened')
@@ -413,6 +400,7 @@ sub=description.substring(0, 400)
   }
   // readMore()
   $('.display-detailed-list > li:nth-of-type(1)').removeClass('hidden') 
+  $(window).scrollTop(0)
  }
 
 
@@ -431,25 +419,32 @@ $(finalListItems[prev]).addClass('hidden')
 }
 
 function failList(){
+  console.log('list failed')
   $('#platforms-list').addClass('hidden')
   $('#get-list').addClass('hidden')
-  if(detailedList.length===0){
-    $('#summary p')[0].innerHTML="Unfortunately this search did not yield any recommendations. Please add at least one genre and gaming platform to try again.";
-    displayGenreOptions(genres)
-        }
+  $('.alert').removeClass('hidden')
+  $('.warn').addClass('hidden')
+  $('.fail').removeClass('hidden')
+  $(window).scrollTop(0)
+  // displayGenreOptions(genres)
       }
 
 
 
-function reccomendRestart(responseJson){
-  displayBaseGameResults(responseJson)
-  // console.log('hello line 111')
-  $('#platforms-list').addClass('hidden')
-  $('#get-list').addClass('hidden')
-  $('#js-add-genre').removeClass('hidden')
-  $('#js-restart-two').addClass('hidden')
-  $('#js-restart-six').addClass('hidden')
-  $('#summary p')[0].innerHTML="Unfortunately this search is not likely to yield many recommendations."; 
+function reccomendRestart(){
+console.log('hello line 427')
+// $('#results').addClass('hidden')
+  // $('#platforms').addClass('hidden')
+  // $('#get-list').addClass('hidden')
+  // $('#js-add-genre').removeClass('hidden')
+//  $('.alert').removeClass('hidden')
+$('.alert').removeClass('hidden')
+$('.warn').removeClass('hidden')
+$('#results').addClass('hidden')
+
+  // 
+  // $('.selected-list').removeClass('hidden')
+$(window).scrollTop(0)
   }
 
 
@@ -467,18 +462,17 @@ function reccomendRestart(responseJson){
     detailedList=[]
     filteredList=[]
     uniqueMap={}
-    $('#genre input').removeClass('hidden')
-    $('#summary p').addClass('tagline')
-    $('.home').removeClass('hidden')
-    $('h1').removeClass('hidden')
+    $('.alert').addClass('hidden')
+    $('#summary p')[0].innerHTML='Find your next favorite game'
+    $('#summary').removeClass('hidden')
     $('#results').addClass('hidden')
     $('#results-list').empty();
    $('#platforms-list').empty();
     $('#genre-list').empty();
     $('.display-detailed-list').empty()
-    $('#summary p')[0].innerHTML="Find your next favorite game";
+    $('.selected-list').empty()
     $('#get-list').addClass('hidden')
-    // $('#platforms').addClass('hidden')
+    $('#platforms').addClass('hidden')
     $('#genre').addClass('hidden')
     $('#platforms').addClass('hidden')
     $('#js-more-platforms').addClass('hidden')
@@ -488,11 +482,11 @@ function reccomendRestart(responseJson){
     $('.carousel-container').addClass('hidden')
     $('#js-search-option').val('')
     $(".container").removeClass('transparent')
-    $('#js-restart-one').addClass('hidden')
-    $('#js-restart-two').addClass('hidden')
-    $('#js-restart-three').addClass('hidden')
-    $('#js-restart-four').addClass('hidden')
-    $('#js-restart-five').addClass('hidden')
+    // $('#js-restart-one').addClass('hidden')
+    // $('#js-restart-two').addClass('hidden')
+    // $('#js-restart-three').addClass('hidden')
+    // $('#js-restart-four').addClass('hidden')
+    // $('#js-restart-five').addClass('hidden')
     // $('#js-restart-six').addClass('hidden')
     // empty not working as planned Headers, second tiem through games stack under one 
     $('.display-detailed-list').empty()

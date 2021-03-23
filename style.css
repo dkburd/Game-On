@@ -6,6 +6,9 @@ aria-hidden="true" */
   display: none;
 }
 
+.alert {
+  color: white;
+}
 .grow {
   transition: all 0.3s ease-in-out;
 }
@@ -22,6 +25,8 @@ aria-hidden="true" */
   max-width: 60%;
   max-height: 60%;
   padding: 15px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .card {
@@ -31,6 +36,8 @@ aria-hidden="true" */
   padding: 15px;
   color: #fff;
   background-color: #171f24;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .screen-reader:not(:focus):not(:active) {
@@ -59,10 +66,12 @@ img {
   object-fit: cover;
 }
 
+/* remove v-center from everywhere? error? 3/23, added center to card class
+
 .v-center {
   margin-left: auto;
   margin-right: auto;
-}
+} */
 
 li {
   display: block;
@@ -192,8 +201,8 @@ ul {
 }
 
 .button:hover,
-.home input:hover,
-.home button:hover {
+#search input:hover,
+#search button:hover {
   background: #007cfd;
   color: white;
 }
@@ -226,8 +235,8 @@ label {
   display: block;
 }
 
-.home input,
-.home button {
+#search input,
+#search button {
   background-color: #89a1b7;
   font-weight: bold;
   color: #171f24;
@@ -247,9 +256,26 @@ label {
   text-align: center;
   border-radius: 10px;
   padding: 10px;
-  /* box-shadow: [horizontal offset] [vertical offset] [blur radius] [optional spread radius] [color]; */
   box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.4);
-  /* box-shadow: 3px 3px 6px purple; */
+}
+
+/* box-shadow: [horizontal offset] [vertical offset] [blur radius] [optional spread radius] [color]; */
+
+.read-more {
+  box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.4);
+  min-width: 80px;
+  min-height: 50px;
+  background-color: #89a1b7;
+  font-weight: bold;
+  color: #171f24;
+  margin: 10%;
+  text-align: center;
+  border-radius: 10px;
+  padding: 10px;
+}
+
+.sub p .sub button {
+  display: inline-block;
 }
 
 /* input,
@@ -394,7 +420,7 @@ h1.glow {
   animation: glow 1.25s ease-in-out infinite alternate;
 }
 
-.home {
+#search {
   max-width: 80%;
   background-color: #171f24;
   /* background-color: white; */
@@ -435,7 +461,7 @@ h1.glow {
 
 /* x-large only  */
 @media screen and (min-width: 1160px) {
-  /* .home {
+  /* #search {
     display: inline-block;
   } */
 
@@ -471,7 +497,7 @@ h1.glow {
     position: static;
   }
 
-  .home {
+  #search {
     /* max-width: 30%; */
     background-color: #171f24;
     text-align: center;

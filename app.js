@@ -10,44 +10,83 @@ function watchSearchForm() {
   $('#js-search-form').submit(event => {
     event.preventDefault();
     startSearch();
+    // $(window).scrollTop(0)
   });
 }
 
 function watchCustomSearch() { 
-  $('#custom-search').on("click", "button", function (event){
+  $('#custom-search').on("click", function (event){
   displayGenreOptions(genres)
   //  renderGenreOptions(genres)
+  // $(window).scrollTop(0)
    })
   }
 
 function watchResultsForm() {
   $('#js-results-form').submit(event => {
     event.preventDefault();
-    console.log('here?')
     baseGameId=$('input[name="baseGame"]:checked').val();
     console.log(`basegameId: ${baseGameId}`)
     getBaseGame(baseGameId)
-    $( ".results-message").empty();
+  // $( ".results-message").empty();
+  
   });
 }
 
 
-function watchOptionsForm(displayPlatformOptions) {
-  $('#js-platforms-form').submit(event => {
-    event.preventDefault();
-    console.log('message')
-    updatePlatforms(userIds, userPlatforms);
-    displaySelectedOptions(userPlatforms, userGenres)
+function watchAddGenre() {
+ $('.add-genre').on("click", function (event){
+      event.preventDefault();
+      displayGenreOptions(genres)
   });
 }
+
+function watchContinue() {
+  $('.continue').on("click", function (event){
+      event.preventDefault();
+      if(userIds.length===0){
+        displayPlatformOptions()
+      }else{
+        displaySelectedOptions(userPlatforms, userGenres)
+    }
+  });
+}
+
+// function watchAddGenre() {
+//   $('#js-add-genre').on("click", "button", function (event){
+//     displayGenreOptions(genres)
+//     // $(window).scrollTop(0)
+//   });
+// }
 
 function watchGenreForm(displayGenreOptions) {
   $('#js-genre-form').submit(event => {
     event.preventDefault();
     updateGenres(userGenres);
-    displayPlatformOptions()
+if(userIds.length===0){
+displayPlatformOptions()
+}else{
+  displaySelectedOptions(userPlatforms, userGenres)
+}
+
+    
+    // $(window).scrollTop(0)
   });
 }
+
+
+function watchPlatforms(displayPlatformOptions) {
+  $('#js-platforms-form').submit(event => {
+    event.preventDefault();
+    console.log('message')
+    updatePlatforms(userIds, userPlatforms);
+    displaySelectedOptions(userPlatforms, userGenres);
+    // $(window).scrollTop(0)
+  })
+}
+// displaySelectedOptions(userPlatforms, userGenres, baseGameSlug, baseGame) renamed
+// displaySelectedOptions(userPlatforms, userGenres)
+
 
 
 function watchMoreOptions() {
@@ -58,10 +97,13 @@ function watchMoreOptions() {
 }
 
 
+
+
 function watchGetListForm() {
   $('#js-get-list-form').submit(event => {
     event.preventDefault();
     displayDetailedList(detailedList)
+    $(window).scrollTop(0)
   });
 }
 
@@ -71,15 +113,11 @@ function watchRestart() {
     $('.js-restart').on("click", function (event){
     event.preventDefault();
       restartSearch();
+      // $(window).scrollTop(0)
   });
 }
 
 
-function watchAddGenre() {
-  $('#js-add-genre').on("click", "button", function (event){
-    displayGenreOptions(genres)
-  });
-}
 
 
 function gameSelect(){
@@ -142,14 +180,18 @@ function watchCarousel(count,prev)   {
   }
 
 
+// watchOptionsForm renamed watchPlatforms 
 
 $(function() {
   console.log('App loaded! Waiting for submit!');
+  renderSections()
+  renderTemplates()
+  renderSearch()
   disableStartButtons()
   disableRecsButtons()
   watchSearchForm();
   watchResultsForm(); 
-  watchOptionsForm();
+  watchPlatforms();
   watchMoreOptions();
   watchGetListForm();
   getPlatforms();
@@ -160,7 +202,9 @@ $(function() {
   watchCustomSearch()
   watchGenreForm(displayGenreOptions)
   watchAddGenre()
+  watchContinue() 
   watchCarousel(count,prev)  
+
   // renderGenreOptions(genres)
 });
 

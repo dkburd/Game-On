@@ -17,60 +17,39 @@
 
 <section class="container"> 
 
-<header id='summary'>
+<header>
+  <section id='summary'>
   <h1 class="glow">GAME ON</h1>
   <p class='tagline'>Find your next favorite game</p>
-</header>
-<main>
-<section class='home'>
-  <section id='search'>
-    <form id='js-search-form'>
-      <label for="search-option">Start with a game you love</label>
-      <input id='js-search-option' type='text' name='search-option' placeholder='e.g., The Last of Us'>
-      <input type='submit' value='Search'>
-    </form>
-  </section>
-
-  <section id='custom-search'>
-    <br>
-    <label for="custom">Or create a custom search</label>
-    <button class="custom" name='custom'>Custom Search</button>
-  </section>
-</section>
-
+    </section>
   
-    <section id='js-add-genre' class='hidden'>
-      <button>Add Genre</button>
-      <div id='js-restart-one' class='js-restart hidden'>
-      <button>New Search</button>
-      </div>
-    </section>
-
-    <section id='results' class='hidden center'>
-      <p></p>
-      <p></p>
-      <form id='js-results-form' class='center'>
-      <ul id='results-list'class='center'>
-      </ul>
+  <section class='alert hidden card'>
+    <div class='fail hidden'>
+      <p>Unfortunately this search did not yield any recommendations. Please add at least one genre to try again.</p>
       <div class='button-bar'>
-      <input id='jrf-input'type='submit' class='button' value='Submit'></input>
-      <button id='js-restart-two' class='js-restart '>New Search</button>
+        <button class='add-genre button' class='button'>Add Genre</button>
+        <button class='button js-restart'>New Search</button>
       </div>
-      </form>
-      <div class='selectedResults'></div>
-    </section>
+    </div>
 
-    <!-- question a here is the display genre items -->
-    <section id='genre' class='hidden card v-center'>
-      <form id='js-genre-form'>
-        <ul id='genre-list'>
-        </ul>
-        <div class='button-bar'>
-         <input type='submit' class='button' value='Submit'></input>
-         <button id='js-restart-four' class='button js-restart hidden'>New Search</button>
-        </div>
-      </form>
-    </section>
+    <div class='warn hidden'>
+      <p>Unfortunately this search is not likely to yield many recommendations. Please add at least one genre to improve the results.</p>
+      <div class='button-bar'> 
+        <button class='add-genre button'>Add Genre</button>
+        <button class='button continue'>Continue</button>
+      </div>
+    </div>
+  </section>
+</header>
+<main class='main'>
+<!-- <section class='warning-message hidden'>
+<p class='fail hidden'>Unfortunately this search did not yield any recommendations. Please add at least one genre to try again.</p>
+<p class='alert hidden'>Unfortunately this search is not likely to yield many recommendations. Please add at least one genre for better results.</p>
+<div class='button-bar-two'
+  <button class='button'>Add Genre</button>
+  <button class='button js-restart'>New Search</button>
+  </div>
+</section> -->
 
      <!-- <section id='tags' class='hidden card'>
        <form id='js-tags-form'>
@@ -82,19 +61,7 @@
         </div>
       </form>
     </section> -->
-
-    <section id='platforms' class='hidden card v-center'>
-      <form id='js-platforms-form'>
-        <ul id='platforms-list'>
-        </ul>
-        <div class='button-bar'>
-         <input type='submit' class='button' value='Submit'></input>
-         <button id='js-more-platforms' class='button'>More options</button>  
-        <button id='js-restart-three' class='button js-restart hidden'>New Search</button>
-       </div>
-      </form>
-    </section>
-
+<!-- 
     <section id='get-list' class='hidden'>
       <form id='js-get-list-form'>
           <div class='button-bar-two'>
@@ -103,23 +70,10 @@
           </div>
       </form>
 
-    </section>
+    </section> -->
 
 <!-- question b here hard time with moving arrows on carousel -->
-    <section class="carousel-container hidden card v-center">
-      <ul class="display-detailed-list">
-      </ul>
-      <button class="previous">◀
-      <!-- <span class='.screen-reader'>Previous</span> -->
-      </button>
-      <button class="next right">▶
-      <!-- <span class='.screen-reader'>Next</span>  -->   
-      </button>
 
-      <div  class='button-bar'>
-        <button id='js-restart-six' class='js-restart button'>New Search</button>
-        </div>
-    </section>
 
   </main>
   <footer></footer>
@@ -130,11 +84,12 @@
     </script>
     <!-- <script type="text/javascript" src="https://www.viralpatel.net/demo/jquery/jquery.shorten.1.0.js"></script> -->
   <script src="app.js"></script>
-<!-- <script src="new.js"></script> -->
-  <script src="display.js"></script>
+  <script src="new.js"></script>
+  <script src="display.js"></script> 
   <script src="store.js"></script>
   <script src="fetch.js"></script>
   <script src="style.js"></script>
+  
 </body>
 
 </html>

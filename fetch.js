@@ -61,13 +61,14 @@ fetch(`https://api.rawg.io/api/games/${baseGameId}?key=${apiKey}`)
         baseGameDev.push(responseJson.developers[i].slug)
       }
      for (let i=0;i<responseJson.genres.length;i++){
-      //  change userGenre to the slug not the whole object
         userGenres.push(responseJson.genres[i].slug)
       }
-    console.log('basegameslug',baseGameSlug, 'baseGameDev', baseGameDev, 'userGenres',userGenres)
+    // console.log('basegameslug',baseGameSlug, 'baseGameDev', baseGameDev, 'userGenres',userGenres)
 
 if(responseJson.genres.length===0){
-   reccomendRestart(responseJson)
+  console.log('reccomend restart here')
+   reccomendRestart()
+  //  displayBaseGameResults(responseJson)
     }else{
     displayBaseGameResults(responseJson)
     displayPlatformOptions()
