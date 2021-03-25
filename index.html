@@ -35,48 +35,17 @@
     <div class='warn hidden'>
       <p>Unfortunately this search is not likely to yield many recommendations. Please add at least one genre to improve the results.</p>
       <div class='button-bar'> 
-        <button class='add-genre button'>Add Genre</button>
+        <button class='display-genres button'>Add Genre</button>
         <button class='button continue'>Continue</button>
       </div>
     </div>
   </section>
 </header>
 <main class='main'>
-<!-- <section class='warning-message hidden'>
-<p class='fail hidden'>Unfortunately this search did not yield any recommendations. Please add at least one genre to try again.</p>
-<p class='alert hidden'>Unfortunately this search is not likely to yield many recommendations. Please add at least one genre for better results.</p>
-<div class='button-bar-two'
-  <button class='button'>Add Genre</button>
-  <button class='button js-restart'>New Search</button>
-  </div>
-</section> -->
-
-     <!-- <section id='tags' class='hidden card'>
-       <form id='js-tags-form'>
-        <ul id='tags-list'>
-         </ul>
-         <div class='button-bar'>
-          <input type='submit' class='button' value='Submit'></input>
-          <button id='js-restart-seven' class='button js-restart hidden'>New Search</button>
-        </div>
-      </form>
-    </section> -->
-<!-- 
-    <section id='get-list' class='hidden'>
-      <form id='js-get-list-form'>
-          <div class='button-bar-two'>
-              <input id='get-recs' class='button' type='submit' value='Get Games'></input>
-              <button id='js-restart-five' class='button js-restart hidden'>New Search</button>
-          </div>
-      </form>
-
-    </section> -->
-
-<!-- question b here hard time with moving arrows on carousel -->
-
-
   </main>
-  <footer></footer>
+  <footer class='footer fixed'>
+  <a href="https://api.rawg.io/docs" target='blank'><p>Powered by RAWG Video Games Database API</p></a>  <a href="mailto:burd.dana@gmail.com?subject=Mail From Game On">Contact</a>
+  </footer>
 </section>
 
   <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
@@ -88,6 +57,7 @@
   <script src="display.js"></script> 
   <script src="store.js"></script>
   <script src="fetch.js"></script>
+  <script src="tag.js"></script>
   <script src="style.js"></script>
   
 </body>

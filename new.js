@@ -2,7 +2,8 @@
 //fetch.js = api fetches
 //display.js = render/display 
 //store.js store and edit values etc
-//new.js to be renamed stores renders and generates
+
+//new.js generate/ render, needs to be combined with display
 
 function renderSections(){
   const sections = generateSections();
@@ -17,11 +18,12 @@ function generateSections(){
 
     <section id='search'></section>
     <section id='results' class='hidden center'></section>
-    <section id='genre' class='hidden card v-center'></section>
-    <section id='platforms' class='hidden card v-center'></section>
-    <section id='js-add-genre' class='hidden'></section>
+    <section id='genres' class='hidden card'></section>
+    <section id='tags' class='hidden card'></section>
+    <section id='platforms' class='hidden card'></section>
+    <section id='js-add-genres' class='hidden'></section>
     <section id='get-list' class='hidden'></section>
-    <section class="carousel-container hidden card v-center"></section>
+    <section class="carousel-container hidden card"></section>
     `
   )
 }
@@ -30,15 +32,17 @@ function renderTemplates(){
   // const warningTemplate = generateWarningTemplate();
   const searchTemplate = generateSearchTemplate();
   const resultsTemplate = generateResultsTemplate();
-  const genreTemplate = generateGenreTemplate();
+  const genresTemplate = generateGenresTemplate();
+  const tagTemplate = generateTagTemplate();
   const platformsTemplate = generatePlatformsTemplate();
   const choicesTemplate = generateChoicesTemplate();
   const carouselTemplate = generateCarouselTemplate();
   
-  // $("#warning").append(warningTemplate);
+
   $("#search").append(searchTemplate);
   $("#results").append(resultsTemplate);
-  $("#genre").append(genreTemplate);
+  $("#genres").append(genresTemplate);
+  $("#tags").append(tagTemplate);
   $("#platforms").append(platformsTemplate);
   $("#get-list").append(choicesTemplate);
   $(".carousel-container").append(carouselTemplate);
@@ -46,35 +50,21 @@ function renderTemplates(){
 }
 
 
-
-// function generateWarningTemplate(){
-//   return
-// (
-// `
-// <p class='fail'>Unfortunately this search did not yield any recommendations. Please add at least one genre to try again.</p>
-// <p class='alert'>Unfortunately this search is not likely to yield many recommendations. Please add at least one genre for better results.</p>
-// <div>
-//   <button class='button'>Add Genre</button>
-//   <button class='button js-restart'>New Search</button>
-// </div>
-// `
-// )
-// }
-
-
 function generateCarouselTemplate(){
 return (
   `
+  
   <ul class="display-detailed-list">
       </ul>
-      <button class="previous">◀
+      <div class='indicators'></div>
+      <button class="previous left button">◀
       <!-- <span class='.screen-reader'>Previous</span> -->
       </button>
-      <button class="next right">▶
+      <button class="next right button">▶
       <!-- <span class='.screen-reader'>Next</span>  -->   
       </button>
       <div  class='button-bar'>
-        <button id='js-restart-six' class='js-restart button'>New Search</button>
+        <button class='js-restart button'>New Search</button>
         </div>
   `
 )
@@ -83,11 +73,11 @@ return (
 function generateChoicesTemplate(){
   return (
     `
-      <form id='js-get-list-form'>
-      <div class='selected-list card'></div>
-          <div class='button-bar-two'>
-              <input id='get-recs' class='button' type='submit' value='Get Games'></input>
-              <button class='button js-restart'>New Search</button>
+      <form id='js-get-list-form' class='card'>
+      <div class='selected-list'></div>
+      <div class='button-bar-two'>
+         <input id='get-recs' class='button' type='submit' value='Get Games'></input>
+          <button class='button js-restart'>New Search</button>
           </div>
       </form>
 
@@ -101,7 +91,6 @@ function generateSearchTemplate(){
   return (
     `
     <form id='js-search-form'></form>
-
     `
   )
 }
@@ -112,10 +101,6 @@ function generateResultsTemplate(){
     `
       <form id='js-results-form' class='center'>
       <ul id='results-list'class='center'></ul>
-      <div class='button-bar'>
-      <input type='submit' class='button' value='Submit'></input>
-      <button class='js-restart button'>New Search</button>
-      </div>
       </form>
   
     `
@@ -124,15 +109,34 @@ function generateResultsTemplate(){
 
 
 
-function generateGenreTemplate(){
+function generateGenresTemplate(){
   return (
     `
-      <form id='js-genre-form'>
-      <ul id='genre-list'>
+      <form id='js-genres-form'>
+      <ul id='genres-list'>
       </ul>
       <div class='button-bar'>
       <input type='submit' class='button' value='Submit'></input>
       <button class='button js-restart'>New Search</button>
+      </div>
+      </form>
+    `
+  )
+
+}
+
+
+function generateTagTemplate(){
+  return (
+    `
+      <form id='js-tags-form'>
+      <ul id='tags-list'>
+      </ul>
+      <div class='button-bar'>
+      <input type='submit' class='button' value='Submit'></input>
+      <button class='button js-restart'>New Search</button>
+      </div>
+      </form>
     `
   )
 

@@ -1,7 +1,8 @@
 // app.js = function and event listeners
 //fetch.js = api fetches
 //display.js = render/display 
-//misc.js store and edit values etc
+//store.js store and edit values etc
+//new.js generate/ render, needs to be combined with display
 
 function disableStartButtons(){
   $('#search input[type="submit"]').prop('disabled',true)
@@ -44,6 +45,8 @@ let count = 0;
 let carLoop=0;
 let prev=0
 let subString=''
+let trailersList=[]
+let showLength=''
 
 // ***STORE/UPDATE VALUES***
 function updateSearch(){
@@ -59,7 +62,7 @@ var mm = String(today.getMonth() + 1).padStart(2, '0');
 var yyyy = today.getFullYear();
 
 currentDate = yyyy + '-' + mm + '-' + dd;
-console.log('currentDate',currentDate);
+// console.log('currentDate',currentDate);
 }
 
 
@@ -69,21 +72,24 @@ function updatePlatforms(userIds, userPlatforms){
   userIds.push(this.id)
 });
     if(userIds.length===0){
-      // add ps4, ps5, xbox-one and pc
+      // add ps4, ps5, xbox-one, xbox s/x and pc
       userIds.push('18','187','1','4','186')
     }
    console.log("userIds",userIds)
-   if(userGenres.includes(999)){
+   if(userGenres.includes(999)& userTags.length===0){
     getPGames(userIds, editList) 
-   }else{
+   }else if (userTags.length===0){
     getGenreGames(userGenres, userIds, editList)
-
+  }else if (userGenres.includes(999)){
+    getTagGames(userTags, userIds, editList)
+  }else{
+    getBothGames(userTags, userIds, userGenres, editList)
   }
 }
 
 
 function updateGenres(userGenres){
-$('input[name="addGenre"]:checked').each(function() {
+$('input[name="addGenres"]:checked').each(function() {
   userGenres.push(this.value)
 });
 if(userGenres.length===0){
@@ -113,8 +119,16 @@ console.log('editGameList - editlist: ',editList.length,editList)
       }
     }
 let tempList = filteredList.filter(game => {return game.slug !== baseGameSlug})
-if (userGenres.includes('fighting')){
-  console.log('fighting game handicap')
+if(tempList.length>50){
+  console.log('great games only')
+tempList = tempList.filter(game => {return game.rating > 4.35})
+}
+else if(tempList.length<8){
+  console.log('low count handicap')
+tempList = tempList.filter(game => {return game.rating > 3.25})
+}
+else if (userGenres.includes('fighting')){
+console.log('fighting game handicap')
 tempList = tempList.filter(game => {return game.rating > 3.85})
 }else{
 tempList = tempList.filter(game => {return game.rating > 4.15})
@@ -131,5 +145,8 @@ if (list.length===0){
 failList()
 }else{
  getDetailedList(list)   
+ getTrailers(list)
 }
 }
+
+

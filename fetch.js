@@ -63,7 +63,13 @@ fetch(`https://api.rawg.io/api/games/${baseGameId}?key=${apiKey}`)
      for (let i=0;i<responseJson.genres.length;i++){
         userGenres.push(responseJson.genres[i].slug)
       }
-    // console.log('basegameslug',baseGameSlug, 'baseGameDev', baseGameDev, 'userGenres',userGenres)
+     for (let i=0;i<responseJson.tags.length;i++){
+       if(responseJson.tags[i].language==='eng'){
+        userTags.push(responseJson.tags[i].slug)
+       }
+      }
+// console.log('basegameslug',baseGameSlug, 'baseGameDev', baseGameDev, 'userGenres',userGenres, 'userTags', userTags)
+console.log( 'userTags', userTags)
 
 if(responseJson.genres.length===0){
   console.log('reccomend restart here')
@@ -85,16 +91,15 @@ if(responseJson.genres.length===0){
 
 
 function getGenreGames(userGenres, userIds, editList) {
-  let promises=[]
-if(userIds.length===0){
-console.log('userIds: ', userIds)
-console.log('no platforms selected onto edit')
-wait()
-}else{
+let promises=[]
+// if(userTags.length===0){
+// console.log('no tags, two loop fetch')
+// } 
+// else{
 for(let i=0;i<userIds.length;i++){
   for(let j=0;j<userGenres.length;j++){
     promises.push(
-      fetch(`https://api.rawg.io/api/games?key=${apiKey}&dates=1980-01-01,${currentDate}&platforms=${userIds[i]}&genres=${userGenres[j]}`)
+      fetch(`https://api.rawg.io/api/games?key=${apiKey}&dates=1960-01-01,${currentDate}&platforms=${userIds[i]}&genres=${userGenres[j]}`)
       .then(response => response.json())
       .then(responseJson => {   
       results=responseJson.results
@@ -109,7 +114,7 @@ for(let i=0;i<userIds.length;i++){
     .catch(error => console.log(error,'Something went wrong. Please try again later.'))
     )}
 }
-}
+// }
     Promise.all(promises).then(function(){
       console.log('after promise all editList: ',editList.length, editList)
 
@@ -119,15 +124,15 @@ for(let i=0;i<userIds.length;i++){
 
 
 function getPGames(userIds, editList) {
-  let promises=[]
-if(userIds.length===0){
-console.log('userIds: ', userIds)
-console.log('no platforms selected onto edit')
-wait()
-}else{
+let promises=[]
+// if(userIds.length===0){
+// console.log('userIds: ', userIds)
+// console.log('no platforms selected onto edit')
+// wait()
+// }else{
 for(let i=0;i<userIds.length;i++){
     promises.push(
-      fetch(`https://api.rawg.io/api/games?key=${apiKey}&dates=1980-01-01,${currentDate}&platforms=${userIds[i]}`)
+      fetch(`https://api.rawg.io/api/games?key=${apiKey}&dates=1960-01-01,${currentDate}&platforms=${userIds[i]}`)
       .then(response => response.json())
       .then(responseJson => {   
       results=responseJson.results
@@ -141,7 +146,7 @@ for(let i=0;i<userIds.length;i++){
     .catch(error => console.log(error,'Something went wrong. Please try again later.'))
     )
 }
-}
+// }
     Promise.all(promises).then(function(){
       console.log('after promise all editList: ',editList.length, editList)
 
@@ -189,4 +194,25 @@ function getDetailedList(list){
       })
      .catch(error => console.log(error,'Something went wrong. Please try again later.'));
     }
+}
+
+
+// question fetch for trailers not working ??
+function getTrailers(list){
+// https://api.rawg.io/api/games/{id}/movies
+  console.log('getTrailers Working')
+    for(let i=0; i<list.length;i++){
+      let tempId=list[i].id 
+    // console.log(list[i].id)    
+    fetch(`https://api.rawg.io/api/games/${tempId}/movies?key=${apiKey}`)
+        .then(response => response.json())
+        .then(responseJson => {    
+        results=responseJson
+        // console.log('results: ', results)
+        trailersList.push(results)
+      })
+     .catch(error => console.log(error,'Something went wrong. Please try again later.'));
+    }
+
+
 }

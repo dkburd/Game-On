@@ -2,7 +2,7 @@
 //fetch.js = api fetches
 //display.js = render/display 
 //store.js store and edit values etc
-
+//new.js generate/ render, needs to be combined with display
 
 
 
@@ -11,6 +11,7 @@
 
 
 function displaySearchResults(responseJson) { 
+  $('.footer').removeClass('fixed')
   $('#custom-search').addClass('hidden')
   $('#search').addClass('hidden')
   $('#summary').addClass('hidden')
@@ -25,8 +26,17 @@ function displaySearchResults(responseJson) {
     // for (let i = 0; i < results.length; i++){
     // idList.push(results[i].id)
     // }
+    $('#results-list').append(
+      `
+    <li class='results-list-item card'>
+    <h2> Select One Game</h2>
+    </li> 
+     `
+      )
     $('#search').addClass('hidden')
     $('#results').removeClass('hidden')
+
+
     // $('#results input').removeClass('hidden')
     let genres;
     let tags;
@@ -34,14 +44,20 @@ function displaySearchResults(responseJson) {
     // for (let i = 0; i < results.length; i++){
     //  only show  10 
     for (let i = 0; i < 10; i++){
-      tags = results[i].tags.map(g => { return g.name})
+
+      tags = results[i].tags.map(t => { return t.name})
       genres = results[i].genres.map(g => { return g.name})
+      
+      
+// question how to splice out non english tags
+
       $('#results-list').append(
       `
       <li class='results-list-item screen-reader'>
       <h3 class='screen-reader'>${results[i].name} (${results[i].released[0]}${results[i].released[1]}${results[i].released[2]}${results[i].released[3]})</h3> 
       <p class='screen-reader'>Rating: ${results[i].rating}</p>    
       <p class='screen-reader'>Genres: ${genres.join(", ")}</p> 
+      <pclass='screen-reader'>Tags: ${tags.join(", ")}</p> 
       <input type='radio' class='radio screen-reader' name='baseGame' value='${responseJson.results[i].id}' required>
      </li> 
      `
@@ -53,12 +69,26 @@ function displaySearchResults(responseJson) {
       <h3>${results[i].name} (${results[i].released[0]}${results[i].released[1]}${results[i].released[2]}${results[i].released[3]})</h3> 
       <p>Rating: ${results[i].rating}</p>    
       <p>Genres: ${genres.join(", ")}</p> 
+      <p>Tags: ${tags.join(", ")}</p> 
       <input type='radio' class='hidden radio' name='baseGame' value='${responseJson.results[i].id}' required>
      </li> 
      `
       )
 
     }
+
+  $('#results-list').append(
+    `
+     <li class='card v-center'>
+      <div class='button-bar'>
+      <input type='submit' class='button' value='Submit'></input>
+      <button class='js-restart button'>New Search</button>
+      </div>
+    </li> 
+   `
+      )
+
+
   };
 $(window).scrollTop(0)
 gameSelect()
@@ -89,23 +119,24 @@ function displayBaseGameResults(responseJson) {
 
 // question a items spilling out of their boxes 
 
-function displayGenreOptions(genres){
+function displayGenresOptions(genres){
 console.log('sup')
+$('.footer').removeClass('fixed')
 $('#search').addClass('hidden')
 $('.alert').addClass('hidden')
 $('.fail').addClass('hidden')
 $('.warn').addClass('hidden')
 $('#summary').addClass('hidden')
-$('#js-add-genre').addClass('hidden')
-$('#genre').removeClass('hidden')
+$('#js-add-genres').addClass('hidden')
+$('#genres').removeClass('hidden')
 $(".container").addClass('transparent')
-$('#genre-list').append(
+$('#genres-list').append(
 `<h2> Select Game Genres </h2>`);
 for(i=0;i<genres.length;i++){
 
 // question c screen readers and access using p instead of label
 // for screen readers
-// $('#genre-list').append(
+// $('#genres-list').append(
 //   `
 //   <li>
 //   <label for='${genres[i].slug}'>${genres[i].name}</label>
@@ -113,12 +144,12 @@ for(i=0;i<genres.length;i++){
 
 // </li>
 // `)
-$('#genre-list').append(
+$('#genres-list').append(
   `
   <li class='group'>
   <p class='label left'>${genres[i].slug}</p>
   <label class="switch right">
-  <input type='checkbox' id=${genres[i].id}' name='addGenre' value='${genres[i].slug}'>
+  <input type='checkbox' id=${genres[i].id}' name='addGenres' value='${genres[i].slug}'>
       <span class="slider round"></span>
       </label>
 </li>
@@ -129,14 +160,201 @@ $(window).scrollTop(0)
 
 
 
+function displayTagOptions(){
+  $('.alert').addClass('hidden')
+  $('#genres').addClass('hidden')
+  $('#results').addClass('hidden')
+  $('#js-more-platforms').removeClass('hidden')
+  $('#tags-list').empty();
+  $('#tags').removeClass('hidden')
+  $('#tags-list').append(
+      `<h2>Select Game Tags</h2>
+      <li class='group'>
+      <p class='label left'>2D</p>
+      <label class="switch right">
+      <input type="checkbox" id="2d" name="addTag" value="2d">
+      <span class="slider round"></span>
+      </label>
+      </li>     
+      
+      <li class='group'>
+      <p class='label left'>Battle Royale</p>
+      <label class="switch right">
+      <input type="checkbox" id="battle-royale-2" name="addTag" value="battle-royale-2">
+      <span class="slider round"></span>
+      </label>
+      </li>
+
+      <li class='group'>
+      <p class='label left'>Classic</p>
+      <label class="switch right">
+      <input type="checkbox" id="classic" name="addTag" value="classic">
+      <span class="slider round"></span>
+      </label>
+      </li>
+
+
+      <li class='group'>
+      <p class='label left'>Comedy</p>
+      <label class="switch right">
+      <input type="checkbox" id="comedy" name="addTag" value="comedy">
+      <span class="slider round"></span>
+      </label>
+      </li>
+
+      <li class='group'>
+      <p class='label left'>Cross-Platform Multiplayer</p>
+      <label class="switch right">
+      <input type="checkbox" id="cross-platform-multiplayer" name="addTag" value="cross-platform-multiplayer">
+      <span class="slider round"></span>
+      </label>
+      </li>
+
+      <li class='group'>
+      <p class='label left'>Exclusive</p>
+      <label class="switch right">
+      <input type="checkbox" id="exclusive" name="addTag" value="exclusive">
+      <span class="slider round"></span>
+      </label>
+      </li>
+
+
+      <li class='group'>
+      <p class='label left'>Exploration</p>
+      <label class="switch right">
+      <input type="checkbox" id="exploration" name="addTag" value="exploration">
+      <span class="slider round"></span>
+      </label>
+      </li>
+
+      <li class='group'>
+      <p class='label left'>Female Protagonist</p>
+      <label class="switch right">
+      <input type="checkbox" id="female-protagonist" name="addTag" value="female-protagonist">
+      <span class="slider round"></span>
+      </label>
+      </li>
+
+      <li class='group'>
+      <p class='label left'>First Person</p>
+      <label class="switch right">
+      <input type="checkbox" id="first-person" name="addTag" value="first-person">
+      <span class="slider round"></span>
+      </label>
+      </li>
+
+      <li class='group'>
+      <p class='label left'>Great Soundtrack</p>
+      <label class="switch right">
+      <input type="checkbox" id="great-soundtrack" name="addTag" value="great-soundtrack">
+      <span class="slider round"></span>
+      </label>
+      </li>
+
+      <li class='group'>
+      <p class='label left'>Historic</p>
+      <label class="switch right">
+      <input type="checkbox" id="historic" name="addTag" value="historic">
+      <span class="slider round"></span>
+      </label>
+      </li>
+
+      <li class='group'>
+      <p class='label left'>Horror</p>
+      <label class="switch right">
+      <input type="checkbox" id="horror" name="addTag" value="horror">
+      <span class="slider round"></span>
+      </label>
+      </li>
+
+
+      <li class='group'>
+      <p class='label left'>LGBTQ+</p>
+      <label class="switch right">
+      <input type="checkbox" id="lgbtq-2" name="addTag" value="lgbtq-2">
+      <span class="slider round"></span>
+      </label>
+      </li>
+
+      <li class='group'>
+      <p class='label left'>Multiplayer</p>
+      <label class="switch right">
+      <input type="checkbox" id="multiplayer" name="addTag" value="multiplayer">
+      <span class="slider round"></span>
+      </label>
+      </li>
+
+      <li class='group'>
+      <p class='label left'>Online Co-op</p>
+      <label class="switch right">
+      <input type="checkbox" id="online-co-op" name="addTag" value="online-co-op">
+      <span class="slider round"></span>
+      </label>
+      </li>
+
+      <li class='group'>
+      <p class='label left'>Sandbox</p>
+      <label class="switch right">
+      <input type="checkbox" id="sandbox" name="addTag" value="sandbox">
+      <span class="slider round"></span>
+      </label>
+      </li>
+
+      <li class='group'>
+      <p class='label left'>Sci-Fi</p>
+      <label class="switch right">
+      <input type="checkbox" id="sci-fi" name="addTag" value="sci-fi">
+      <span class="slider round"></span>
+      </label>
+      </li>      
+
+      <li class='group'>
+      <p class='label left'>Singleplayer</p>
+      <label class="switch right">
+      <input type="checkbox" id="singleplayer" name="addTag" value="singleplayer">
+      <span class="slider round"></span>
+      </label>
+      </li>  
+
+
+      <li class='group'>
+      <p class='label left'>Stealth</p>
+      <label class="switch right">
+      <input type="checkbox" id="stealth" name="addTag" value="stealth">
+      <span class="slider round"></span>
+      </label>
+      </li>
+
+      <li class='group'>
+      <p class='label left'>Survival</p>
+      <label class="switch right">
+      <input type="checkbox" id="survival" name="addTag" value="survival">
+      <span class="slider round"></span>
+      </label>
+      </li>
+
+      <li class='group'>
+      <p class='label left'>Third Person</p>
+      <label class="switch right">
+      <input type="checkbox" id="third-person" name="addTag" value="third-person">
+      <span class="slider round"></span>
+      </label>
+      </li>
+`
+ )
+$(window).scrollTop(0)
+}
+
+
+
 function displayPlatformOptions(){
   $('.alert').addClass('hidden')
-  $('#genre').addClass('hidden')
+  $('#tags').addClass('hidden')
+  $('#genres').addClass('hidden')
   $('#results').addClass('hidden')
   $('#platforms').removeClass('hidden')
   $('#platforms-list').removeClass('hidden')
-  // $('#js-restart-two').addClass('hidden')
- $( '#js-more-platforms').removeClass('hidden')
+  $('#js-more-platforms').removeClass('hidden')
 //   $('#platforms-list').append(
 //       `<h2>Select Gaming Platforms</h2>
   
@@ -247,6 +465,7 @@ $(window).scrollTop(0)
 }
 
 function displayMoreOptions(platforms){
+platforms.sort()
 $('#js-more-platforms').addClass('hidden')
 $('#platforms-list').empty();
 $('#platforms-list').append(
@@ -279,16 +498,17 @@ $(window).scrollTop(0)
 
 // question first why won't these buttons hide
 function displaySelectedOptions(userPlatforms, userGenres){
-  $('#genre').addClass('hidden')
+  $('#genres').addClass('hidden')
   $('#platforms').addClass('hidden')
   $('#js-more-platforms').addClass('hidden')
   $('#get-list').removeClass('hidden')
-$('#platforms').addClass('hidden')
+  $('#platforms').addClass('hidden')
 // $('#results').addClass('hidden')
 // if(baseGameSlug.length>0){
 // $('#results-list').removeClass('hidden')
 // $('#results').removeClass('hidden')
 // }
+
   if(userGenres.includes(999)){
   $('.selected-list').append(
 `
@@ -308,6 +528,20 @@ $('.selected-list').append(
     $('.selected-list').append(
       `
       <p>${userGenres[i]}</>
+      `
+    )
+  }
+}
+if(userTags.length>0){
+  $('.selected-list').append(
+   `
+   <h2>Selected Tags</h2>
+   `
+  )
+  for(i=0;i<userTags.length;i++){
+    $('.selected-list').append(
+      `
+      <p>${userTags[i]}</>
       `
     )
   }
@@ -343,6 +577,10 @@ $('.selected-list').append(
  $(window).scrollTop(0)
   }
 
+// todo
+// use tis to add in list of alt names? useful?
+//         genres = results[i].genres.map(g => { return g.name})
+//       <p>Genres: ${genres.join(", ")}</p> 
 
 
   function displayDetailedList(detailedList){  
@@ -351,71 +589,80 @@ $('.selected-list').append(
   $('#get-list').addClass('hidden')
   $( '#js-more-platforms').addClass('hidden')
   $('#results').addClass('hidden')
-  $('#genre').addClass('hidden')
+  $('#genres').addClass('hidden')
   $('.carousel-container').removeClass('hidden')
   // $('.js-restart-six').removeClass('hidden')
   // console.log('before appened detailedList',detailedList, detailedList.length)
   console.log('detailedList',detailedList, detailedList.length)
   console.log('before appened')
-  carLoop=detailedList.length-1
-  for (let i = 0; i < detailedList.length; i++){
-description=detailedList[i].description
-sub=description.substring(0, 400)
-    // subString=string(0,200)
+  
+if(detailedList.length<20){
+  showLength=detailedList.length
+}else{
+  showLength=20
+}
+carLoop=showLength-1
+for (let i = 0; i < showLength; i++){
+    $('.indicators').append(
+      `
+        <button class='dots'></button>
+      `
+    )
+  platforms = detailedList[i].platforms.map(g => { return g.name})  
     if(detailedList[i].website.length>1){
     $('.display-detailed-list').append(
-
   `
   <li class='hidden'>
-  <a href="${detailedList[i].website}" target='blank'>
-  <h3>${detailedList[i].name}</h3></a> 
-  <img src="${detailedList[i].background_image}" class="results-img">
-  <button class="previous"> ◀ </button>
-  <button class="next"> ▶ </button>
-<div class='sub'>
- <p>${sub} ...</p>
-<button class="read-more"> Read On</button>
-</div>
-  <span class='full hidden'>${description}</p>
+    <div class='link'>
+     <a href="${detailedList[i].website}" target='blank'>
+      <h3>${detailedList[i].name}</h3>
+     <p>Visit: ${detailedList[i].website}</p>
+     </a> 
+    </div>
+    <img src="${detailedList[i].background_image}" class="results-img">
+    <div class='solid'>
+
+    <p class='full'>${detailedList[i].description}</p>
+  </div>
   </li>
      `
-     )
-
+     )              
 }else{
     $('.display-detailed-list').append(
 `
 <li class='hidden'>
 <h3>${detailedList[i].name}</h3> 
 <img src="${detailedList[i].background_image}" class="results-img">
-<div class='sub'>
- <p>${sub} ...</p>
-<button class="read-more"> Read On</button>
-</div>
- <span class='full hidden'>${description}</span>
+<div class='solid'>
+ <p class='full'>${detailedList[i].description}</p>
+ </div>
 </li>
 `
      )
 }
-
   }
+  
   // readMore()
+  watchDots()
   $('.display-detailed-list > li:nth-of-type(1)').removeClass('hidden') 
+  $('.indicators > button:nth-of-type(1)').addClass('blue')
   $(window).scrollTop(0)
  }
 
-
-//question how add labels for screen reader
-/* <span class='.screen-reader'>Previous</span> 
-<span class='.screen-reader'>Next</span>*/
 
 
 
 function navigate(count,prev) {
 console.log('count: ', count, 'prev: ',prev)
 let finalListItems=$('.display-detailed-list > li')
+let editDots=$('.dots').map(function(){
+  return this
+})
 $(finalListItems[count]).removeClass('hidden') 
+$(editDots[count]).addClass('blue')
+// need to get the dots in as tehir own item like final list item
+ $(editDots[prev]).removeClass('blue')
 $(finalListItems[prev]).addClass('hidden') 
-
 }
 
 function failList(){
@@ -456,6 +703,7 @@ $(window).scrollTop(0)
     baseGameSlug=''
     baseGameDev=[]
     userGenres=[]
+    userTags=[]
     userPlatforms=[]
     userIds=[]
     editList=[]
@@ -468,20 +716,23 @@ $(window).scrollTop(0)
     $('#results').addClass('hidden')
     $('#results-list').empty();
    $('#platforms-list').empty();
-    $('#genre-list').empty();
+    $('#genres-list').empty();
+    $('#tags-list').empty();
     $('.display-detailed-list').empty()
     $('.selected-list').empty()
     $('#get-list').addClass('hidden')
     $('#platforms').addClass('hidden')
-    $('#genre').addClass('hidden')
+    $('#genres').addClass('hidden')
+    $('#genres').addClass('hidden')
     $('#platforms').addClass('hidden')
     $('#js-more-platforms').addClass('hidden')
     $('#search').removeClass('hidden')
     $('#custom-search').removeClass('hidden')
-    $('#js-add-genre').addClass('hidden')
+    $('#js-add-genres').addClass('hidden')
     $('.carousel-container').addClass('hidden')
     $('#js-search-option').val('')
     $(".container").removeClass('transparent')
+    $('.footer').addClass('fixed')
     // $('#js-restart-one').addClass('hidden')
     // $('#js-restart-two').addClass('hidden')
     // $('#js-restart-three').addClass('hidden')

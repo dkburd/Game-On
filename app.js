@@ -2,7 +2,7 @@
 //fetch.js = api fetches
 //display.js = render/display 
 //store.js store and edit values etc
-
+//new.js generate/ render, needs to be combined with display
 
 
 //***EVENT LISTENERS*** */
@@ -10,15 +10,12 @@ function watchSearchForm() {
   $('#js-search-form').submit(event => {
     event.preventDefault();
     startSearch();
-    // $(window).scrollTop(0)
   });
 }
 
 function watchCustomSearch() { 
   $('#custom-search').on("click", function (event){
-  displayGenreOptions(genres)
-  //  renderGenreOptions(genres)
-  // $(window).scrollTop(0)
+  displayGenresOptions(genres)
    })
   }
 
@@ -34,10 +31,19 @@ function watchResultsForm() {
 }
 
 
-function watchAddGenre() {
- $('.add-genre').on("click", function (event){
+function watchDisplayGenres() {
+ $('.display-genres').on("click", function (event){
       event.preventDefault();
-      displayGenreOptions(genres)
+      displayGenresOptions(genres)
+  });
+}
+
+
+// needs to impact navigate
+function watchDots() {
+ $('.dots').on("click", function (event){
+      event.preventDefault();
+    console.log('dot click')
   });
 }
 
@@ -52,28 +58,38 @@ function watchContinue() {
   });
 }
 
-// function watchAddGenre() {
-//   $('#js-add-genre').on("click", "button", function (event){
-//     displayGenreOptions(genres)
-//     // $(window).scrollTop(0)
-//   });
-// }
 
-function watchGenreForm(displayGenreOptions) {
-  $('#js-genre-form').submit(event => {
+function watchGenresForm() {
+  $('#js-genres-form').submit(event => {
     event.preventDefault();
     updateGenres(userGenres);
-if(userIds.length===0){
-displayPlatformOptions()
-}else{
-  displaySelectedOptions(userPlatforms, userGenres)
-}
-
-    
-    // $(window).scrollTop(0)
+    if(userTags.length===0){
+      console.log(displayTagOptions)
+    displayTagOptions()
+    }else if (userIds.length===0){
+      console.log(displayPlatformOptions)
+      displayPlatformOptions()
+    }else{
+      console.log(displaySelectedOptions)
+      displaySelectedOptions(userPlatforms, userGenres)
+    }
   });
 }
 
+
+function watchTagsForm() {
+  $('#js-tags-form').submit(event => {
+    event.preventDefault();
+    updateTags(userTags);
+    if (userIds.length===0){
+      console.log(displayPlatformOptions)
+      displayPlatformOptions()
+    }else{
+      console.log(displaySelectedOptions)
+      displaySelectedOptions(userPlatforms, userGenres)
+    }
+  });
+}
 
 function watchPlatforms(displayPlatformOptions) {
   $('#js-platforms-form').submit(event => {
@@ -81,7 +97,7 @@ function watchPlatforms(displayPlatformOptions) {
     console.log('message')
     updatePlatforms(userIds, userPlatforms);
     displaySelectedOptions(userPlatforms, userGenres);
-    // $(window).scrollTop(0)
+
   })
 }
 // displaySelectedOptions(userPlatforms, userGenres, baseGameSlug, baseGame) renamed
@@ -113,7 +129,6 @@ function watchRestart() {
     $('.js-restart').on("click", function (event){
     event.preventDefault();
       restartSearch();
-      // $(window).scrollTop(0)
   });
 }
 
@@ -200,12 +215,13 @@ $(function() {
   updateDate();
   watchRestart()
   watchCustomSearch()
-  watchGenreForm(displayGenreOptions)
-  watchAddGenre()
+  watchGenresForm()
+  watchTagsForm()
+  watchDisplayGenres()
   watchContinue() 
   watchCarousel(count,prev)  
-
-  // renderGenreOptions(genres)
+  watchDots()
+  // renderGenresOptions(genres)
 });
 
 
