@@ -5,6 +5,7 @@
 
 //new.js generate/ render, needs to be combined with display
 
+
 function renderSections(){
   const sections = generateSections();
   $(".main").append(sections);
@@ -15,8 +16,6 @@ function renderSections(){
 function generateSections(){
   return (
     `
-
-    <section id='search'></section>
     <section id='results' class='hidden center'></section>
     <section id='genres' class='hidden card'></section>
     <section id='tags' class='hidden card'></section>
@@ -29,8 +28,8 @@ function generateSections(){
 }
 
 function renderTemplates(){
-  // const warningTemplate = generateWarningTemplate();
-  const searchTemplate = generateSearchTemplate();
+  
+  // const searchTemplate = generateSearchTemplate();
   const resultsTemplate = generateResultsTemplate();
   const genresTemplate = generateGenresTemplate();
   const tagTemplate = generateTagTemplate();
@@ -39,7 +38,7 @@ function renderTemplates(){
   const carouselTemplate = generateCarouselTemplate();
   
 
-  $("#search").append(searchTemplate);
+  // $("#search").append(searchTemplate);
   $("#results").append(resultsTemplate);
   $("#genres").append(genresTemplate);
   $("#tags").append(tagTemplate);
@@ -50,19 +49,24 @@ function renderTemplates(){
 }
 
 
+
 function generateCarouselTemplate(){
 return (
   `
-  
-  <ul class="display-detailed-list">
-      </ul>
-      <div class='indicators'></div>
-      <button class="previous left button">◀
+  <div class='bar v-center'>
+
+  <span class='indicators'>
+  </span>
+      <button class="previous left">◀
       <!-- <span class='.screen-reader'>Previous</span> -->
       </button>
-      <button class="next right button">▶
+      <button class="next right">▶
       <!-- <span class='.screen-reader'>Next</span>  -->   
       </button>
+  </div>
+  <ul class="display-detailed-list">
+      </ul>
+
       <div  class='button-bar'>
         <button class='js-restart button'>New Search</button>
         </div>
@@ -87,13 +91,13 @@ function generateChoicesTemplate(){
 }
 
 
-function generateSearchTemplate(){
-  return (
-    `
-    <form id='js-search-form'></form>
-    `
-  )
-}
+// function generateSearchTemplate(){
+//   return (
+//     `
+//     <form id='js-search-form'></form>
+//     `
+//   )
+// }
 
 // deleted 2 p above FormData, dont think they were being used
 function generateResultsTemplate(){

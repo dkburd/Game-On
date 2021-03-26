@@ -44,8 +44,8 @@ let uniqueMap={}
 let count = 0;
 let carLoop=0;
 let prev=0
+// let index=0
 let subString=''
-let trailersList=[]
 let showLength=''
 
 // ***STORE/UPDATE VALUES***
@@ -145,7 +145,6 @@ if (list.length===0){
 failList()
 }else{
  getDetailedList(list)   
- getTrailers(list)
 }
 }
 

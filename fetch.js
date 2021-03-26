@@ -196,23 +196,3 @@ function getDetailedList(list){
     }
 }
 
-
-// question fetch for trailers not working ??
-function getTrailers(list){
-// https://api.rawg.io/api/games/{id}/movies
-  console.log('getTrailers Working')
-    for(let i=0; i<list.length;i++){
-      let tempId=list[i].id 
-    // console.log(list[i].id)    
-    fetch(`https://api.rawg.io/api/games/${tempId}/movies?key=${apiKey}`)
-        .then(response => response.json())
-        .then(responseJson => {    
-        results=responseJson
-        // console.log('results: ', results)
-        trailersList.push(results)
-      })
-     .catch(error => console.log(error,'Something went wrong. Please try again later.'));
-    }
-
-
-}

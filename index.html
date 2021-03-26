@@ -11,17 +11,18 @@
   <!-- style sheets -->
   <link rel="stylesheet" type="text/css" href="normalize.css"/>
   <link href="style.css" rel="stylesheet" type="text/css"/>
+  <link href="media.css" rel="stylesheet" type="text/css" />
 </head>
 
 <body>
 
-<section class="container"> 
+<!-- <section class="container">  -->
 
 <header>
   <section id='summary'>
-  <h1 class="glow">GAME ON</h1>
-  <p class='tagline'>Find your next favorite game</p>
-    </section>
+    <h1 class="glow">GAME ON</h1>
+    <p class='tagline'>Find your next favorite game</p>
+  </section>
   
   <section class='alert hidden card'>
     <div class='fail hidden'>
@@ -34,11 +35,14 @@
 
     <div class='warn hidden'>
       <p>Unfortunately this search is not likely to yield many recommendations. Please add at least one genre to improve the results.</p>
-      <div class='button-bar'> 
-        <button class='display-genres button'>Add Genre</button>
-        <button class='button continue'>Continue</button>
-      </div>
+        <div class='button-bar'> 
+          <button class='display-genres button'>Add Genre</button>
+          <button class='button continue'>Continue</button>
+        </div>
     </div>
+</section>
+  <section id='search'>
+    <form id='js-search-form'></form>
   </section>
 </header>
 <main class='main'>
@@ -46,7 +50,7 @@
   <footer class='footer fixed'>
   <a href="https://api.rawg.io/docs" target='blank'><p>Powered by RAWG Video Games Database API</p></a>  <a href="mailto:burd.dana@gmail.com?subject=Mail From Game On">Contact</a>
   </footer>
-</section>
+<!-- </section> -->
 
   <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
     crossorigin="anonymous">

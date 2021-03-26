@@ -9,7 +9,7 @@ aria-hidden="true" */
 }
 
 .alert {
-  color: white;
+  color: rgba(225, 225, 225, 0.9);
 }
 .grow {
   transition: all 0.3s ease-in-out;
@@ -20,7 +20,7 @@ aria-hidden="true" */
 }
 
 a:link {
-  color: white;
+  color: rgba(225, 225, 225, 0.9);
 }
 a:visited {
   color: rgb(2, 97, 21);
@@ -49,13 +49,18 @@ a:hover:after {
 }
 
 .selected {
-  background-color: #007cfd;
+  /* SAME BLUE BUT 90% */
+  background-color: rgba(0, 124, 253, 0.9);
   box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.4);
   transform: scale(1.1);
-  border: 5px solid blanchedalmond;
+  border: 5px solid rgba(225, 225, 225, 0.9);
   max-width: 60%;
   max-height: 60%;
   padding: 15px;
+}
+
+.solid-selected {
+  background-color: #007cfd;
 }
 
 .dots {
@@ -71,11 +76,13 @@ a:hover:after {
 
 .indicators {
   text-align: center;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .card,
 .selected {
-  border: 5px solid blanchedalmond;
+  border: 5px solid rgba(225, 225, 225, 0.9);
   max-width: 80%;
   max-height: 60%;
   padding: 15px;
@@ -105,7 +112,6 @@ a:hover:after {
   bottom: 0;
   width: 100%;
   text-align: center;
-  /* border: 5px solid blanchedalmond; */
   padding: 2px;
   color: #fff;
   /* background-color: #171f24; */
@@ -134,18 +140,22 @@ a:hover:after {
   height: 100px;
 }
 
-img {
+.results-img {
+  height: 300px;
+  object-fit: cover;
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+}
+
+.search-img {
+  margin-top: 10px;
   display: block;
   width: 400px;
   max-width: 80%;
   margin: auto;
 }
-
-.results-img {
-  height: 250px;
-  object-fit: cover;
-}
-
 /* remove v-center from everywhere? error? 3/23, added center to card class */
 
 .v-center {
@@ -215,25 +225,25 @@ html {
   -ms-filter: "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='myBackground.jpg', sizingMethod='scale')";
 }
 
-.container {
+header {
+  top: 0;
+  left: 0;
+  position: absolute;
+  /* background-color: #171f24; */
+  width: 100%;
+  /* same color but add opacity val */
+  background-color: rgba(23, 31, 36, 0.95);
+}
+
+/* .container {
   min-width: 100%;
   min-height: 100%;
   top: 0;
   left: 0;
   position: absolute;
-
-  /* position: fixed; */
   background: linear-gradient(#171f24 50%, rgba(225, 225, 225, 0) 50%);
 
-  /* for three sections looks horrible full screen */
-  /* background: linear-gradient(
-    to right bottom,
-    rgba(225, 225, 225, 0) 20%,
-    #171f24 20%,
-    #171f24 55%,
-    rgba(225, 225, 225, 0) 55%
-  ); */
-}
+} */
 
 .transparent {
   background: rgba(225, 225, 225, 0) 55%;
@@ -241,6 +251,7 @@ html {
 }
 
 .solid {
+  border-radius: 10px;
   background-color: #171f24;
   /* background-color: rgba(23, 31, 36, 0.9); */
 }
@@ -303,7 +314,7 @@ ul {
 #search input:hover,
 #search button:hover {
   background: #007cfd;
-  color: white;
+  color: rgba(225, 225, 225, 0.9);
 }
 
 .button:focus {
@@ -417,7 +428,7 @@ button {
   position: relative;
   -ms-transform: translateY(-50%);
   transform: translateY(-50%);
-  display: inline-block;
+  display: block;
 }
 
 .switch input {
@@ -445,7 +456,7 @@ button {
   width: 26px;
   left: 4px;
   bottom: 4px;
-  background-color: white;
+  background-color: rgba(225, 225, 225, 0.9);
   -webkit-transition: 0.4s;
   transition: 0.4s;
 }
@@ -482,13 +493,6 @@ input:checked + .slider:before {
   height: auto;
 }
 
-.carousel-container img {
-  max-width: 90%;
-  /* max-height: 50%; */
-  width: auto;
-  height: auto;
-}
-
 /* 
 .display-detailed-list {
   height: 70%;
@@ -512,182 +516,72 @@ input:checked + .slider:before {
 }
 
 h1.glow {
-  /* color white or background color better? */
-  /* color: #fff; */
   color: #171f24;
   text-align: center;
   animation: glow 1.25s ease-in-out infinite alternate;
 }
 
 #search {
-  max-width: 80%;
-  background-color: #171f24;
-  /* background-color: white; */
   text-align: center;
-  width: 40%;
   margin: 40px auto auto auto;
   padding: 10px;
-  border: 3px inset #89a1b7;
   color: #7aa6ef;
-  /* display: block; */
 }
 
-.previous {
-  /* left: -40%; */
+/* .previous {
 
   left: 10%;
+} */
+
+/* .next {
+  right: 10%;
+} */
+
+/* .indicators,
+.previous,
+.next  */
+
+/* this works to center without absolute but cant move down screen without absolute */
+.bar {
+  /* position: absolute;
+  box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.4);
+  top: calc(50% - 15px);
+
+  margin-left: auto;
+  margin-right: auto; */
+  text-align: center;
 }
 
-.next {
-  right: 10%;
-}
+/* .bar {
+  position: absolute;
+  box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.4);
+  top: calc(50% - 15px);
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+} */
+
+/* .dots {
+  position: relative;
+} */
 
 .previous,
 .next {
-  position: absolute;
   min-width: 72px;
-  min-height: 45px;
+}
+/* min-height: 45px;
   background-color: #89a1b7;
   font-weight: bold;
   color: #171f24;
   text-align: center;
   border-radius: 10px;
   box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.4);
-  top: 200px;
-}
+
+
 
 .group {
   height: 50px;
   margin-left: 15%;
   margin-right: 15%;
   /* max-width: 50%; */
-}
-
-/* @media */
-
-/* x-large only  */
-@media screen and (min-width: 1160px) {
-  /* #search {
-    display: inline-block;
-  } */
-
-  label {
-    display: inline-block;
-  }
-}
-/* ^end x-large */
-
-/* @ media large and xl not ipads  */
-/* @media screen and (min-width: 825px) {
-.card {
-    max-width: 70%;
-    max-height: 70%;
-  } */
-
-/* ^end just large */
-
-/* @media */
-/* ipads and larger */
-@media screen and (min-width: 768px) {
-  .previous {
-    left: 15%;
-  }
-
-  .next {
-    right: 15%;
-  }
-  .container {
-    min-width: 100%;
-    min-height: 100%;
-    margin: 0px;
-    /* position: fixed; */
-    background: linear-gradient(
-      to right bottom,
-      #171f24 55%,
-      rgba(225, 225, 225, 0) 55%
-    );
-  }
-  .transparent {
-    background: rgba(225, 225, 225, 0) 55%;
-    position: static;
-  }
-
-  #search {
-    /* max-width: 30%; */
-    background-color: #171f24;
-    text-align: center;
-    width: 40%;
-    margin: 80px auto auto auto;
-    padding: 10px;
-    border: 3px inset #89a1b7;
-    color: #7aa6ef;
-  }
-
-  .label {
-    margin: 0;
-    top: 50%;
-    position: relative;
-    -ms-transform: translateY(-50%);
-    transform: translateY(-50%);
-    display: inline-block;
-  }
-}
-
-/* ^end large (ipads and larger)*/
-
-/* @media */
-/* medium */
-@media screen and (min-width: 261px) and (max-width: 767px) {
-  .label {
-    word-break: break-all;
-    display: block;
-    top: 25%;
-  }
-
-  .switch {
-    top: 70%;
-    width: 60px;
-    height: 34px;
-    display: block;
-    margin-top: 15px;
-  }
-  .group > .right {
-    float: none;
-  }
-
-  .group {
-    height: 90px;
-  }
-}
-
-/* 
-.previous {
-  position: absolute;
-  top: 50;
-  left: 10; */
-/* margin-top: 50%; */
-/* display: inline-block; */
-/* } */
-/* ^end medium (mobile)*/
-
-/* extra small only  */
-@media screen and (max-width: 260px) {
-  body {
-    word-break: break-all;
-  }
-  /* .container {
-    position: relative;
-  } */
-}
-/* ^end extra small*/
-
-/* extra short only  */
-@media screen and (max-height: 440px) {
-  body {
-    word-break: break-all;
-  }
-  /* .container {
-    position: relative;
-  } */
-}
-/* ^end extra small*/

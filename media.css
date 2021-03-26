@@ -1,0 +1,122 @@
+/* @media chages only */
+
+/* x-large only  */
+/* @media screen and (min-width: 1160px) {
+  #search {
+    border: none;
+  }
+
+
+} */
+/* ^end x-large */
+
+/* @ media large and xl not ipads  */
+/* @media screen and (min-width: 825px) {
+.card {
+    max-width: 70%;
+    max-height: 70%;
+  } */
+
+/* ^end just large */
+
+/* @media */
+/* ipads and larger */
+@media screen and (min-width: 768px) {
+  /* .previous {
+    left: 15%;
+  }
+
+  .next {
+    right: 15%;
+  } */
+  .container {
+    min-width: 100%;
+    min-height: 100%;
+    margin: 0px;
+    /* position: fixed; */
+    /* background: linear-gradient(
+      to right bottom,
+      #171f24 55%,
+      rgba(225, 225, 225, 0) 55% */
+    /* ); */
+  }
+  /* .transparent {
+    background: rgba(225, 225, 225, 0) 55%;
+    position: static;
+  } */
+
+  /*#search {
+    max-width: 30%; 
+    background-color: #171f24; 
+    text-align: center; 
+    width: 70%; 
+    border: none; 
+   } */
+
+  .label {
+    margin: 0;
+    top: 50%;
+    position: relative;
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+    display: inline-block;
+  }
+}
+
+/* ^end large (ipads and larger)*/
+
+/* @media */
+/* medium */
+@media screen and (min-width: 261px) and (max-width: 767px) {
+  .label {
+    word-break: break-all;
+    display: block;
+    top: 25%;
+  }
+
+  .switch {
+    top: 70%;
+    width: 60px;
+    height: 34px;
+    display: block;
+    margin-top: 15px;
+  }
+  .group > .right {
+    float: none;
+  }
+
+  .group {
+    height: 90px;
+  }
+}
+
+/* small */
+@media screen and (min-width: 475px) {
+  label {
+    display: inline-block;
+  }
+}
+
+/* ^end small for home page break */
+
+/* extra small only  */
+@media screen and (max-width: 260px) {
+  body {
+    word-break: break-all;
+  }
+  /* .container {
+    position: relative;
+  } */
+}
+/* ^end extra small*/
+
+/* extra short only  */
+@media screen and (max-height: 440px) {
+  body {
+    word-break: break-all;
+  }
+  /* .container {
+    position: relative;
+  } */
+}
+/* ^end extra small*/

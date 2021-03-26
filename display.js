@@ -65,11 +65,13 @@ function displaySearchResults(responseJson) {
       $('#results-list').append(
       `
       <li class='results-list-item card grow v-center' aria-hidden='true'>
-      <img src="${results[i].background_image}" class="results-img">
+      <img src="${results[i].background_image}" class='search-img'>
       <h3>${results[i].name} (${results[i].released[0]}${results[i].released[1]}${results[i].released[2]}${results[i].released[3]})</h3> 
+      <div class='solid js-solid'>
       <p>Rating: ${results[i].rating}</p>    
       <p>Genres: ${genres.join(", ")}</p> 
       <p>Tags: ${tags.join(", ")}</p> 
+      </div>
       <input type='radio' class='hidden radio' name='baseGame' value='${responseJson.results[i].id}' required>
      </li> 
      `
@@ -644,8 +646,17 @@ for (let i = 0; i < showLength; i++){
   
   // readMore()
   watchDots()
-  $('.display-detailed-list > li:nth-of-type(1)').removeClass('hidden') 
-  $('.indicators > button:nth-of-type(1)').addClass('blue')
+  let first=$('.display-detailed-list > li:nth-of-type(1)')
+  $(first).removeClass('hidden') 
+  // trying to target them if they are inside the li
+  // $(first).find('.dots > button:nth-of-type(1)').addClass('blue')
+  // works ok just replaced with first var
+  // $('.display-detailed-list > li:nth-of-type(1)').removeClass('hidden') 
+  // works within ul 
+  // $('.indicators > button:nth-of-type(1)').addClass('blue')
+
+  // when other buttons in div but not working
+  // $('.indicators > .dots button:nth-of-type(1)').addClass('blue')
   $(window).scrollTop(0)
  }
 

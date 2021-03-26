@@ -143,6 +143,7 @@ $('input:radio').parent().addClass('card');
 $('input:radio').parent().removeClass('selected');
 $(this).addClass('selected');
 $(this).removeClass('card');
+$(this).removeClass('solid');
  }) 
 };
 
@@ -173,23 +174,23 @@ function watchCarousel(count,prev)   {
     if (count>carLoop) {
    count=0
     } 
-    if (prev>carLoop) {
-    prev=0
-    } 
-
+    // if (prev>carLoop) {
+    // prev=0
+    // } 
+console.log('count: ', count, 'prev: ', prev)
     navigate(count,prev) 
    })
   $('.previous').on("click", function (event){
     $(finalListItems[count]).addClass('hidden') 
     prev=count
   count+=-1
-    if (count<1) {
+    if (count===-1) {
    count=carLoop
     }
-    if (prev<1) {
-   count=carLoop
-    }
-
+  //   if (prev===0) {
+  //  count=carLoop
+  //   }
+console.log('count: ', count, 'prev: ', prev)
     navigate(count,prev) 
    })
   }
