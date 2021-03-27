@@ -323,8 +323,11 @@ ul {
 /* line up size and space out the buttons */
 /* second attempt */
 
+#game-search:disabled,
+#custom-search:disabled,
 button:disabled,
-button[disabled] input:disabled,
+button[disabled],
+input:disabled,
 input[disabled] {
   background-color: #cccccc;
   color: #666666;
