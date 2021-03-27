@@ -14,7 +14,7 @@
 
 
 function displaySearchResults(responseJson) { 
-  $('.footer').removeClass('fixed')
+  enabeStartButtons()
   $('#custom-search').addClass('hidden')
   $('#search').addClass('hidden')
   $('#summary').addClass('hidden')
@@ -121,7 +121,6 @@ function displayBaseGameResults(responseJson) {
 
 function displayGenresOptions(genres){
 console.log('sup')
-$('.footer').removeClass('fixed')
 $('#search').addClass('hidden')
 $('.alert').addClass('hidden')
 $('.fail').addClass('hidden')
@@ -156,6 +155,7 @@ $('#genres-list').append(
 `)
 }
 $(window).scrollTop(0)
+
 }
 
 
@@ -741,17 +741,10 @@ $(window).scrollTop(0)
     $('.carousel-container').addClass('hidden')
     $('#js-search-option').val('')
     $(".container").removeClass('transparent')
-    $('.footer').addClass('fixed')
-    // $('#js-restart-one').addClass('hidden')
-    // $('#js-restart-two').addClass('hidden')
-    // $('#js-restart-three').addClass('hidden')
-    // $('#js-restart-four').addClass('hidden')
-    // $('#js-restart-five').addClass('hidden')
-    // $('#js-restart-six').addClass('hidden')
-    // empty not working as planned Headers, second tiem through games stack under one 
     $('.display-detailed-list').empty()
     $('.selectedResults').empty()
     disableRecsButtons()
+    enabeStartButtons()
 
   }
 
