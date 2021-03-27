@@ -8,13 +8,14 @@
 // media.css= @media changes
 
 function disableStartButtons(){
-  $('#search input[type="submit"]').prop('disabled',true)
-  $('.custom').prop('disabled',true)
+  $('#game-search').prop('disabled',true)
+  $('#custom-search').prop('disabled',true)
+
 }
 
 function enabeStartButtons(){
-  $('#search input[type="submit"]').prop('disabled',false)
-  $('.custom').prop('disabled',false)
+  $('#game-search').prop('disabled',false)
+  $('#custom-search').prop('disabled',false)
 }
 
 function disableRecsButtons(){
