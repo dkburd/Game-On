@@ -11,13 +11,15 @@
 function watchSearchForm() {
   $('#game-search').on("click", function (event){
     event.preventDefault();
+    disableStartButtons()
     startSearch();
   });
 }
 
 function watchCustomSearch() { 
   $('#custom-search').on("click", function (event){
-  displayGenresOptions(genres)
+    disableStartButtons()
+    displayGenresOptions(genres)
    })
   }
 
