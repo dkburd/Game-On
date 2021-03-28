@@ -167,7 +167,10 @@ img {
 }
 
 .results-img {
+  height: 300px;
   width: 75%;
+  max-width: 90%;
+  max-height: 90%;
 }
 
 .search-img {
@@ -175,6 +178,8 @@ img {
   width: 400px;
   margin: auto;
   object-fit: cover;
+  max-width: 90%;
+  max-height: 90%;
 }
 /* remove v-center from everywhere? error? 3/23, added center to card class */
 
