@@ -719,6 +719,8 @@ $(window).scrollTop(0)
     detailedList=[]
     filteredList=[]
     uniqueMap={}
+    $('.indicators').empty(); 
+    $('.display-detailed-list').empty(); 
     $('.alert').addClass('hidden')
     $('#summary p')[0].innerHTML='Find your next favorite game'
     $('#summary').removeClass('hidden')
