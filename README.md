@@ -1,4 +1,4 @@
-https://dkburd.github.io/game-recs/
+https://dkburd.github.io/Game-On/
 
 
 Game on video game reccomendation app using RAWG video game api
