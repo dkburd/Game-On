@@ -1,0 +1,680 @@
+/* LEGEND
+app.js = ready function and event listeners
+fetch.js = api fetches
+store.js store and edit values etc
+render.js = generate templates
+display.js = display
+style.css=main css
+media.css= @media changes */
+
+/* to do add This js
+aria-hidden="true" */
+
+/* HERE After form working */
+
+/* more text */
+.hidden {
+  display: none;
+}
+
+.alert {
+  color: rgba(225, 225, 225, 0.9);
+}
+.grow {
+  transition: all 0.3s ease-in-out;
+}
+.grow:hover {
+  transform: scale(1.1);
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.4);
+}
+
+.hide {
+  opacity: 0;
+}
+
+.contact {
+  z-index: 2;
+  /* height: 100%;
+  width: 100%; */
+  margin-top: 50px;
+}
+
+#link-button {
+  background: none;
+  border: none;
+  text-decoration: underline;
+  margin: 0px 5px;
+}
+
+#link-button,
+a:link {
+  color: rgba(225, 225, 225, 0.9);
+}
+
+#link-button:visited,
+a:visited {
+  color: #528eb8;
+}
+
+#link-button:hover,
+.link a:hover + p,
+a:hover {
+  color: #edb904;
+  opacity: 1;
+}
+h2:hover + .hide {
+  opacity: 1;
+}
+
+#link-button:active,
+a:active {
+  color: #894b05;
+}
+
+.link h2 {
+  margin-bottom: 0px;
+  margin-top: 0px;
+  font-size: 200%;
+}
+/* replaced, didnt look good
+a:hover:after {
+  padding: 5px;
+  text-align: center;
+  content: "visit game website";
+} */
+
+.selected {
+  /* SAME BLUE BUT 90% */
+  background-color: rgba(0, 124, 253, 0.9);
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.4);
+  transform: scale(1.1);
+  border: 5px solid rgba(225, 225, 225, 0.9);
+  max-width: 60%;
+  max-height: 60%;
+  padding: 15px;
+}
+
+.solid-selected {
+  background-color: #007cfd;
+}
+
+.dots {
+  border-radius: 50%;
+  height: 20px;
+  width: 20px;
+  /* Prevent background color leak outs */
+  /* -webkit-background-clip: padding-box;
+  -moz-background-clip: padding;
+  background-clip: padding-box; */
+  /* max-height: 40px; */
+}
+
+.indicators {
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+}
+
+.card,
+.selected,
+.unselected {
+  border: 5px solid rgba(225, 225, 225, 0.9);
+  max-width: 80%;
+  max-height: 60%;
+  padding: 15px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.card {
+  color: #fff;
+  /* background-color: #171f24; */
+  background-color: rgba(23, 31, 36, 0.9);
+}
+
+.selected {
+  color: #000;
+  background-color: #007cfd;
+}
+
+.fixed {
+  position: fixed;
+}
+
+main {
+  margin-bottom: 92px;
+  margin-top: 50px;
+}
+
+.alert {
+  margin-bottom: 50px;
+  margin-top: 50px;
+}
+
+.footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+  padding: 5px;
+  color: #fff;
+  background-color: rgba(23, 31, 36, 0.9);
+}
+
+.footer a {
+  display: inline-block;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+.screen-reader:not(:focus):not(:active) {
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  height: 1px;
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
+}
+
+.results {
+  height: 100px;
+}
+
+.results-list-item {
+  margin-top: 45px;
+}
+
+img {
+  object-fit: cover;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+}
+
+.results-img {
+  max-height: 400px;
+  width: 75%;
+  max-width: 90%;
+  max-height: 90%;
+}
+
+.search-img {
+  margin-top: 10px;
+  width: 400px;
+  margin: auto;
+  object-fit: cover;
+  max-width: 90%;
+  max-height: 90%;
+}
+/* remove v-center from everywhere? error? 3/23, added center to card class */
+
+.v-center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+li {
+  display: block;
+  list-style-type: none;
+  margin-top: 40px;
+}
+
+h1 {
+  font-size: 325%;
+  margin: 2% auto;
+}
+
+h2 {
+  font-size: 200%;
+}
+
+h3 {
+  margin-top: 0px;
+}
+
+h1,
+h2,
+h3 {
+  font-family: "Play", sans-serif;
+  text-align: center;
+  letter-spacing: 2px;
+}
+
+p,
+label {
+  margin: 10px;
+  text-align: center;
+}
+
+p,
+label {
+  margin: 10px;
+}
+
+#js-search-option {
+  margin-bottom: 10px;
+  overflow: hidden;
+  max-width: 95%;
+}
+
+.tagline {
+  color: #7aa6ef;
+  font-family: "Play", sans-serif;
+  letter-spacing: 2px;
+  font-size: 135%;
+}
+
+html {
+  font-family: "Raleway", sans-serif;
+  font-size: 105%;
+  min-width: 100%;
+  min-height: 100%;
+  background: url(images/ps-controller.jpeg) center center no-repeat fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  /* for ie */
+  filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='.myBackground.jpg', sizingMethod='scale');
+  -ms-filter: "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='myBackground.jpg', sizingMethod='scale')";
+}
+
+header {
+  top: 0;
+  left: 0;
+  position: absolute;
+  /* background-color: #171f24; */
+  width: 100%;
+  /* same color but add opacity val */
+  background-color: rgba(23, 31, 36, 0.95);
+}
+
+/* .container {
+  min-width: 100%;
+  min-height: 100%;
+  top: 0;
+  left: 0;
+  position: absolute;
+  background: linear-gradient(#171f24 50%, rgba(225, 225, 225, 0) 50%);
+
+} */
+
+.transparent {
+  background: rgba(225, 225, 225, 0) 55%;
+  position: static;
+}
+
+.unselected,
+.card,
+.solid,
+.solid-selected,
+.selected,
+img {
+  border-radius: 10px;
+}
+
+.solid {
+  background-color: #171f24;
+  /* background-color: rgba(23, 31, 36, 0.9); */
+}
+
+.blue {
+  background-color: #007cfd;
+}
+body {
+  min-width: 100%;
+  min-height: 100%;
+  word-break: break-word;
+  /* removed 3/14, casued issues? */
+  /* display: block; */
+}
+
+ul {
+  /* margin-bottom: 50px; */
+  margin-left: auto;
+  margin-right: auto;
+  padding: 20px;
+  /* width: 100%; */
+}
+
+/* <section id='results' class='hidden center'></section> */
+/* <section id='js-add-genres' class='hidden'></section> */
+/* <section id='get-list' class='hidden'></section> */
+
+#genres,
+#tags,
+#platforms {
+  max-width: 56%;
+}
+
+.display-detailed-list {
+  margin: 0px;
+  padding: 0px;
+}
+
+/* question a  */
+/* line up size and space out the buttons */
+/* second attempt */
+
+#game-search:disabled,
+#custom-search:disabled,
+button:disabled,
+button[disabled],
+input:disabled,
+input[disabled] {
+  background-color: #cccccc;
+  color: #666666;
+}
+
+.button-bar {
+  position: relative;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 0px;
+  text-align: center;
+  justify-content: center;
+  max-height: 400px;
+  width: 100%;
+}
+.button-bar-two {
+  position: static;
+  margin: 20px auto;
+  text-align: center;
+  justify-content: center;
+}
+
+.button:hover,
+#search input:hover,
+#search button:hover {
+  background: #007cfd;
+  color: rgba(225, 225, 225, 0.9);
+}
+
+.button:focus {
+  outline: none;
+  box-shadow: 0 0 0 4px #cbd6ee;
+}
+
+.selected-list {
+  margin-bottom: 20px;
+}
+.platforms-list-item {
+  display: block;
+  margin-bottom: 15px;
+}
+
+#js-more-platforms {
+  display: block;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+/* QUESTION element.class selector not working? */
+
+/* .sp-left {
+  margin-left: 10px;
+}
+.sp-right {
+  margin-right: 10px;
+}   */
+
+.right {
+  float: right;
+}
+.left {
+  float: left;
+}
+.center {
+  margin: auto;
+}
+
+label {
+  display: block;
+}
+
+#search input,
+#search button {
+  background-color: #89a1b7;
+  font-weight: bold;
+  color: #171f24;
+  border-radius: 10px;
+  padding: 5px;
+}
+
+#search button {
+  height: 34px;
+  min-width: 20px;
+}
+
+#search input {
+  margin-bottom: 0px;
+  margin-right: 10px;
+  height: 20px;
+}
+
+.button {
+  min-width: 80px;
+  min-height: 50px;
+  background-color: #89a1b7;
+  font-weight: bold;
+  color: #171f24;
+  margin: auto 20px;
+  text-align: center;
+  border-radius: 10px;
+  padding: 10px;
+  box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.4);
+}
+
+.previous,
+.next {
+  min-width: 72px;
+  background-color: #89a1b7;
+  font-weight: bold;
+  color: #171f24;
+  margin: 20px auto;
+  text-align: center;
+  border-radius: 10px;
+  padding: 5px;
+  box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.4);
+}
+
+/* box-shadow: [horizontal offset] [vertical offset] [blur radius] [optional spread radius] [color]; */
+
+.read-more {
+  box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.4);
+  min-width: 80px;
+  min-height: 50px;
+  background-color: #89a1b7;
+  font-weight: bold;
+  color: #171f24;
+  margin: 10%;
+  text-align: center;
+  border-radius: 10px;
+  padding: 10px;
+}
+
+.sub p .sub button {
+  display: inline-block;
+}
+
+/* input,
+button {
+  background-color: #89a1b7;
+  font-weight: bold;
+  color: #171f24;
+  max-width: 90%;
+
+  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  padding: 5px;
+} */
+
+/* question c access with the p tags vs lbales for labeling the checkboxes */
+/* toggle checkboxes*/
+
+.group {
+  height: 50px;
+  /* width: 60%; */
+}
+
+.switch {
+  top: 50%;
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+  display: block;
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+  margin: 0;
+}
+
+.label {
+  margin: 0;
+  font-size: 120%;
+  text-transform: capitalize;
+  top: 50%;
+  position: relative;
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+  display: block;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: rgba(225, 225, 225, 0.9);
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+
+input:checked + .slider {
+  background-color: #007cfd;
+  /* question: box shadow doesnt show up until another click */
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.4);
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #007cfd;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+/* question b carousel*/
+
+.carousel-container {
+  /* max-height: 80%; */
+  width: auto;
+  height: auto;
+}
+
+/* 
+.display-detailed-list {
+  height: 70%;
+}
+
+.display-detailed-list li {
+  height: 90%;
+} */
+
+@keyframes glow {
+  /* @-webkit-keyframes glow { */
+  from {
+    text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #0061e6,
+      0 0 40px #0061e6, 0 0 50px #0061e6, 0 0 60px #0061e6, 0 0 70px #0061e6;
+  }
+
+  to {
+    text-shadow: 0 0 20px #fff, 0 0 30px#7aa6ef, 0 0 40px#7aa6ef,
+      0 0 50px#7aa6ef, 0 0 60px#7aa6ef, 0 0 70px#7aa6ef, 0 0 80px#7aa6ef;
+  }
+}
+
+h1.glow {
+  color: #171f24;
+  text-align: center;
+  animation: glow 1.25s ease-in-out infinite alternate;
+}
+
+#search {
+  text-align: center;
+  margin: 40px auto 20px;
+  color: #7aa6ef;
+}
+
+/* .indicators,
+.previous,
+.next  */
+
+/* this works to center without absolute but cant move down screen without absolute */
+.bar {
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+/* .bar {
+  position: absolute;
+  box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.4);
+  top: calc(50% - 15px);
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+} */
+
+/* .dots {
+  position: relative;
+} */
+
+/* min-height: 45px;
+  background-color: #89a1b7;
+  font-weight: bold;
+  color: #171f24;
+  text-align: center;
+  border-radius: 10px;
+  box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.4);
+
+
+
+.group {
+  height: 50px;
+  margin-left: 15%;
+  margin-right: 15%;
+  /* max-width: 50%; */
