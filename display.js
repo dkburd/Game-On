@@ -210,6 +210,7 @@ $('#genres-list').append(
   <input type='checkbox' id=${genres[i].id}' name='addGenres' value='${genres[i].slug}'>
       <span class="slider round"></span>
       </label>
+      
 </li>
 `)
 }

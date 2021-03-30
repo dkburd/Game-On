@@ -32,26 +32,18 @@ aria-hidden="true" */
   opacity: 0;
 }
 
-#contact-form-close {
-  top: 0;
-  right: 0;
-  margin-right: 10%;
-  margin-top: 2%;
-  position: absolute;
-  background-color: #89a1b7;
-  font-weight: bold;
-  color: #171f24;
-  border-radius: 10px;
-  box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.4);
-}
+/* .contact {
+  margin-top: 50px;
+} */
 
-.contact {
+.contact-h3 {
   margin-top: 50px;
 }
 
 .container {
   z-index: 2;
   position: relative;
+  max-height: 500px;
 }
 
 #link-button {
@@ -59,6 +51,13 @@ aria-hidden="true" */
   border: none;
   text-decoration: underline;
   margin: 0px 5px;
+}
+
+#user-name,
+#user-email,
+#user-message {
+  width: 500px;
+  max-width: 90%;
 }
 
 #link-button,
@@ -131,6 +130,17 @@ a:hover:after {
   display: block;
 }
 
+.contact-card {
+  border: 5px solid rgba(225, 225, 225, 0.9);
+  max-width: 50%;
+  max-height: 50%;
+  padding: 15px;
+  margin-left: auto;
+  margin-right: auto;
+  color: #fff;
+  background-color: rgba(23, 31, 36, 1);
+}
+
 .card,
 .selected,
 .unselected {
@@ -167,15 +177,18 @@ main {
   margin-top: 50px;
 }
 
+.footer-bg {
+  background-color: rgba(23, 31, 36, 0.9);
+  padding: 5px;
+}
 .footer {
   position: fixed;
   left: 0;
   bottom: 0;
   width: 100%;
   text-align: center;
-  padding: 5px;
+
   color: #fff;
-  background-color: rgba(23, 31, 36, 0.9);
 }
 
 .footer a {
@@ -464,59 +477,50 @@ label {
 .button {
   min-width: 80px;
   min-height: 50px;
+  margin: auto 20px;
+  border-radius: 10px;
+  padding: 10px;
+}
+
+#contact-form-close {
+  top: 0;
+  right: 0;
+  margin-right: 24%;
+  margin-top: 2%;
+  position: absolute;
+}
+
+.previous,
+.next,
+.contact-form-submit,
+#contact-form-close,
+.button {
   background-color: #89a1b7;
   font-weight: bold;
   color: #171f24;
-  margin: auto 20px;
   text-align: center;
   border-radius: 10px;
-  padding: 10px;
   box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.4);
+}
+
+.contact-form-submit {
+  display: block;
+  margin: 10px auto;
 }
 
 .previous,
 .next {
   min-width: 72px;
-  background-color: #89a1b7;
-  font-weight: bold;
-  color: #171f24;
   margin: 20px auto;
-  text-align: center;
-  border-radius: 10px;
   padding: 5px;
   box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.4);
+}
+
+textarea {
+  min-height: 100px;
 }
 
 /* box-shadow: [horizontal offset] [vertical offset] [blur radius] [optional spread radius] [color]; */
-
-.read-more {
-  box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.4);
-  min-width: 80px;
-  min-height: 50px;
-  background-color: #89a1b7;
-  font-weight: bold;
-  color: #171f24;
-  margin: 10%;
-  text-align: center;
-  border-radius: 10px;
-  padding: 10px;
-}
-
-.sub p .sub button {
-  display: inline-block;
-}
-
-/* input,
-button {
-  background-color: #89a1b7;
-  font-weight: bold;
-  color: #171f24;
-  max-width: 90%;
-
-  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
-  border-radius: 10px;
-  padding: 5px;
-} */
 
 /* question c access with the p tags vs lbales for labeling the checkboxes */
 /* toggle checkboxes*/

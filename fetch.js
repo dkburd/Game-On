@@ -50,7 +50,8 @@ function startSearch() {
     .then(responseJson => {
       displaySearchResults(responseJson)
       })
-    .catch(error => console.log(error,'Something went wrong. Please try again later.'));
+    .catch(error => console.log(error,'Something went wrong. Please try again later.')
+    );
 }
 
 

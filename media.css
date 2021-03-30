@@ -12,17 +12,16 @@ media.css= @media changes */
 /* @media */
 /* ipads and larger */
 @media screen and (min-width: 768px) {
-  /* .previous {
-    left: 15%;
-  }
-
-  .next {
-    right: 15%;
-  } */
+  /* 
   .container {
     min-width: 100%;
     min-height: 100%;
     margin: 0px;
+  } */
+
+  #contact-form-close {
+    margin-top: 1%;
+    margin-right: 25%;
   }
 
   .label {
@@ -74,15 +73,6 @@ media.css= @media changes */
     display: inline-block;
   }
 }
-
-/* after small */
-/* @media screen and (min-width: 475px) {
-  label {
-    display: inline-block;
-  }
-} */
-
-/* ^end aftersmall for home page break */
 
 /* extra small only  */
 @media screen and (max-width: 260px) {
