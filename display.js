@@ -66,13 +66,13 @@ $('#results-list').append(
       `
       <li class='results-list-item card grow v-center'>
       <img src="${results.background_image}" class='search-img' alt="${results[i].name} Poster Art">
-      <h3>${results.name}
-      </h3> 
+      <h3>${results.name}</h3> 
       <div class='solid js-solid'>
       <p>Rating: ${results.rating}</p>    
       <p>Genres: ${genres.join(", ")}</p> 
       <p>Tags: ${tags.join(", ")}</p> 
       </div>
+      <label for="baseGame">${results.name}:</label>
       <input type='radio' class='radio screen-reader' name='baseGame' value='${responseJson.results.id}' required>
       <input type='radio' class='hidden radio' name='baseGame' value='${responseJson.results.id}' aria-hidden='true' required>
      </li> 
@@ -136,8 +136,12 @@ $('#results-list').append(
       <p>Genres: ${genres.join(", ")}</p> 
       <p>Tags: ${tags.join(", ")}</p> 
       </div>
-      <input type='radio' class='radio screen-reader' name='baseGame' value='${responseJson.results[i].id}' required>
-      <input type='radio' class='hidden radio' name='baseGame' value='${responseJson.results[i].id}' aria-hidden='true' required>
+      <label for="baseGame">${results[i].name}:</label>
+      <input type='radio' class='radio screen-reader' name='baseGame' value='${results[i].id}' required>
+      <input type='radio' class='hidden radio' name='baseGame' value='${results.id}' aria-hidden='true' required>
+      <label for="baseGame">${results.name}:</label>
+      <input type='radio' class='radio screen-reader' name='baseGame' value='${results[i].id}' required>
+      <input type='radio' class='hidden radio' name='baseGame' value='${results[i].id}' aria-hidden='true' required>
      </li> 
      `
       )
@@ -158,7 +162,7 @@ gameSelect()
 }
 // alt image tag for these/ screen rader? 
 
-
+//pickup here checking labels aria hidden screen reader
 
 function displayBaseGameResults(responseJson) {  
   console.log('here is displayBaseGameResults(responseJson)')
@@ -722,15 +726,7 @@ for (let i = 0; i < showLength; i++){
   watchDots()
   let first=$('.display-detailed-list > li:nth-of-type(1)')
   $(first).removeClass('hidden') 
-  // trying to target them if they are inside the li
-  // $(first).find('.dots > button:nth-of-type(1)').addClass('blue')
-  // works ok just replaced with first var
-  // $('.display-detailed-list > li:nth-of-type(1)').removeClass('hidden') 
-  // works within ul 
-  // $('.indicators > button:nth-of-type(1)').addClass('blue')
-
-  // when other buttons in div but not working
-  // $('.indicators > .dots button:nth-of-type(1)').addClass('blue')
+  $('.indicators > button:nth-of-type(1)').addClass('blue')
   $(window).scrollTop(0)
  }
 
@@ -787,6 +783,11 @@ $(window).scrollTop(0)
     detailedList=[]
     filteredList=[]
     uniqueMap={}
+    prev=0
+    count = 0;
+    carLoop=0;
+    prev=0
+    showLength=''
     $('.indicators').empty(); 
     $('.display-detailed-list').empty(); 
     $('.alert').addClass('hidden')

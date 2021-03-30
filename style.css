@@ -120,7 +120,6 @@ a:hover:after {
   /* -webkit-background-clip: padding-box;
   -moz-background-clip: padding;
   background-clip: padding-box; */
-  /* max-height: 40px; */
 }
 
 .indicators {
@@ -649,42 +648,7 @@ h1.glow {
   color: #7aa6ef;
 }
 
-/* .indicators,
-.previous,
-.next  */
-
-/* this works to center without absolute but cant move down screen without absolute */
 .bar {
   margin-bottom: 10px;
   text-align: center;
 }
-
-/* .bar {
-  position: absolute;
-  box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.4);
-  top: calc(50% - 15px);
-  width: 100%;
-  margin-left: auto;
-  margin-right: auto;
-  text-align: center;
-} */
-
-/* .dots {
-  position: relative;
-} */
-
-/* min-height: 45px;
-  background-color: #89a1b7;
-  font-weight: bold;
-  color: #171f24;
-  text-align: center;
-  border-radius: 10px;
-  box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.4);
-
-
-
-.group {
-  height: 50px;
-  margin-left: 15%;
-  margin-right: 15%;
-  /* max-width: 50%; */

@@ -27,7 +27,7 @@ function enabeRecsButtons(){
 }
 
 
-let apiKey='96fd8fa562c547a3925bf94299e36bc0'
+
 let search=$('#js-search-option').val()
 let baseGame=[]
 let baseGameSlug=''
@@ -48,7 +48,6 @@ let uniqueMap={}
 let count = 0;
 let carLoop=0;
 let prev=0
-let subString=''
 let showLength=''
 let userTags=[]
 let oldPlatforms=[]
