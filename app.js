@@ -14,14 +14,14 @@
 function watchContactLink() {
   $('#link-button').on("click", function (event){
   event.preventDefault();
-console.log('contact click')
+// console.log('contact click')
  displayContactForm()
   });
 }
 
 function watchContactForm() {
 $('#contact-form button').on("click", function (event){
-console.log('contact submit')
+// console.log('contact submit')
 $('.contact').addClass('hidden')
   });
 }
@@ -29,7 +29,7 @@ $('.contact').addClass('hidden')
 function watchContactFormClose() {
 $('div > #contact-form-close').on("click", function (event){
 event.preventDefault();
-console.log('form closed')
+// console.log('form closed')
 $('.contact').addClass('hidden')
   });
 }
@@ -170,6 +170,11 @@ $(this).addClass('selected');
 $(this).removeClass('unselected');
 $('.selected > div').removeClass('solid');
 $('.unselected > div').addClass('solid');
+        setTimeout(
+            function() {
+$(document).scrollTop($(document).height())
+            },
+            1000);
  }) 
 };
 

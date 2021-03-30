@@ -57,6 +57,7 @@ function renderTemplates(){
 function generateContactTemplate(){
   return (
   `
+    <div class='container'> 
      <form class='card v-center ' action="https://formspree.io/f/mknkwenr" method="POST">
      <h3>Send a Message</h3>
      <label for="user-name">Name:</label>
@@ -69,8 +70,8 @@ function generateContactTemplate(){
       <textarea id="user-message" name="message" required></textarea>
       <button class="contact-form button" type="submit">Submit</button>
       </form>
-      <div> 
-      <button class='button' id='contact-form-close'>X</button>
+      
+      <button id='contact-form-close'>X</button>
       </div>
   `
 )

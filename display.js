@@ -11,6 +11,8 @@
 
 function displayContactForm(){
 $('.contact').removeClass('hidden')
+// stops the hover color from working
+// $('#link-button').css('color', '#528eb8')
 console.log('display contact form')
 }
 
@@ -23,13 +25,69 @@ function displaySearchResults(responseJson) {
   $('#custom-search').addClass('hidden')
   $('#search').addClass('hidden')
   $('#summary').addClass('hidden')
-  $(".container").addClass('transparent')
-  // $('#js-restart-six').addClass('hidden')
   console.log(responseJson);  
   let results=responseJson.results
-  if(results.length===0){  
+  if (!results){
   failList()
-  // console.log('fail list')
+    }else if(results.length===0){  
+  failList()
+  }
+  else if(results.length===1){ 
+    console.log('one result')
+$('#results-list').append(
+      `
+    <li class='card'>
+    <h2> Select One Game</h2>
+    </li> 
+     `
+      )
+    $('#search').addClass('hidden')
+    $('#results').removeClass('hidden')
+
+ let genres;
+ let tags;
+    if (!results.genres){
+      genres=['n/a']
+    }else if
+      (results.genres.length==0){
+      genres=['n/a']
+      }else{
+      genres = results.genres.map(g => { return g.name})
+    }
+   if (!results.tags){
+      tags=['n/a']
+   }else if
+      (results.tags.length==0){
+      tags=['n/a']
+   }else{
+      tags = results.tags.map(t => { return t.name})
+   }
+$('#results-list').append(
+      `
+      <li class='results-list-item card grow v-center'>
+      <img src="${results.background_image}" class='search-img' alt="${results[i].name} Poster Art">
+      <h3>${results.name}
+      </h3> 
+      <div class='solid js-solid'>
+      <p>Rating: ${results.rating}</p>    
+      <p>Genres: ${genres.join(", ")}</p> 
+      <p>Tags: ${tags.join(", ")}</p> 
+      </div>
+      <input type='radio' class='radio screen-reader' name='baseGame' value='${responseJson.results.id}' required>
+      <input type='radio' class='hidden radio' name='baseGame' value='${responseJson.results.id}' aria-hidden='true' required>
+     </li> 
+     `
+      )
+  $('#results-list').append(
+    `
+     <li class='card v-center'>
+      <div class='button-bar'>
+      <input type='submit' class='button' value='Submit'></input>
+      <button class='js-restart button'>New Search</button>
+      </div>
+    </li> 
+   `
+      )
   }else{
     // for (let i = 0; i < results.length; i++){
     // idList.push(results[i].id)
@@ -43,50 +101,47 @@ function displaySearchResults(responseJson) {
       )
     $('#search').addClass('hidden')
     $('#results').removeClass('hidden')
-
-
-    // $('#results input').removeClass('hidden')
     let genres;
     let tags;
-
     // for (let i = 0; i < results.length; i++){
     //  only show  10 
     for (let i = 0; i < 10; i++){
-
-      tags = results[i].tags.map(t => { return t.name})
+    if (!results[i].genres){
+      genres=['n/a']
+    }else if
+      (results[i].genres.length==0){
+      genres=['n/a']
+      }else{
       genres = results[i].genres.map(g => { return g.name})
-      
-      
+    }
+   if (!results[i].tags){
+      tags=['n/a']
+   }else if
+      (results[i].tags.length==0){
+      tags=['n/a']
+   }else{
+      tags = results[i].tags.map(t => { return t.name})
+   }
+
 // question how to splice out non english tags
 
       $('#results-list').append(
       `
-      <li class='results-list-item screen-reader'>
-      <h3 class='screen-reader'>${results[i].name} (${results[i].released[0]}${results[i].released[1]}${results[i].released[2]}${results[i].released[3]})</h3> 
-      <p class='screen-reader'>Rating: ${results[i].rating}</p>    
-      <p class='screen-reader'>Genres: ${genres.join(", ")}</p> 
-      <pclass='screen-reader'>Tags: ${tags.join(", ")}</p> 
-      <input type='radio' class='radio screen-reader' name='baseGame' value='${responseJson.results[i].id}' required>
-     </li> 
-     `
-      )
-      $('#results-list').append(
-      `
-      <li class='results-list-item card grow v-center' aria-hidden='true'>
-      <img src="${results[i].background_image}" class='search-img'>
-      <h3>${results[i].name} (${results[i].released[0]}${results[i].released[1]}${results[i].released[2]}${results[i].released[3]})</h3> 
+      <li class='results-list-item card grow v-center'>
+      <img src="${results[i].background_image}" class='search-img' alt="${results[i].name} Poster Art">
+      <h3>${results[i].name}
+      </h3> 
       <div class='solid js-solid'>
       <p>Rating: ${results[i].rating}</p>    
       <p>Genres: ${genres.join(", ")}</p> 
       <p>Tags: ${tags.join(", ")}</p> 
       </div>
-      <input type='radio' class='hidden radio' name='baseGame' value='${responseJson.results[i].id}' required>
+      <input type='radio' class='radio screen-reader' name='baseGame' value='${responseJson.results[i].id}' required>
+      <input type='radio' class='hidden radio' name='baseGame' value='${responseJson.results[i].id}' aria-hidden='true' required>
      </li> 
      `
       )
-
     }
-
   $('#results-list').append(
     `
      <li class='card v-center'>
@@ -97,14 +152,12 @@ function displaySearchResults(responseJson) {
     </li> 
    `
       )
-
-
   };
 $(window).scrollTop(0)
 gameSelect()
 }
 // alt image tag for these/ screen rader? 
-  // <img src="${results[i].background_image}" class="results-img">
+
 
 
 function displayBaseGameResults(responseJson) {  
@@ -133,7 +186,6 @@ $('.warn').addClass('hidden')
 $('#summary').addClass('hidden')
 $('#js-add-genres').addClass('hidden')
 $('#genres').removeClass('hidden')
-$(".container").addClass('transparent')
 $('#genres-list').append(
 `<h2> Select Game Genres </h2>
 <p class='hide'>Genres are broad categories to seperate games by content and theme </p>
@@ -493,7 +545,7 @@ console.log(oldPlatforms)
 
 $('#js-more-platforms').addClass('hidden')
 for(i=0;i<oldPlatforms.length;i++){
-  if(oldPlatforms[i].id!==187){
+  if(oldPlatforms[i].id!==187&oldPlatforms[i].id!==18){
 
 $('#platforms-list').append(
   `
@@ -602,11 +654,6 @@ if(userTags.length>0){
  $(window).scrollTop(0)
   }
 
-// todo
-// use tis to add in list of alt names? useful?
-//         genres = results[i].genres.map(g => { return g.name})
-//       <p>Genres: ${genres.join(", ")}</p> 
-
 
   function displayDetailedList(detailedList){  
   $('#search').addClass('hidden')
@@ -616,11 +663,14 @@ if(userTags.length>0){
   $('#results').addClass('hidden')
   $('#genres').addClass('hidden')
   $('.carousel-container').removeClass('hidden')
-  // $('.js-restart-six').removeClass('hidden')
   // console.log('before appened detailedList',detailedList, detailedList.length)
   console.log('detailedList',detailedList, detailedList.length)
   console.log('before appened')
-  
+  if(detailedList.length===1){
+    console.log('one result')
+$('.next').prop('disabled',true)
+$('.previous').prop('disabled',true)
+  }
 if(detailedList.length<20){
   showLength=detailedList.length
 }else{
@@ -633,7 +683,7 @@ for (let i = 0; i < showLength; i++){
         <button class='dots'></button>
       `
     )
-  platforms = detailedList[i].platforms.map(g => { return g.name})  
+ 
     if(detailedList[i].website.length>1){
     $('.display-detailed-list').append(
   `
@@ -759,12 +809,12 @@ $(window).scrollTop(0)
     $('#js-add-genres').addClass('hidden')
     $('.carousel-container').addClass('hidden')
     $('#js-search-option').val('')
-    $(".container").removeClass('transparent')
     $('.display-detailed-list').empty()
     $('.selectedResults').empty()
     disableRecsButtons()
     enabeStartButtons()
-
+    $('.next').prop('disabled',false)
+    $('.previous').prop('disabled',false)
   }
 
 

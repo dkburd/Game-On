@@ -142,17 +142,20 @@ console.log('editGameList - editlist: ',editList.length,editList)
       }
     }
 let tempList = filteredList.filter(game => {return game.slug !== baseGameSlug})
-if(tempList.length>50){
-  console.log('great games only')
-tempList = tempList.filter(game => {return game.rating > 4.35})
-}
-else if(tempList.length<8){
+
+if
+(tempList.length<8){
   console.log('low count handicap')
 tempList = tempList.filter(game => {return game.rating > 3.25})
-}
-else if (userGenres.includes('fighting')){
+}else if
+(userGenres.includes('fighting')){
 console.log('fighting game handicap')
 tempList = tempList.filter(game => {return game.rating > 3.85})
+}
+else if
+(tempList.length>50){
+  console.log('great games only')
+tempList = tempList.filter(game => {return game.rating > 4.35})
 }else{
 tempList = tempList.filter(game => {return game.rating > 4.15})
 }

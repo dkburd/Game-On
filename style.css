@@ -32,11 +32,26 @@ aria-hidden="true" */
   opacity: 0;
 }
 
+#contact-form-close {
+  top: 0;
+  right: 0;
+  margin-right: 10%;
+  margin-top: 2%;
+  position: absolute;
+  background-color: #89a1b7;
+  font-weight: bold;
+  color: #171f24;
+  border-radius: 10px;
+  box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.4);
+}
+
 .contact {
-  z-index: 2;
-  /* height: 100%;
-  width: 100%; */
   margin-top: 50px;
+}
+
+.container {
+  z-index: 2;
+  position: relative;
 }
 
 #link-button {
@@ -292,16 +307,6 @@ header {
   background-color: rgba(23, 31, 36, 0.95);
 }
 
-/* .container {
-  min-width: 100%;
-  min-height: 100%;
-  top: 0;
-  left: 0;
-  position: absolute;
-  background: linear-gradient(#171f24 50%, rgba(225, 225, 225, 0) 50%);
-
-} */
-
 .transparent {
   background: rgba(225, 225, 225, 0) 55%;
   position: static;
@@ -379,6 +384,7 @@ input[disabled] {
   max-height: 400px;
   width: 100%;
 }
+
 .button-bar-two {
   position: static;
   margin: 20px auto;
