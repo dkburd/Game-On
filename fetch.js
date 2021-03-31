@@ -7,9 +7,15 @@
 // style.css=main css
 // media.css= @media changes
 
+
 // ***FETCH TO API***
 function getPlatforms() {
-  fetch(`https://api.rawg.io/api/platforms?key=${apiKey}`)
+let proxyUrl = "https://secret-ocean-49799.herokuapp.com/"
+
+let targetUrl=`https://api.rawg.io/api/platforms?key=${apiKey}`
+
+
+  fetch(targetUrl)
     .then(response => response.json())
     .then(responseJson => {
     platforms=responseJson.results
@@ -21,7 +27,9 @@ function getPlatforms() {
 
 
 function getGenres() {
-  fetch(`https://api.rawg.io/api/genres?key=${apiKey}`)
+  let proxyUrl = "https://secret-ocean-49799.herokuapp.com/"
+  let targetUrl=`https://api.rawg.io/api/genres?key=${apiKey}`
+  fetch(targetUrl)
     .then(response => response.json())
     .then(responseJson => {
     genres=responseJson.results
@@ -31,7 +39,9 @@ function getGenres() {
 }
 
 function getTags() {
-  fetch(`https://api.rawg.io/api/tags?page_size=100&key=${apiKey}`)
+  let proxyUrl = "https://secret-ocean-49799.herokuapp.com/"
+  let targetUrl=`https://api.rawg.io/api/tags?page_size=100&key=${apiKey}`
+  fetch(targetUrl)
     .then(response => response.json())
     .then(responseJson => {
    tags=responseJson.results

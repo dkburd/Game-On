@@ -76,13 +76,13 @@ function watchDisplayGenres() {
 }
 
 
-// needs to impact navigate
-function watchDots() {
- $('.dots').on("click", function (event){
-      event.preventDefault();
-    console.log('dot click')
-  });
-}
+
+// function watchDots() {
+//  $('.dots').on("click", function (event){
+//       event.preventDefault();
+//     console.log('dot click')
+//   });
+// }
 
 function watchContinue() {
   $('.continue').on("click", function (event){
@@ -237,7 +237,7 @@ $(function() {
   watchDisplayGenres()
   watchContinue() 
   watchCarousel(count,prev)  
-  watchDots()
+  // watchDots()
   watchContactForm() 
   watchContactLink() 
   watchContactFormClose()

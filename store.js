@@ -27,7 +27,8 @@ function enabeRecsButtons(){
 }
 
 
-let apiKey='96fd8fa562c547a3925bf94299e36bc0'
+// let apiKey='7c76b6bc06b6450b87cb30b963b6f473'
+let apiKey='9f3fff478c5b4550814b97c81c3a9d8e'
 let search=$('#js-search-option').val()
 let baseGame=[]
 let baseGameSlug=''

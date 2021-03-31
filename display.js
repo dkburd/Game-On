@@ -7,7 +7,7 @@
 // style.css=main css
 // media.css= @media changes
 
-// HERE After form working 
+
 
 function displayContactForm(){
 $('.contact').removeClass('hidden')
@@ -181,24 +181,29 @@ $('#genres-list').append(
 <p class='hide'>Genres are broad categories to seperate games by content and theme </p>
 `);
 for(i=0;i<genres.length;i++){
+// $('#genres-list').append(
+//   `
+//   <li class='screen-reader'>
+//   <label for='${genres[i].slug}'>${genres[i].name}</label>
+//   <input type='checkbox' id=${genres[i].id}' name='addGenre' value='${genres[i].slug}'>
+// </li>
+// `)
 $('#genres-list').append(
   `
-  <li class='screen-reader'>
-  <label for='${genres[i].slug}'>${genres[i].name}</label>
-  <input type='checkbox' id=${genres[i].id}' name='addGenre' value='${genres[i].slug}'>
-</li>
-`)
-$('#genres-list').append(
-  `
-  <li class='group aria-hidden='true'>
+  <li>
+  <label for='addGenre' class='screen-reader'>${genres[i].name}>
+  ${genres[i].slug}
+  </label>
+  <input type='checkbox' id=${genres[i].id}' name='addGenre' value='${genres[i].slug}' class='screen-reader'>
+
+  <div class='group aria-hidden='true'>
   <p class='label left'>${genres[i].slug}</p>
   <label class="switch right">
   <input type='checkbox' id=${genres[i].id}' name='addGenres' value='${genres[i].slug}'>
-      <span class="slider round"></span>
-      </label>
-</li>
-
-
+  <span class="slider round"></span>
+  </label>
+  </div>
+  </li>
 
 `)
 }
@@ -219,171 +224,276 @@ function displayTagOptions(){
       `<h2>Select Game Tags</h2>
       <p class='hide'>Tags are sub-genres that specify a search</p>
 
-      <li class='group'>
+      <li>
+      <label for "addTag" class="screen-reader'>2D</label>
+      <input type="checkbox" id="2d" class="screen-reader'name="addTag" value="2d">
+      
+      <div class='group' aria-hidden='true'>
       <p class='label left'>2D</p>
       <label class="switch right">
       <input type="checkbox" id="2d" name="addTag" value="2d">
       <span class="slider round"></span>
       </label>
+      </div>
       </li>     
       
-      <li class='group'>
+      <li>
+      <label for "addTag" class="screen-reader'>Battle Royale</label>
+      <input type="checkbox" id="battle-royale-2" class="screen-reader'name="addTag" value="battle-royale-2">
+      
+      <div class='group' aria-hidden='true'>
       <p class='label left'>Battle Royale</p>
       <label class="switch right">
       <input type="checkbox" id="battle-royale-2" name="addTag" value="battle-royale-2">
       <span class="slider round"></span>
       </label>
-      </li>
+      </div>
+      </li>   
 
-      <li class='group'>
+
+      <li>
+      <label for "addTag" class="screen-reader'>Classic</label>
+      <input type="checkbox" id="classic" class="screen-reader'name="addTag" value="classic">
+      
+      <div class='group' aria-hidden='true'>
       <p class='label left'>Classic</p>
       <label class="switch right">
       <input type="checkbox" id="classic" name="addTag" value="classic">
       <span class="slider round"></span>
       </label>
+      </div>
       </li>
 
 
-      <li class='group'>
+      <li>
+      <label for "addTag" class="screen-reader'>Comedy</label>
+      <input type="checkbox" id="comedy" class="screen-reader'name="addTag" value="comedy">
+      
+      <div class='group' aria-hidden='true'>
       <p class='label left'>Comedy</p>
       <label class="switch right">
       <input type="checkbox" id="comedy" name="addTag" value="comedy">
       <span class="slider round"></span>
       </label>
+      </div>
       </li>
 
-      <li class='group'>
+
+      <li>
+      <label for "addTag" class="screen-reader'>Cross-Platform Multiplayer</label>
+      <input type="checkbox" id="cross-platform-multiplayer" class="screen-reader'name="addTag" value="cross-platform-multiplayer">
+      
+      <div class='group' aria-hidden='true'>
       <p class='label left'>Cross-Platform Multiplayer</p>
       <label class="switch right">
       <input type="checkbox" id="cross-platform-multiplayer" name="addTag" value="cross-platform-multiplayer">
       <span class="slider round"></span>
       </label>
+      </div>
       </li>
 
-      <li class='group'>
+  <li>
+      <label for "addTag" class="screen-reader'>Exclusive</label>
+      <input type="checkbox" id="exclusive" class="screen-reader'name="addTag" value="exclusive">
+      
+      <div class='group' aria-hidden='true'>
       <p class='label left'>Exclusive</p>
       <label class="switch right">
       <input type="checkbox" id="exclusive" name="addTag" value="exclusive">
       <span class="slider round"></span>
       </label>
+      </div>
       </li>
 
-
-      <li class='group'>
+  <li>
+      <label for "addTag" class="screen-reader'>Exploration</label>
+      <input type="checkbox" id="exploration" class="screen-reader'name="addTag" value="exploration">
+      
+      <div class='group' aria-hidden='true'>
       <p class='label left'>Exploration</p>
       <label class="switch right">
       <input type="checkbox" id="exploration" name="addTag" value="exploration">
       <span class="slider round"></span>
       </label>
+     </div> 
       </li>
 
-      <li class='group'>
+  <li>
+      <label for "addTag" class="screen-reader'>Female Protagonist</label>
+      <input type="checkbox" id="female-protagonist" class="screen-reader'name="addTag" value="female-protagonist">
+      
+      <div class='group' aria-hidden='true'>
       <p class='label left'>Female Protagonist</p>
       <label class="switch right">
       <input type="checkbox" id="female-protagonist" name="addTag" value="female-protagonist">
       <span class="slider round"></span>
       </label>
+      </div>
       </li>
 
-      <li class='group'>
+    <li>
+      <label for "addTag" class="screen-reader'>First Person</label>
+      <input type="checkbox" id="first-person" class="screen-reader'name="addTag" value="first-person">
+      
+      <div class='group' aria-hidden='true'>
       <p class='label left'>First Person</p>
       <label class="switch right">
       <input type="checkbox" id="first-person" name="addTag" value="first-person">
       <span class="slider round"></span>
       </label>
+      </div>
       </li>
 
-      <li class='group'>
+         <li>
+      <label for "addTag" class="screen-reader'>Great Soundtrack</label>
+      <input type="checkbox" id="great-soundtrack" class="screen-reader'name="addTag" value="great-soundtrack">
+      
+      <div class='group' aria-hidden='true'>
       <p class='label left'>Great Soundtrack</p>
       <label class="switch right">
       <input type="checkbox" id="great-soundtrack" name="addTag" value="great-soundtrack">
       <span class="slider round"></span>
       </label>
+      </div>
       </li>
 
-      <li class='group'>
+      <li>
+      <label for "addTag" class="screen-reader'>Historic</label>
+      <input type="checkbox" id="historic" class="screen-reader'name="addTag" value="historic">
+      
+      <div class='group' aria-hidden='true'>
       <p class='label left'>Historic</p>
       <label class="switch right">
       <input type="checkbox" id="historic" name="addTag" value="historic">
       <span class="slider round"></span>
       </label>
+      </div>
       </li>
 
-      <li class='group'>
+      <li>
+      <label for "addTag" class="screen-reader'>Horror</label>
+      <input type="checkbox" id="horror" class="screen-reader'name="addTag" value="horror">
+      
+      <div class='group' aria-hidden='true'>
       <p class='label left'>Horror</p>
       <label class="switch right">
       <input type="checkbox" id="horror" name="addTag" value="horror">
       <span class="slider round"></span>
       </label>
+      </div>
       </li>
 
 
-      <li class='group'>
+      <li>
+      <label for "addTag" class="screen-reader'>LGBTQ+</label>
+      <input type="checkbox" id="lgbtq-2" class="screen-reader'name="addTag" value="lgbtq-2">
+      
+      <div class='group' aria-hidden='true'>
       <p class='label left'>LGBTQ+</p>
       <label class="switch right">
       <input type="checkbox" id="lgbtq-2" name="addTag" value="lgbtq-2">
       <span class="slider round"></span>
       </label>
+      </div>
       </li>
 
-      <li class='group'>
+      <li>
+      <label for "addTag" class="screen-reader'>Multiplayer</label>
+      <input type="checkbox" id="multiplayer" class="screen-reader'name="addTag" value="multiplayer">
+      
+      <div class='group' aria-hidden='true'>
       <p class='label left'>Multiplayer</p>
       <label class="switch right">
       <input type="checkbox" id="multiplayer" name="addTag" value="multiplayer">
       <span class="slider round"></span>
       </label>
+      </div>
       </li>
 
-      <li class='group'>
+      <li>
+      <label for "addTag" class="screen-reader'>Online Co-op</label>
+      <input type="checkbox" id="online-co-op" class="screen-reader'name="addTag" value="online-co-op">
+      
+      <div class='group' aria-hidden='true'>
       <p class='label left'>Online Co-op</p>
       <label class="switch right">
       <input type="checkbox" id="online-co-op" name="addTag" value="online-co-op">
       <span class="slider round"></span>
       </label>
+      </div>
       </li>
 
-      <li class='group'>
+      <li>
+      <label for "addTag" class="screen-reader'>Sandbox</label>
+      <input type="checkbox" id="sandbox" class="screen-reader'name="addTag" value="sandbox">
+      
+      <div class='group' aria-hidden='true'>
       <p class='label left'>Sandbox</p>
       <label class="switch right">
       <input type="checkbox" id="sandbox" name="addTag" value="sandbox">
       <span class="slider round"></span>
       </label>
+      </div>
       </li>
 
-      <li class='group'>
+      <li>
+      <label for "addTag" class="screen-reader'>Sci-Fi</label>
+      <input type="checkbox" id="sci-fi" class="screen-reader'name="addTag" value="sci-fi">
+      
+      <div class='group' aria-hidden='true'>
       <p class='label left'>Sci-Fi</p>
       <label class="switch right">
       <input type="checkbox" id="sci-fi" name="addTag" value="sci-fi">
       <span class="slider round"></span>
       </label>
+      </div>
       </li>      
 
-      <li class='group'>
+      <li>
+      <label for "addTag" class="screen-reader'>Singleplayer</label>
+      <input type="checkbox" id="singleplayer" class="screen-reader'name="addTag" value="singleplayer">
+      
+      <div class='group' aria-hidden='true'>
       <p class='label left'>Singleplayer</p>
       <label class="switch right">
       <input type="checkbox" id="singleplayer" name="addTag" value="singleplayer">
       <span class="slider round"></span>
       </label>
+      </div>
       </li>  
 
 
-      <li class='group'>
+      <li>
+      <label for "addTag" class="screen-reader'>Stealth</label>
+      <input type="checkbox" id="stealth" class="screen-reader'name="addTag" value="stealth">
+      
+      <div class='group' aria-hidden='true'>
       <p class='label left'>Stealth</p>
       <label class="switch right">
       <input type="checkbox" id="stealth" name="addTag" value="stealth">
       <span class="slider round"></span>
       </label>
+      </div>
       </li>
 
-      <li class='group'>
+      <li>
+      <label for "addTag" class="screen-reader'>Survival</label>
+      <input type="checkbox" id="survival" class="screen-reader'name="addTag" value="survival">
+      
+      <div class='group' aria-hidden='true'>
       <p class='label left'>Survival</p>
       <label class="switch right">
       <input type="checkbox" id="survival" name="addTag" value="survival">
       <span class="slider round"></span>
       </label>
+      </div>
       </li>
 
-      <li class='group'>
+      <li>
+      <label for "addTag" class="screen-reader'>Third Person</label>
+      <input type="checkbox" id="third-person" class="screen-reader'name="addTag" value="third-person">
+      
+      <div class='group' aria-hidden='true'>
       <p class='label left'>Third Person</p>
       <label class="switch right">
       <input type="checkbox" id="third-person" name="addTag" value="third-person">
@@ -405,106 +515,126 @@ function displayPlatformOptions(){
   $('#platforms').removeClass('hidden')
   $('#platforms-list').removeClass('hidden')
   $('#js-more-platforms').removeClass('hidden')
-//   $('#platforms-list').append(
-//       `<h2>Select Gaming Platforms</h2>
-  
-//       <li class='screen-reader'>
-//       <label for="playstation5">PS5</label>
-//       <input type="checkbox" id="187" name="addPlatform" value="playstation5">
-//       </li>
-//       <li>
-//       <label for="playstation4">PS4</label>
-//       <input type="checkbox" id="18" name="addPlatform" value="playstation4">
-//       </li>
-//       <li>
-//       <label for="xbox-one">Xbox One</label>      
-//       <input type="checkbox" id="1" name="addPlatform" value="xbox-one">
-//       </li>
-//       <li>
-//       </li>
-//       <li>
-//       <label for="nintendo-switch">Switch</label>
-//       <input type="checkbox" id="7" name="addPlatform" value="nintendo-switch">
-//       </li>
-//       <li>
-//       <label for="pc">PC</label>
-//       <input type="checkbox" id="4" name="addPlatform" value="pc">
-//       </li>
-//       <li>
-//       <label for="ios">iOS</label>
-//       <input type="checkbox" id="3" name="addPlatform" value="ios">
-//       </li>
-//       <li>
-//       <label for="android">Android</label>
-//       <input type="checkbox" id="21" name="addPlatform" value="android">
-//       </li>
-// `
-//  )
   $('#platforms-list').append(
-      `<h2>Select Gaming Platforms</h2>
-      <li class='group'>
+    `<h2>Select Gaming Platforms</h2>
+    <li>
+    <label for='addPlatform' class='screen-reader'>PS5
+    </label>
+    <input type='checkbox' id='187' name='addPlatform' 
+    value='playstation45' class='screen-reader'>
+      
+      <div class='group' aria-hidden='true'>
       <p class='label left'>PS5</p>
       <label class="switch right">
+
       <input type="checkbox" id="187" name="addPlatform" value="playstation5">
       <span class="slider round"></span>
       </label>
+      </div>
       </li>
 
-    <li class='group'>
+    <li>
+    <label for='addPlatform' class='screen-reader'>PS4
+    </label>
+    <input type='checkbox' id='18' name='addPlatform' 
+    value='playstation4' class='screen-reader'>
+
+    <div class='group' aria-hidden='true'>
     <p class='label left'>PS4</p>
     <label class="switch right">
     <input type="checkbox" id="18" name="addPlatform" value="playstation4">    
     <span class="slider round"></span>
     </label>
+    </div>
     </li>
 
-    <li class='group'>
+    <li>
+    <label for='addPlatform' class='screen-reader'>Xbox One
+    </label>
+    <input type='checkbox' id='1' name='addPlatform' 
+    value='xbox-one' class='screen-reader'>
+    <div class='group' aria-hidden='true'>
     <p class='label left'>Xbox One</p>
     <label class="switch right">
     <input type="checkbox" id="1" name="addPlatform" value="xbox-one">
     <span class="slider round"></span>
     </label>
+    </div>
     </li>
 
   
-  <li class='group'>
+    <li>
+    <label for='addPlatform' class='screen-reader'>Xbox Series S/X
+    </label>
+    <input type='checkbox' id='186' name='addPlatform' 
+    value='xbox-series-x' class='screen-reader'>
+    <div class='group' aria-hidden='true'>
     <p class='label left'>Xbox Series S/X</p>
     <label class="switch right">
     <input type="checkbox"  id="186" name="addPlatform" value="xbox-series-x">
     <span class="slider round"></span>
     </label>
     </li>
+    </div>
+    <li>
 
-     <li class='group'>
+    <label for='addPlatform' class='screen-reader'>Switch
+     </label>
+     <input type='checkbox' id='7' name='addPlatform' 
+     value='nintendo-switch' class='screen-reader'>
+    <div class='group' aria-hidden='true'>
       <p class='label left'>Switch</p>
       <label class="switch right">
       <input type="checkbox" id="7" name="addPlatform" value="nintendo-switch">
       <span class="slider round"></span>
       </label>
+      </div>
       </li>
 
-      <li class='group'>
+    <li>
+     <label for='addPlatform' class='screen-reader'>PC
+     </label>
+     <input type='checkbox' id='4' name='addPlatform' 
+     value='pc' class='screen-reader'>
+    <div class='group' aria-hidden='true'>
       <p class='label left'>PC</p>
       <label class="switch right">
       <input type="checkbox" id="4" name="addPlatform" value="pc">
       <span class="slider round"></span>
       </label>
+      </div>
       </li>
 
-      <li class='group'>
+    <li>
+     <label for='addPlatform' class='screen-reader'>ios
+     </label>
+     <input type='checkbox' id='3' name='addPlatform' 
+     value='ios' class='screen-reader'>
+
+    <div class='group' aria-hidden='true'>
       <p class='label left'>ios</p>
       <label class="switch right">
       <input type="checkbox" id="3" name="addPlatform" value="ios">
       <span class="slider round"></span>
       </label>
+      </div>
+
       </li>
 
-      <li class='group'>
+    <li>
+     <label for='addPlatform' class='screen-reader'>Android
+     </label>
+     <input type='checkbox' id='21' name='addPlatform' 
+     value='android' class='screen-reader'>
+    
+     <div class='group' aria-hidden='true'>
       <p class='label left'>Android</p>
       <label class="switch right">
       <input type="checkbox" id="21" name="addPlatform" value="android">
       <span class="slider round"></span>
       </label>
+      </div>
+
       </li>
 
 `
@@ -515,8 +645,7 @@ $(window).scrollTop(0)
 
 
 function displayMoreOptions(platforms){
-// platforms.sort()
-// todo replace this with a filter
+// todo add platforms.sort()
 let oldPlatforms=platforms
 let currentGen=['playstation5','playstation4','xbox-one','xbox-series-x', 'nintendo-switch', 'pc', 'ios', 'android']
 console.log(oldPlatforms)
@@ -529,23 +658,26 @@ console.log(oldPlatforms)
     }
   }
   console.log(oldPlatforms)
-// no idea why ps5 is still being included in oldgens
-
 
 $('#js-more-platforms').addClass('hidden')
 for(i=0;i<oldPlatforms.length;i++){
   if(oldPlatforms[i].id!==187&oldPlatforms[i].id!==18){
-
 $('#platforms-list').append(
   `
-  <li class='group'>
+  <li>
+  <label for='addPlatform' class='screen-reader'>${oldPlatforms[i].name}
+  </label>
+  <input type='checkbox' id='${oldPlatforms[i].id}' name='addPlatform' 
+  value='${oldPlatforms[i].slug}' class='screen-reader'>
+
+  <div class='group' aria-hidden='true'>
   <p class='label left'>${oldPlatforms[i].name}</p>
   <label class="switch right">
   <input type='checkbox' id='${oldPlatforms[i].id}' name='addPlatform' value='${oldPlatforms[i].slug}'>
   <span class="slider round"></span>
   </label>
+  </div>
   </li>
-  
 `)
 }
 $(window).scrollTop(0)
@@ -691,9 +823,7 @@ for (let i = 0; i < showLength; i++){
      )
 }
   }
-  
-  // readMore()
-  watchDots()
+  // watchDots()
   let first=$('.display-detailed-list > li:nth-of-type(1)')
   $(first).removeClass('hidden') 
   $('.indicators > button:nth-of-type(1)').addClass('blue')
@@ -711,7 +841,6 @@ let editDots=$('.dots').map(function(){
 })
 $(finalListItems[count]).removeClass('hidden') 
 $(editDots[count]).addClass('blue')
-// need to get the dots in as tehir own item like final list item
  $(editDots[prev]).removeClass('blue')
 $(finalListItems[prev]).addClass('hidden') 
 }
@@ -738,11 +867,14 @@ $(window).scrollTop(0)
   }
 
 
-// RESTART NOT WORKING, WORKING UP TO SEE PROBLEM
+
 
   function restartSearch(){
     console.log('RESTART HERE')
     location.reload()
+
+
+  // old way stopped working for carousel dislay count/prev, replac with page refresh
   //   baseGame=[]
   //   baseGameSlug=''
   //   baseGameDev=[]
@@ -790,6 +922,8 @@ $(window).scrollTop(0)
   //   $('.next').prop('disabled',false)
   //   $('.previous').prop('disabled',false)
   //       console.log('RESTART HAPPENED')
+
+
   }
 
 
