@@ -160,9 +160,9 @@ $('#results-list').append(
 $(window).scrollTop(0)
 gameSelect()
 }
-// alt image tag for these/ screen rader? 
 
-//pickup here checking labels aria hidden screen reader
+
+
 
 
 function displayGenresOptions(genres){
@@ -181,34 +181,32 @@ $('#genres-list').append(
 <p class='hide'>Genres are broad categories to seperate games by content and theme </p>
 `);
 for(i=0;i<genres.length;i++){
-
-// question c screen readers and access using p instead of label
-// for screen readers
-// $('#genres-list').append(
-//   `
-//   <li>
-//   <label for='${genres[i].slug}'>${genres[i].name}</label>
-//   <input type='checkbox' id=${genres[i].id}' name='addGenre' value='${genres[i].slug}'>
-
-// </li>
-// `)
 $('#genres-list').append(
   `
-  <li class='group'>
+  <li class='screen-reader'>
+  <label for='${genres[i].slug}'>${genres[i].name}</label>
+  <input type='checkbox' id=${genres[i].id}' name='addGenre' value='${genres[i].slug}'>
+</li>
+`)
+$('#genres-list').append(
+  `
+  <li class='group aria-hidden='true'>
   <p class='label left'>${genres[i].slug}</p>
   <label class="switch right">
   <input type='checkbox' id=${genres[i].id}' name='addGenres' value='${genres[i].slug}'>
       <span class="slider round"></span>
       </label>
-      
 </li>
+
+
+
 `)
 }
 $(window).scrollTop(0)
 
 }
 
-
+//pickup here checking labels aria hidden screen reader
 
 function displayTagOptions(){
   $('.alert').addClass('hidden')
@@ -553,17 +551,8 @@ $('#platforms-list').append(
 $(window).scrollTop(0)
 }
 }
-/* {<li class='group'>
-<p class='label left' aria-hidden="true">${platforms[i].name}</p>
-<label class="switch right" aria-hidden="true">
-<label class="switch right"> ${platforms[i].name}</label>
-<input type='checkbox right' id='${platforms[i].id}' name='addPlatform' value='${platforms[i].slug}'>
-<span class="slider round right"></span>
-
-</label>} */
 
 
-// question first why won't these buttons hide
 function displaySelectedOptions(userPlatforms, userGenres){
   console.log('here is displaySelectedOptions(userPlatforms, userGenres)')
   $('#genres').addClass('hidden')
@@ -571,11 +560,6 @@ function displaySelectedOptions(userPlatforms, userGenres){
   $('#js-more-platforms').addClass('hidden')
   $('#get-list').removeClass('hidden')
   $('#platforms').addClass('hidden')
-// $('#results').addClass('hidden')
-// if(baseGameSlug.length>0){
-// $('#results-list').removeClass('hidden')
-// $('#results').removeClass('hidden')
-// }
 
   if(userGenres.includes(999)){
   $('.selected-list').append(
@@ -685,7 +669,7 @@ for (let i = 0; i < showLength; i++){
      </a> 
      <p class='hide'>Visit: ${detailedList[i].website}</p>
     </div>
-    <img src="${detailedList[i].background_image}" class="results-img">
+    <img src="${detailedList[i].background_image}" class="results-img" alt='${detailedList[i].name} Poster Art'>
     <div class='solid'>
 
     <p class='full'>${detailedList[i].description}</p>
@@ -698,7 +682,7 @@ for (let i = 0; i < showLength; i++){
 `
 <li class='hidden'>
 <h2>${detailedList[i].name}</h2> 
-<img src="${detailedList[i].background_image}" class="results-img">
+<img src="${detailedList[i].background_image}" class="results-img" alt='${detailedList[i].name} Poster Art'>
 <div class='solid'>
  <p class='full'>${detailedList[i].description}</p>
  </div>
@@ -756,8 +740,9 @@ $(window).scrollTop(0)
 
 // RESTART NOT WORKING, WORKING UP TO SEE PROBLEM
 
-  // function restartSearch(){
-  //   console.log('RESTART HERE')
+  function restartSearch(){
+    console.log('RESTART HERE')
+    location.reload()
   //   baseGame=[]
   //   baseGameSlug=''
   //   baseGameDev=[]
@@ -805,6 +790,6 @@ $(window).scrollTop(0)
   //   $('.next').prop('disabled',false)
   //   $('.previous').prop('disabled',false)
   //       console.log('RESTART HAPPENED')
-  // }
+  }
 
 

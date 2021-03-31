@@ -74,7 +74,6 @@ fetch(`https://api.rawg.io/api/games/${baseGameId}?key=${apiKey}`)
         userTags.push(responseJson.tags[i].slug)
        }
       }
-// console.log('basegameslug',baseGameSlug, 'baseGameDev', baseGameDev, 'userGenres',userGenres, 'userTags', userTags)
 console.log( 'userTags', userTags)
 if(responseJson.genres.length===0){
   console.log('reccomend restart here')
@@ -118,7 +117,6 @@ for(let i=0;i<userIds.length;i++){
           if(!uniqueMap[results[i].slug]){
           uniqueMap[results[i].slug] = true;
           editList.push(results[i])
-          // console.log(results[i])
          }
         }
     })
@@ -149,7 +147,6 @@ for(let i=0;i<userIds.length;i++){
           if(!uniqueMap[results[i].slug]){
           uniqueMap[results[i].slug] = true;
           editList.push(results[i])
-          // console.log(results[i])
          }
         }
     })
@@ -192,7 +189,6 @@ for(let i=0;i<userIds.length;i++){
 
 
 function getBothGames(userTags, userIds, userGenres, editList) {
-// console.log('to add working on it three layer loop')
 let promises=[]
 for(let i=0;i<userIds.length;i++){
   for(let j=0;j<userGenres.length;j++){
@@ -225,11 +221,6 @@ for(let i=0;i<userIds.length;i++){
 
 function getPGames(userIds, editList) {
 let promises=[]
-// if(userIds.length===0){
-// console.log('userIds: ', userIds)
-// console.log('no platforms selected onto edit')
-// wait()
-// }else{
 for(let i=0;i<userIds.length;i++){
     promises.push(
       fetch(`https://api.rawg.io/api/games?key=${apiKey}&dates=1960-01-01,${currentDate}&platforms=${userIds[i]}`)
@@ -263,7 +254,6 @@ for(i=0;i<baseGameDev.length;i++)
     fetch(`https://api.rawg.io/api/games?developers=${baseGameDev[i]}&key=${apiKey}`)
     .then(response => response.json())
     .then(responseJson => {    
-    // console.log("from getDevGames", responseJson)
     results=responseJson.results
       for (i=0;i<results.length;i++){
           if(!uniqueMap[results[i].slug]){
@@ -282,6 +272,9 @@ for(i=0;i<baseGameDev.length;i++)
 
 function getDetailedList(list){
   console.log('getDetailedList Working','list: ', list.length, list)
+  console.log('count:', count)
+  console.log('prev:', prev)
+  console.log('carLoop:', carLoop)
     for(let i=0; i<list.length;i++){
       let tempId=list[i].id 
     fetch(`https://api.rawg.io/api/games/${tempId}?key=${apiKey}`)

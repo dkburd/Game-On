@@ -51,8 +51,8 @@ let prev=0
 let showLength=''
 let userTags=[]
 let oldPlatforms=[]
-
-
+let restart=false
+let finalListItems=[]
 
 const placeholders=['SingStar','Katamari Damacy','Journey', 'Dead Space ', 'Limbo ', 'Forza Horizon', 'Overwatch', 'Gears of War 2', 'Tony Hawk’s Pro Skater 2 ', 'Silent Hill', 'Resident Evil 7', 'Assassin’s Creed 2', 'Batman: Arkham Asylum', 'Battlefield 1942', 'Call of Duty 4: Modern Warfare', 'Shadow of the Colossus', 'God of War', 'Deus Ex', 'Wii Sports','Guitar Hero','Left 4 Dead', 'The Last of Us','The Legend of Zelda: Majora’s Mask', 'Mario Kart 8', 'Mass Effect 2', 'Fortnite','Grand Theft Auto IV', 'Red Dead Redemption 2', 'Uncharted 2: Among Thieves', 'The Sims', 'Resident Evil 4','World of Warcraft','Super Mario Odyssey','Metal Gear Solid','The Elder Scrolls V: Skyrim', 'BioShock','Portal 2', 'Grand Theft Auto V', 'Dark Souls', 'Legend of Zelda: Breath of the Wild', 'Minecraft', 'Street Fighter V', 'Tekken 7', "Mortal Kombat X"]
 
