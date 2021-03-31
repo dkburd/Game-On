@@ -60,6 +60,13 @@ function watchResultsForm() {
   });
 }
 
+function addGenre() {
+  $('#add-genre').on("click", function (event){
+  event.preventDefault();
+console.log('add genre click')
+ displayContactForm()
+  });
+}
 
 function watchDisplayGenres() {
  $('.display-genres').on("click", function (event){
@@ -93,7 +100,7 @@ function watchGenresForm() {
   $('#js-genres-form').submit(event => {
     event.preventDefault();
     updateGenres(userGenres);
-    if(userTags.length===0){
+    if(userTags.length<6){
       console.log(displayTagOptions)
     displayTagOptions()
     }else if (userIds.length===0){
@@ -153,7 +160,55 @@ function watchGetListForm() {
 function watchRestart() {
     $('.js-restart').on("click", function (event){
     event.preventDefault();
-      restartSearch();
+    console.log('click')
+    console.log('RESTART HERE')
+    baseGame=[]
+    baseGameSlug=''
+    baseGameDev=[]
+    userGenres=[]
+    userTags=[]
+    userPlatforms=[]
+    userIds=[]
+    editList=[]
+    detailedList=[]
+    filteredList=[]
+    uniqueMap={}
+    prev=0
+    count = 0;
+    carLoop=0;
+    prev=0
+    showLength=''
+    $('.indicators').empty(); 
+    $('.display-detailed-list').empty(); 
+    $('.alert').addClass('hidden')
+    $('#summary p')[0].innerHTML='Find your next favorite game'
+    $('#summary').removeClass('hidden')
+    $('#results').addClass('hidden')
+    $('#results-list').empty();
+   $('#platforms-list').empty();
+    $('#genres-list').empty();
+    $('#tags-list').empty();
+    $('.display-detailed-list').empty()
+    $('.selected-list').empty()
+    $('#get-list').addClass('hidden')
+    $('#platforms').addClass('hidden')
+    $('#genres').addClass('hidden')
+    $('#genres').addClass('hidden')
+    $('#tags').addClass('hidden')
+    $('#platforms').addClass('hidden')
+    $('#js-more-platforms').addClass('hidden')
+    $('#search').removeClass('hidden')
+    $('#custom-search').removeClass('hidden')
+    $('#js-add-genres').addClass('hidden')
+    $('.carousel-container').addClass('hidden')
+    $('#js-search-option').val('')
+    $('.display-detailed-list').empty()
+    $('.selectedResults').empty()
+    disableRecsButtons()
+    enabeStartButtons()
+    $('.next').prop('disabled',false)
+    $('.previous').prop('disabled',false)
+        console.log('RESTART HAPPENED')
   });
 }
 
@@ -234,6 +289,7 @@ $(function() {
   watchContactForm() 
   watchContactLink() 
   watchContactFormClose()
+  renderPlaceholder()
 });
 
 

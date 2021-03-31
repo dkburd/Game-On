@@ -80,14 +80,14 @@ if(responseJson.genres.length===0){
   console.log('reccomend restart here')
    reccomendRestart()
   //  need to move and requestAnimationFrame, it is not displaying it is more like a render
-   displayBaseGameResults(responseJson)
+   renderBaseGameResults(responseJson)
     }else if
   (responseJson.genres.length<2 & responseJson.tags.length<5){
   console.log('reccomend restart here')
    reccomendRestart()
-   displayBaseGameResults(responseJson)
+   renderBaseGameResults(responseJson)
     }else{
-    displayBaseGameResults(responseJson)
+    renderBaseGameResults(responseJson)
     displayPlatformOptions()
 }
     })

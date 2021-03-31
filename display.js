@@ -164,22 +164,6 @@ gameSelect()
 
 //pickup here checking labels aria hidden screen reader
 
-function displayBaseGameResults(responseJson) {  
-  console.log('here is displayBaseGameResults(responseJson)')
-  $('.selected-list').append(
-      `
-      <li>
-      <h2>Selected Game</h2>
-      <p>${responseJson.name} (${responseJson.released[0]}${responseJson.released[1]}${responseJson.released[2]}${responseJson.released[3]})</p> 
-      <li id=${responseJson.id}>
-      <img src="${responseJson.background_image}" class="results-img">
-      </li>
-`
-  )
-  $(window).scrollTop(0)
-}
-
-
 
 function displayGenresOptions(genres){
 console.log('sup')
@@ -190,6 +174,8 @@ $('.warn').addClass('hidden')
 $('#summary').addClass('hidden')
 $('#js-add-genres').addClass('hidden')
 $('#genres').removeClass('hidden')
+$('#tags').addClass('hidden')
+
 $('#genres-list').append(
 `<h2> Select Game Genres </h2>
 <p class='hide'>Genres are broad categories to seperate games by content and theme </p>
@@ -768,55 +754,57 @@ $(window).scrollTop(0)
   }
 
 
+// RESTART NOT WORKING, WORKING UP TO SEE PROBLEM
 
-
-  function restartSearch(){
-    console.log('restart search')
-    baseGame=[]
-    baseGameSlug=''
-    baseGameDev=[]
-    userGenres=[]
-    userTags=[]
-    userPlatforms=[]
-    userIds=[]
-    editList=[]
-    detailedList=[]
-    filteredList=[]
-    uniqueMap={}
-    prev=0
-    count = 0;
-    carLoop=0;
-    prev=0
-    showLength=''
-    $('.indicators').empty(); 
-    $('.display-detailed-list').empty(); 
-    $('.alert').addClass('hidden')
-    $('#summary p')[0].innerHTML='Find your next favorite game'
-    $('#summary').removeClass('hidden')
-    $('#results').addClass('hidden')
-    $('#results-list').empty();
-   $('#platforms-list').empty();
-    $('#genres-list').empty();
-    $('#tags-list').empty();
-    $('.display-detailed-list').empty()
-    $('.selected-list').empty()
-    $('#get-list').addClass('hidden')
-    $('#platforms').addClass('hidden')
-    $('#genres').addClass('hidden')
-    $('#genres').addClass('hidden')
-    $('#platforms').addClass('hidden')
-    $('#js-more-platforms').addClass('hidden')
-    $('#search').removeClass('hidden')
-    $('#custom-search').removeClass('hidden')
-    $('#js-add-genres').addClass('hidden')
-    $('.carousel-container').addClass('hidden')
-    $('#js-search-option').val('')
-    $('.display-detailed-list').empty()
-    $('.selectedResults').empty()
-    disableRecsButtons()
-    enabeStartButtons()
-    $('.next').prop('disabled',false)
-    $('.previous').prop('disabled',false)
-  }
+  // function restartSearch(){
+  //   console.log('RESTART HERE')
+  //   baseGame=[]
+  //   baseGameSlug=''
+  //   baseGameDev=[]
+  //   userGenres=[]
+  //   userTags=[]
+  //   userPlatforms=[]
+  //   userIds=[]
+  //   editList=[]
+  //   detailedList=[]
+  //   filteredList=[]
+  //   uniqueMap={}
+  //   prev=0
+  //   count = 0;
+  //   carLoop=0;
+  //   prev=0
+  //   showLength=''
+  //   $('.indicators').empty(); 
+  //   $('.display-detailed-list').empty(); 
+  //   $('.alert').addClass('hidden')
+  //   $('#summary p')[0].innerHTML='Find your next favorite game'
+  //   $('#summary').removeClass('hidden')
+  //   $('#results').addClass('hidden')
+  //   $('#results-list').empty();
+  //  $('#platforms-list').empty();
+  //   $('#genres-list').empty();
+  //   $('#tags-list').empty();
+  //   $('.display-detailed-list').empty()
+  //   $('.selected-list').empty()
+  //   $('#get-list').addClass('hidden')
+  //   $('#platforms').addClass('hidden')
+  //   $('#genres').addClass('hidden')
+  //   $('#genres').addClass('hidden')
+  //   $('#tags').addClass('hidden')
+  //   $('#platforms').addClass('hidden')
+  //   $('#js-more-platforms').addClass('hidden')
+  //   $('#search').removeClass('hidden')
+  //   $('#custom-search').removeClass('hidden')
+  //   $('#js-add-genres').addClass('hidden')
+  //   $('.carousel-container').addClass('hidden')
+  //   $('#js-search-option').val('')
+  //   $('.display-detailed-list').empty()
+  //   $('.selectedResults').empty()
+  //   disableRecsButtons()
+  //   enabeStartButtons()
+  //   $('.next').prop('disabled',false)
+  //   $('.previous').prop('disabled',false)
+  //       console.log('RESTART HAPPENED')
+  // }
 
 

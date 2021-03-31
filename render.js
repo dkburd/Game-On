@@ -121,15 +121,23 @@ function generateChoicesTemplate(){
 }
 
 
-// function generateSearchTemplate(){
-//   return (
-//     `
-//     <form id='js-search-form'></form>
-//     `
-//   )
-// }
+function renderBaseGameResults(responseJson) {  
+  console.log('here is renderBaseGameResults(responseJson)')
+  $('.selected-list').append(
+      `
+      <li>
+      <h2>Selected Game</h2>
+      <p>${responseJson.name} (${responseJson.released[0]}${responseJson.released[1]}${responseJson.released[2]}${responseJson.released[3]})</p> 
+      <li id=${responseJson.id}>
+      <img src="${responseJson.background_image}" class="results-img">
+      </li>
+`
+  )
+  $(window).scrollTop(0)
+}
 
-// deleted 2 p above FormData, dont think they were being used
+
+
 function generateResultsTemplate(){
   return (
     `
