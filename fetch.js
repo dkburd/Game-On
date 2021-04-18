@@ -287,6 +287,7 @@ function getDetailedList(list){
   console.log('carLoop:', carLoop)
     for(let i=0; i<list.length;i++){
       let tempId=list[i].id 
+      let tempSlug=list[i].slug 
     fetch(`https://api.rawg.io/api/games/${tempId}?key=${apiKey}`)
         .then(response => response.json())
         .then(responseJson => {    
@@ -296,6 +297,25 @@ function getDetailedList(list){
         enabeRecsButtons()
       })
      .catch(error => console.log(error,'Something went wrong. Please try again later.'));
+
     }
 }
 
+// function getTrailers(list){
+//   console.log('getDetailedList Working','list: ', list.length, list)
+//   console.log('count:', count)
+//   console.log('prev:', prev)
+//   console.log('carLoop:', carLoop)
+//     for(let i=0; i<list.length;i++){
+//       let tempSlug=list[i].slug 
+//     fetch(`https://www.googleapis.com/youtube/v3/search/${tempSlug}?key=${apiKeyTwo}`)
+//         .then(response => response.json())
+//         .then(responseJson => {    
+//         results=responseJson
+//         // console.log('results: ', results)
+//         trailers.push(results)
+//       })
+//      .catch(error => console.log(error,'Something went wrong. Please try again later.'));
+
+//     }
+// }

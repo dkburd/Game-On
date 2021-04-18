@@ -86,16 +86,18 @@ return (
 
   <span class='indicators'>
   </span>
-      <button class="previous left">◀
-      <!-- <span class='.screen-reader'>Previous</span> -->
-      </button>
-      <button class="next right">▶
-      <!-- <span class='.screen-reader'>Next</span>  -->   
-      </button>
-  </div>
+  <span>
+  <button class='previous'>◀
+  </button>
+  <button class='next'>▶
+  </button>
+  </span>
+      </div>
+      <div>
+      
   <ul class="display-detailed-list">
       </ul>
-
+</div>
       <div  class='button-bar'>
         <button class='js-restart button'>New Search</button>
         </div>

@@ -64,7 +64,7 @@ function addGenre() {
   $('#add-genre').on("click", function (event){
   event.preventDefault();
 // console.log('contact click')
- displayContactForm()
+ displayGenresOptions(genres)
   });
 }
 

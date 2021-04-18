@@ -31,67 +31,7 @@ function displaySearchResults(responseJson) {
   failList()
     }else if(results.length===0){  
   failList()
-  }
-  else if(results.length===1){ 
-    console.log('one result')
-$('#results-list').append(
-      `
-    <li class='card'>
-    <h2> Select One Game</h2>
-    </li> 
-     `
-      )
-    $('#search').addClass('hidden')
-    $('#results').removeClass('hidden')
-
- let genres;
- let tags;
-    if (!results.genres){
-      genres=['n/a']
-    }else if
-      (results.genres.length==0){
-      genres=['n/a']
-      }else{
-      genres = results.genres.map(g => { return g.name})
-    }
-   if (!results.tags){
-      tags=['n/a']
-   }else if
-      (results.tags.length==0){
-      tags=['n/a']
-   }else{
-      tags = results.tags.map(t => { return t.name})
-   }
-$('#results-list').append(
-      `
-      <li class='results-list-item card grow v-center'>
-      <img src="${results.background_image}" class='search-img' alt="${results[i].name} Poster Art">
-      <h3>${results.name}</h3> 
-      <div class='solid js-solid'>
-      <p>Rating: ${results.rating}</p>    
-      <p>Genres: ${genres.join(", ")}</p> 
-      <p>Tags: ${tags.join(", ")}</p> 
-      </div>
-      <label for="baseGame">${results.name}:</label>
-      <input type='radio' class='radio screen-reader' name='baseGame' value='${responseJson.results.id}' required>
-      <input type='radio' class='hidden radio' name='baseGame' value='${responseJson.results.id}' aria-hidden='true' required>
-     </li> 
-     `
-      )
-  $('#results-list').append(
-    `
-     <li class='card v-center'>
-      <div class='button-bar'>
-      <input type='submit' class='button' value='Submit'></input>
-      <button class='js-restart button'>New Search</button>
-      </div>
-    </li> 
-   `
-      )
   }else{
-    // for (let i = 0; i < results.length; i++){
-    // idList.push(results[i].id)
-    // }
     $('#results-list').append(
       `
     <li class='card'>
@@ -103,8 +43,6 @@ $('#results-list').append(
     $('#results').removeClass('hidden')
     let genres;
     let tags;
-    // for (let i = 0; i < results.length; i++){
-    //  only show  10 
     for (let i = 0; i < 10; i++){
     if (!results[i].genres){
       genres=['n/a']
@@ -138,10 +76,7 @@ $('#results-list').append(
       </div>
       <label for="baseGame">${results[i].name}:</label>
       <input type='radio' class='radio screen-reader' name='baseGame' value='${results[i].id}' required>
-      <input type='radio' class='hidden radio' name='baseGame' value='${results.id}' aria-hidden='true' required>
-      <label for="baseGame">${results.name}:</label>
-      <input type='radio' class='radio screen-reader' name='baseGame' value='${results[i].id}' required>
-      <input type='radio' class='hidden radio' name='baseGame' value='${results[i].id}' aria-hidden='true' required>
+      <label for="baseGame" class='screen-reader'>${results.name}:</label>
      </li> 
      `
       )

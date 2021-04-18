@@ -29,7 +29,7 @@ aria-hidden="true" */
 }
 
 .hide {
-  opacity: 0;
+  opacity: 100;
 }
 
 /* .contact {
@@ -116,6 +116,8 @@ a:hover:after {
   border-radius: 50%;
   height: 20px;
   width: 20px;
+  margin-left: 2px;
+  margin-right: 2px;
   /* Prevent background color leak outs */
   /* -webkit-background-clip: padding-box;
   -moz-background-clip: padding;
@@ -196,14 +198,16 @@ main {
   margin-right: 5px;
 }
 
-.screen-reader:not(:focus):not(:active) {
-  clip: rect(0 0 0 0);
+.screen-reader {
+  clip: rect(1px, 1px, 1px, 1px);
   clip-path: inset(50%);
   height: 1px;
-  overflow: hidden;
-  position: absolute;
-  white-space: nowrap;
   width: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  display: none;
 }
 
 .results {
@@ -256,6 +260,7 @@ h1 {
 
 h2 {
   font-size: 200%;
+  display: block;
 }
 
 h3 {
@@ -354,6 +359,7 @@ ul {
   margin-left: auto;
   margin-right: auto;
   padding: 20px;
+  display: block;
   /* width: 100%; */
 }
 
@@ -510,10 +516,23 @@ label {
 .previous,
 .next {
   min-width: 72px;
-  margin: 20px auto;
+  margin-top: 20px;
+  margin-left: 20px;
+  margin-right: 20px;
   padding: 5px;
   box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.4);
 }
+
+span {
+  display: block;
+}
+/* .previous {
+  margin-left: 10%;
+}
+
+.next {
+  margin-right: 10%;
+} */
 
 textarea {
   min-height: 100px;
